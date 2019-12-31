@@ -1,6 +1,6 @@
 import React from 'react';
 import Menu from './components/Menu'
-import logo from './logo.svg';
+import { Call } from './components/ApiCall';
 import './App.css';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
           A better way to connect with music
         </p>
       </span>
+      <div className="better-logo"/>
       <Menu></Menu>
       <a
         className="App-link"
@@ -21,6 +22,7 @@ function App() {
       >
         Connect
       </a>
+      <Call className="" />
     </div>
   );
 }

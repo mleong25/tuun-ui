@@ -10,6 +10,15 @@
   color: white;
 }
 
+.better-logo {
+  width: 300px;
+  height: 180px;
+  background-image: url('assets/tuun.jpg');
+  background-size: contain;
+  margin: auto;
+  margin-bottom: 1em;
+}
+
 .App-logo {
   height: 40vmin;
 }
