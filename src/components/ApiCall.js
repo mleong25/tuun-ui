@@ -12,7 +12,7 @@ export class Call extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:57378/db/dbtrackList')
+    fetch('https://localhost:5001/db/dbtrackList')
     .then(res => res.text())
     .then(json => {
       console.log(json)
