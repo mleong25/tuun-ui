@@ -20,10 +20,21 @@ export class Call extends React.Component {
     });
   }
 
+  getDataFromJson() {
+    let songArr = JSON.parse(this.state.res);
+    let res = [];
+    for (let i = 0; i < songArr.length; i++) {
+      res.push(<p>{songArr[i]}</p>)
+    }
+
+    console.log(songArr);
+    return res;
+  }
+
   render() {
     return (
       this.state.loading ? <i>Loading...</i>
-                         : <p>{this.state.res.toString()}</p>
+                         : this.getDataFromJson()
     )
   }
 
