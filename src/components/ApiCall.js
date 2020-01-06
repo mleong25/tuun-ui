@@ -1,4 +1,5 @@
 import React from 'react';
+import { domain } from '../Environment';
 const fetch = require('node-fetch');
 
 export class Call extends React.Component {
