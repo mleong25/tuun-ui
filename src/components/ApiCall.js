@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
 import { domain } from '../Environment';
 const fetch = require('node-fetch');
 
@@ -13,7 +14,7 @@ export class Call extends React.Component {
   }
 
   componentDidMount() {
-    fetch('https://localhost:44301/db/tracklist')
+    fetch(domain + 'db/tracklist')
     .then(res => res.text())
     .then(json => {
       console.log(json)
@@ -34,9 +35,12 @@ export class Call extends React.Component {
 
   render() {
     return (
-      this.state.loading ? <i>Loading...</i>
-                         : this.getDataFromJson()
+      <div>
+        {this.state.loading ? <i>Loading...</i>
+                         : <div>{this.getDataFromJson()}</div>}
+      </div>
     )
   }
 
 }
+export default Call

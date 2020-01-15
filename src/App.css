@@ -1,6 +1,6 @@
 .App {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 110vh;
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -31,6 +31,8 @@
 
 .App-link {
   color: #09d3ac;
+  display: flex;
+  justify-content: center;
 }
 
 .Title {
