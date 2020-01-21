@@ -1,14 +1,15 @@
-div {
-    margin-top: -30px;
+.brand.navbar-brand {
+    font-size: 30px;
 }
 
-ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    padding-left: 0;
+.navbar-dark {
+    font-size: 20px;
 }
 
-li {
-    list-style-type: none;
+.navs {
+    width: 100%;
+}
+
+.nav-link {
+    margin: 0 5em;
 }

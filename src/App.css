@@ -1,15 +1,16 @@
 .App {
   background-color: #282c34;
+  font-size: calc(10px + 2vmin);
+  min-height: 100vh;
 }
 
 .App-foreground {
-  min-height: 110vh;
+  min-height: 80vh;
   display: flex;
   text-align: center;
   flex-direction: column;
   justify-content: space-around;
   align-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 

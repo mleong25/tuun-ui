@@ -7,6 +7,7 @@ import {
 import Menu from './components/Menu';
 import { Call } from './components/ApiCall';
 import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
