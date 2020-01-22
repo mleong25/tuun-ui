@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router, 
+  BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
@@ -20,14 +20,16 @@ function App() {
           </h1>
           <p>A better way to connect with music</p>
         </span>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Connect
-        </a>
+        <div className="container">
+          <a
+            className="App-link btn btn-primary"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Connect
+          </a>
+        </div>
         <Router>
           <Route path="/apiCall" component={Call} />
           <Link to="/apiCall">Test Connection to API</Link>

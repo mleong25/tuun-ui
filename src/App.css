@@ -34,6 +34,8 @@
 }
 
 .App-link {
+  background-color: #6C2EB9 !important;
+  border-color: #6C2EB9 !important;
   color: #09d3ac;
   display: flex;
   justify-content: center;
@@ -45,4 +47,3 @@
   flex-direction: column;
   margin-bottom: 30px;
 }
-
