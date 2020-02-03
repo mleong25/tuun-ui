@@ -10,6 +10,7 @@ import Menu from './components/Menu';
 import { Call } from './components/ApiCall';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Modal } from 'react-bootstrap';
 
 const fakeAuthCentralState = {
   isAuthenticated: false,
@@ -83,14 +84,18 @@ class Login extends React.Component {
     }
 
     return (
-      <div>
-        <p>Please, you need to be authenticated to to view this content</p>
-        <button 
-          className="App-link btn btn-primary" 
-          onClick={this.login}>
-          Log in
-        </button>
-      </div>
+      <Modal.Dialog>
+        <Modal.Body>
+          <p>Please, you need to be authenticated to to view this content</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button 
+            className="App-link btn btn-primary" 
+            onClick={this.login}>
+            Log in
+          </button>
+        </Modal.Footer>
+      </Modal.Dialog>
     )
   }
 }
@@ -117,9 +122,6 @@ class App extends Component {
             >
               Connect
             </a>
-  
-            
-  
           </div>
           <Router>
             <div>
@@ -130,8 +132,6 @@ class App extends Component {
             <Route path="/public" component={Public}/>
             <Route path="/login" component={withRouter(Login)}/>
             <ProtectedRoute path='/protected' component={Protected} />
-            <Route path="/apiCall" component={Call} />
-            <Link to="/apiCall">Test Connection to API</Link>
           </Router>
         </div>
       </div>

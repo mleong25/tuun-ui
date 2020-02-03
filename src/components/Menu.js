@@ -6,7 +6,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 class Menu extends Component {
   render() {
     return (
-      <div>
+      <div className="Menu">
         <Navbar fixed="top" bg="dark" variant="dark">
           <Navbar.Brand className="brand" href="/">
             Tuun <MenuIcon></MenuIcon>
