@@ -5,10 +5,14 @@ import {
   Link,
   Redirect,
   withRouter,
+  Switch
 } from 'react-router-dom';
 import Menu from './components/Menu';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
+import Create from './components/Create';
+import Playlists from './components/Playlists';
+import Connect from './components/Connect';
 
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -127,6 +131,13 @@ class App extends Component {
       <div className="App">
         <div className="App-foreground">
           <Menu/>
+          <Router>
+            <Switch>
+              <Route path="/create" component={Create}/>
+              <Route path="/playlists" component={Playlists}/>
+              <Route path="/connect" component={Connect}/>
+            </Switch>
+          </Router>
           <span className="Title">
             <h1 className="App-header">
               T<span style={{ color: "#6C2EB9" }}>u</span>un

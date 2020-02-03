@@ -1,0 +1,12 @@
+.card {
+    background-color: #701aa1;
+}
+
+.cardBody {
+    background-color: rgb(26, 24, 24);
+}
+
+.accordion {
+    width: 60%;
+    margin-left: 20%;
+}

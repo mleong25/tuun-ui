@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/Menu.css';
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav,  } from 'react-bootstrap';
 import MenuIcon from "@material-ui/icons/Menu";
 
 class Menu extends Component {
@@ -12,9 +12,9 @@ class Menu extends Component {
             Tuun <MenuIcon></MenuIcon>
           </Navbar.Brand>
           <Nav className="justify-content-center navs" fill>
-            <Nav.Link href="#create">Create</Nav.Link>
-            <Nav.Link href="#playlists">Playlists</Nav.Link>
-            <Nav.Link href="#connect">Connect</Nav.Link>
+            <Nav.Item><Nav.Link href="/create">Create</Nav.Link></Nav.Item>
+            <Nav.Item><Nav.Link href="/playlists">Playlists</Nav.Link></Nav.Item>
+            <Nav.Item><Nav.Link href="/connect">Connect</Nav.Link></Nav.Item>
           </Nav>
         </Navbar>
       </div>
