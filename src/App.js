@@ -7,10 +7,11 @@ import {
   withRouter,
 } from 'react-router-dom';
 import Menu from './components/Menu';
-import { Call } from './components/ApiCall';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal } from 'react-bootstrap';
+
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 const fakeAuthCentralState = {
   isAuthenticated: false,
@@ -83,19 +84,38 @@ class Login extends React.Component {
       this.props.history.push(from.pathname);
     }
 
+    function Login() {
+    const [show, setShow] = React.useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
-      <Modal.Dialog>
-        <Modal.Body>
-          <p>Please, you need to be authenticated to to view this content</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <button 
-            className="App-link btn btn-primary" 
-            onClick={this.login}>
-            Log in
-          </button>
-        </Modal.Footer>
-      </Modal.Dialog>
+      <>
+        <Button variant="primary" onClick={handleShow}>
+          Connect
+        </Button>
+
+        <Modal show={show} onHide={handleClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>Login</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Please login to Spotify to view content</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Login
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+
+    return (
+      <Login/>
     )
   }
 }
