@@ -4,9 +4,24 @@
 
 .cardBody {
     background-color: rgb(26, 24, 24);
+    display: flex;
+    flex-direction: column;
 }
 
 .accordion {
     width: 60%;
     margin-left: 20%;
+}
+
+.selectionContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.selection {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+    flex: auto 1 0;
 }
