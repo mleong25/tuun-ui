@@ -13,9 +13,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Create from './components/Create';
 import Playlists from './components/Playlists';
 import Connect from './components/Connect';
-
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Landing from './components/Landing';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const fakeAuthCentralState = {
   isAuthenticated: false,
@@ -133,27 +133,13 @@ class App extends Component {
           <Menu/>
           <Router>
             <Switch>
+              <Route exact path="/" component={Landing}/>
               <Route path="/create" component={Create}/>
               <Route path="/playlists" component={Playlists}/>
               <Route path="/connect" component={Connect}/>
             </Switch>
           </Router>
-          <span className="Title">
-            <h1 className="App-header">
-              T<span style={{ color: "#6C2EB9" }}>u</span>un
-            </h1>
-            <p>A better way to connect with music</p>
-          </span>
-          <div className="container">
-            <a
-              className="App-link btn btn-primary"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Connect
-            </a>
-          </div>
+          
           <Router>
             <div>
               <AuthButton/>
