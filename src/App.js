@@ -32,7 +32,7 @@ const fakeAuthCentralState = {
 const Public = () => <h3>You have clicked on a public content button that has displayed this content.</h3>;
 const Protected = () => <h3>This is the protected contact that was locked behind a component.</h3>;
 
-//this is a special component that is only able to load if you are logged in... 
+//this is a special component that is only able to load if you are logged in...
 //as in "fakeAuthCentralState.isAuthenticated == true" .. once that happens it runs a turnary operator .. and if good will redirect to the /login
 const ProtectedRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -49,7 +49,7 @@ const AuthButton = withRouter(({ history }) => (
   fakeAuthCentralState.isAuthenticated ? (
     <p>
       Welcome to this amazing content!
-      <button 
+      <button
       className="App-link btn btn-primary"
       onClick={() => {
         fakeAuthCentralState.signout(() => history.push('/'))
@@ -71,7 +71,7 @@ class Login extends React.Component {
       redirectToReferrer: false
     };
   }
-  
+
   login = () => {
     fakeAuthCentralState.authenticate(() => {
       this.setState(() => ({
@@ -96,9 +96,11 @@ class Login extends React.Component {
 
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          Connect
-        </Button>
+        <div className="container">
+          <Button variant="primary" className="App-link" onClick={handleShow}>
+            Connect
+          </Button>
+        </div>
 
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
@@ -139,7 +141,7 @@ class App extends Component {
               <Route path="/connect" component={Connect}/>
             </Switch>
           </Router>
-          
+
           <Router>
             <div>
               <AuthButton/>
