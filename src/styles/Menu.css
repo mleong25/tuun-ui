@@ -7,13 +7,17 @@
 }
 
 .navs {
-    width: 100%;
+    width: 25%;
 }
 
 .nav-link {
-    margin: 0 5em;
+    margin: 0.5em;
 }
 
 .Menu {
     margin-bottom: 10%;
+}
+
+.login {
+
 }
