@@ -48,3 +48,13 @@
   flex-direction: column;
   margin-bottom: 30px;
 }
+
+.jumbotron {
+  background-color: #343a40!important;
+}
+
+.table {
+  font-size: 12px;
+  text-align: left;
+  white-space: normal;
+}
