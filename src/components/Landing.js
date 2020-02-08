@@ -10,7 +10,7 @@ class Landing extends Component {
                     </h1>
                     <p>A better way to connect with music</p>
                 </span>
-                <div className="container">
+                <div className="containerLand">
                 <a
                     className="App-link btn btn-primary"
                     href="https://reactjs.org"

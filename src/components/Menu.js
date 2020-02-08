@@ -19,7 +19,7 @@ class Menu extends Component {
             &nbsp;&nbsp;
             Tuun
           </Navbar.Brand>
-          <Nav className="justify-content-center navs" fill>
+          <Nav className="navs" fill>
             <Nav.Item><Nav.Link href="/create">Create</Nav.Link></Nav.Item>
             <Nav.Item><Nav.Link href="/playlists">Playlists</Nav.Link></Nav.Item>
             <Nav.Item><Nav.Link href="/connect">Connect</Nav.Link></Nav.Item>

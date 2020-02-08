@@ -65,7 +65,7 @@ const AuthButton = withRouter(({ history }) => (
 ));
 
 function isAccessible() {
-  if(fakeAuthCentralState.isAuthenticated) {
+  if(true) {
     return(
       <div className="App">
           <div className="App-foreground">
