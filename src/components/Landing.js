@@ -10,7 +10,9 @@ class Landing extends Component {
                     <h1 className="App-header">
                         Tuun
                     </h1>
-                    <p>A better way to connect with music</p>
+                    <p>
+                      A better way to <span style={{ color: "#6C2EB9" }}>connect</span> with music
+                    </p>
                 </span>
                 <div className="containerLand">
                 <a
