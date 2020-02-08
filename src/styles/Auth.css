@@ -1,25 +1,18 @@
 body {
   background-color: white;
-  height: 100vh;
-}
-
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  text-align: center;
-  min-height: 200px;
-  align-items: center;
-  height: 100vh;
-}
-
-.container div {
-  width: 100%;
-  height: 100vh;
+  overflow: hidden;
 }
 
 .loginButt {
-  align-items: center;
+  position:absolute;
+	top: 50%;
+	/* left: 50%; */
+	margin-top: -4em; /*set to a negative number 1/2 of your height*/
+  /* margin-left: -2.2em; set to a negative number 1/2 of your width */
+  background-color: #6C2EB9 !important;
+  border-color: #6C2EB9 !important;
+}
+
+.buttonContainer {
+  text-align:center;
 }

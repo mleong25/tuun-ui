@@ -65,8 +65,10 @@ const AuthButton = withRouter(({ history }) => (
 ));
 
 function isAccessible() {
-  if(true) {
-    return(
+  const token = window.localStorage.getItem('token');
+
+  if(token){
+    return (
       <div className="App">
           <div className="App-foreground">
             <Menu/>
@@ -95,9 +97,9 @@ function isAccessible() {
   }
   else {
     return(
-    <>
-      <Auth/>
-    </>
+      <>
+        <Auth/>
+      </>
     )}
 }
 

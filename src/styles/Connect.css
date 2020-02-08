@@ -1,0 +1,11 @@
+.connect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.connectInput {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
