@@ -6,7 +6,8 @@ import { Navbar, Nav,  } from 'react-bootstrap';
 class Menu extends Component {
   render() {
     return (
-      <div className="Menu">
+      <>
+        <div className="Menu">
         <Navbar fixed="top" bg="dark" variant="dark">
           <Navbar.Brand className="brand" href="/">
             <img
@@ -27,6 +28,7 @@ class Menu extends Component {
           </Nav>
         </Navbar>
       </div>
+      </>
     );
   }
 }

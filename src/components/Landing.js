@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Landing extends Component {
     render() {
         return(
-            <div>
+            <>
                 <span className="Title">
                     <h1 className="App-header">
                         T<span style={{ color: "#6C2EB9" }}>u</span>un
@@ -20,7 +20,7 @@ class Landing extends Component {
                     Connect
                 </a>
                 </div>
-            </div>
+            </>
         );
     }
 }

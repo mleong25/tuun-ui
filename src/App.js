@@ -16,6 +16,8 @@ import Connect from './components/Connect';
 import Landing from './components/Landing';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Auth from './components/Auth';
+
 
 const fakeAuthCentralState = {
   isAuthenticated: false,
@@ -62,6 +64,45 @@ const AuthButton = withRouter(({ history }) => (
   )
 ));
 
+function isAccessible() {
+  if(fakeAuthCentralState.isAuthenticated) {
+    return(
+      <div className="App">
+          <div className="App-foreground">
+            <Menu/>
+            <Router>
+              <Switch>
+                <Route exact path="/" component={Landing}/>
+                <Route path="/create" component={Create}/>
+                <Route path="/playlists" component={Playlists}/>
+                <Route path="/connect" component={Connect}/>
+              </Switch>
+            </Router>
+  
+            <Router>
+              <div>
+                <AuthButton/>
+              </div>
+              <Link to="/public">Public Content</Link>
+              <Link to="/protected">Protected Content</Link>
+              <Route path="/public" component={Public}/>
+              <Route path="/login" component={withRouter(Login)}/>
+              <ProtectedRoute path='/protected' component={Protected} />
+            </Router>
+          </div>
+        </div>
+    )
+  }
+  else {
+    return(
+    <>
+      IN AUTH
+      <Auth/>
+      
+    </>)
+  }
+}
+
 class Login extends React.Component {
 
   constructor(props) {
@@ -97,7 +138,7 @@ class Login extends React.Component {
     return (
       <>
         <div className="container">
-          <Button variant="primary" className="App-link" onClick={handleShow}>
+          <Button variant="primary" className="App-link" onClick={window.location.replace("http://www.w3schools.com")}>
             Connect
           </Button>
         </div>
@@ -129,31 +170,11 @@ class Login extends React.Component {
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
-        <div className="App-foreground">
-          <Menu/>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={Landing}/>
-              <Route path="/create" component={Create}/>
-              <Route path="/playlists" component={Playlists}/>
-              <Route path="/connect" component={Connect}/>
-            </Switch>
-          </Router>
-
-          <Router>
-            <div>
-              <AuthButton/>
-            </div>
-            <Link to="/public">Public Content</Link>
-            <Link to="/protected">Protected Content</Link>
-            <Route path="/public" component={Public}/>
-            <Route path="/login" component={withRouter(Login)}/>
-            <ProtectedRoute path='/protected' component={Protected} />
-          </Router>
-        </div>
-      </div>
+    
+    return(
+      <>
+        {isAccessible()}
+      </>
     );
   }
 }
