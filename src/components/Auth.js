@@ -1,69 +1,32 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import '../styles/Auth.css';
+import uuid from 'uuid'
 
-function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+const params = new URLSearchParams({
+  client_id: '1db68b4b02f148b39f419f3b942452ed', // Your client id
+  redirect_uri: 'http://localhost:3000/create', // Your redirect uri
+  scope: 'user-read-private%20user-read-email',
+  response_type: 'token',
+  state: uuid()
+});
 
-let client_id = '1f1e04e745e8438484dbe761eb804ca8'; // Your client id
-let redirect_uri = 'http://localhost:8888/'; // Your redirect uri
-let scope = 'user-read-private%20user-read-email';
-let response_type = 'code';
-let state = makeid(16);
-
-var params = {
-  parameter1: client_id,
-  parameter2: redirect_uri,
-  parameter3: scope,
-  parameter4: response_type,
-  parameter5: state 
-};
-
-var esc = encodeURIComponent;
-var query = Object.keys(params)
-  .map(k => esc(k) + '=' + esc(params[k]))
-  .join('&');
-
-let OauthURL = 
-  'https://accounts.spotify.com/authorize?' + 
-  response_type +
-  client_id +
-  scope +
-  redirect_uri +
-  state;
-
-  console.log(OauthURL);
-
-//   async function getTokenFromAPI() {
-//     try {
-//         var params = {
-//             client_id: '1f1e04e745e8438484dbe761eb804ca8',
-//             response_type: 'code',
-//             redirect_uri: 'https://www.google.com'
-//         };
-
-//         var esc = encodeURIComponent;
-//         var query = Object.keys(params)
-//             .map(k => `${esc(k)}=${esc(params[k])}`)
-//             .join('&');
-
-//         fetch('https://accounts.spotify.com/authorize?', query).then(function (response) {
-//             console.log('response, ' + JSON.stringify(response));
-//             return response;
-//         })
-//     } catch(error) {
-//         console.error(error);
-//     }
-// }
+const OauthURL = `https://accounts.spotify.com/authorize?${params}`;
 
 class Auth extends Component {
+  componentDidMount() {
+    // TODO: handle user errors here
+    const params = new URLSearchParams(window.location.hash.replace('#', ''))
+
+    const token = params.get('access_token')
+
+    if(token) {
+      window.localStorage.setItem('token', token)
+
+      window.location.pathname = '/'
+    }
+  }
+
   render() {
     return(
     <div className="container">
@@ -71,7 +34,9 @@ class Auth extends Component {
         <Button
           variant="primary"
           className="loginButt"
-          onClick={event =>  }>
+          onClick={() => {
+            window.location.href = OauthURL
+          }}>
           Login
         </Button>
       </div>

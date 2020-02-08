@@ -65,8 +65,10 @@ const AuthButton = withRouter(({ history }) => (
 ));
 
 function isAccessible() {
-  if(fakeAuthCentralState.isAuthenticated) {
-    return(
+  const token = window.localStorage.getItem('token');
+
+  if(token){
+    return (
       <div className="App">
           <div className="App-foreground">
             <Menu/>
