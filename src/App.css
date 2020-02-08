@@ -58,3 +58,12 @@
   text-align: left;
   white-space: normal;
 }
+
+.NavTab {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.dropdown-divider {
+    border-top: 3px solid #6C2EB9!important;
+}
