@@ -18,7 +18,6 @@ class Landing extends Component {
                 <a
                     className="App-link btn btn-primary"
                     href="/connect"
-                    target="_blank"
                     rel="noopener noreferrer"
                 >
                     Connect
