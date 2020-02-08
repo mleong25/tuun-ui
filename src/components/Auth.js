@@ -9,8 +9,7 @@ class Auth extends Component {
       <Button
         variant="primary"
         className="loginButt"
-        onClick={window.location.href("http://www.w3schools.com")}>
-        checked="false"
+        onClick={event =>  window.location.href='https://www.w3schools.com/howto/howto_js_redirect_webpage.asp'}>
       </Button>
     </>
     );
