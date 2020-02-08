@@ -96,11 +96,9 @@ function isAccessible() {
   else {
     return(
     <>
-      IN AUTH
       <Auth/>
-      
-    </>)
-  }
+    </>
+    )}
 }
 
 class Login extends React.Component {
