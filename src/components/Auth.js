@@ -71,7 +71,7 @@ class Auth extends Component {
         <Button
           variant="primary"
           className="loginButt"
-          onClick={event =>  getTokenFromAPI()}>
+          onClick={event =>  }>
           Login
         </Button>
       </div>
