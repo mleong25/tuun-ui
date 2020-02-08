@@ -20,11 +20,27 @@ class Menu extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/create" className="NavTab">Create</Nav.Link>
-              <Nav.Link href="/playlists" className="NavTab">Playlists</Nav.Link>
-              <Nav.Item><Nav.Link href="/connect" className="NavTab">Connect</Nav.Link></Nav.Item>
+              <Nav.Link href="/create" 
+                        className="NavTab">
+                  Create
+              </Nav.Link>
+              <Nav.Link href="/playlists" 
+                        className="NavTab">
+                  Playlists
+              </Nav.Link>
+              <Nav.Item>
+                <Nav.Link href="/connect" 
+                          className="NavTab">
+                  Connect
+                </Nav.Link>
+              </Nav.Item>
               <NavDropdown.Divider />
-              <Nav.Item><Nav.Link className="login NavTab" href="/login">Login</Nav.Link></Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="login NavTab" 
+                          href="/login">
+                  Login
+                </Nav.Link>
+              </Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

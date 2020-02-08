@@ -81,7 +81,7 @@ function isAccessible() {
               </Switch>
             </Router>
   
-            <Router>
+            {/* <Router>
               <div>
                 <AuthButton/>
               </div>
@@ -90,7 +90,7 @@ function isAccessible() {
               <Route path="/public" component={Public}/>
               <Route path="/login" component={withRouter(Login)}/>
               <ProtectedRoute path='/protected' component={Protected} />
-            </Router>
+            </Router> */}
           </div>
         </div>
     )
@@ -130,36 +130,36 @@ class Login extends React.Component {
     }
 
     function Login() {
-    const [show, setShow] = React.useState(false);
+      const [show, setShow] = React.useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+      const handleClose = () => setShow(false);
+      const handleShow = () => setShow(true);
 
-    return (
-      <>
-        <div className="container">
-          <Button variant="primary" className="App-link" onClick={window.location.replace("http://www.w3schools.com")}>
-            Connect
-          </Button>
-        </div>
-
-        <Modal show={show} onHide={handleClose} animation={false}>
-          <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Please login to Spotify to view content</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
+      return (
+        <>
+          <div className="container">
+            <Button variant="primary" className="App-link" onClick={window.location.replace("http://www.w3schools.com")}>
+              Connect
             </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Login
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
-  }
+          </div>
+
+          {/* <Modal show={show} onHide={handleClose} animation={false}>
+            <Modal.Header closeButton>
+              <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Please login to Spotify to view content</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Login
+              </Button>
+            </Modal.Footer>
+          </Modal> */}
+        </>
+      );
+    }
 
     return (
       <Login/>
