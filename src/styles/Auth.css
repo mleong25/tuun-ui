@@ -1,7 +1,18 @@
 body {
   background-color: white;
+  overflow: hidden;
 }
 
-loginButt {
-  margin: 50%;
+.loginButt {
+  position:absolute;
+	top: 50%;
+	/* left: 50%; */
+	margin-top: -4em; /*set to a negative number 1/2 of your height*/
+  /* margin-left: -2.2em; set to a negative number 1/2 of your width */
+  background-color: #6C2EB9 !important;
+  border-color: #6C2EB9 !important;
+}
+
+.buttonContainer {
+  text-align:center;
 }

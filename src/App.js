@@ -96,9 +96,7 @@ function isAccessible() {
   else {
     return(
     <>
-      IN AUTH
       <Auth/>
-      
     </>)
   }
 }
