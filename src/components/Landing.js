@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '../App.css';
+import '../styles/Landing.css';
 
 class Landing extends Component {
     render() {
@@ -6,7 +8,7 @@ class Landing extends Component {
             <>
                 <span className="Title">
                     <h1 className="App-header">
-                        T<span style={{ color: "#6C2EB9" }}>u</span>un
+                        Tuun
                     </h1>
                     <p>A better way to connect with music</p>
                 </span>

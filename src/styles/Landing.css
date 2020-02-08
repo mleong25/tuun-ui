@@ -1,0 +1,5 @@
+.App-header {
+    background: -webkit-linear-gradient(rgb(26, 168, 76), rgb(141, 147, 224), rgba(108, 46, 185, 1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
