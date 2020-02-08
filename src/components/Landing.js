@@ -17,7 +17,7 @@ class Landing extends Component {
                 <div className="containerLand">
                 <a
                     className="App-link btn btn-primary"
-                    href="/create"
+                    href="/connect"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
