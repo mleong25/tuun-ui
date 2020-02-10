@@ -80,7 +80,7 @@ function isAccessible() {
                 <Route path="/connect" component={Connect}/>
               </Switch>
             </Router>
-  
+
             {/* <Router>
               <div>
                 <AuthButton/>
@@ -138,7 +138,7 @@ class Login extends React.Component {
       return (
         <>
           <div className="container">
-            <Button variant="primary" className="App-link" onClick={window.location.replace("http://www.w3schools.com")}>
+            <Button variant="primary" className="App-link btn-lg" onClick={window.location.replace("http://www.w3schools.com")}>
               Connect
             </Button>
           </div>
@@ -170,7 +170,7 @@ class Login extends React.Component {
 
 class App extends Component {
   render() {
-    
+
     return(
       <>
         {isAccessible()}

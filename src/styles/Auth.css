@@ -1,10 +1,10 @@
 body {
-  background-color: white;
+  background-color: #282c34;
+  /* background: url("tuun.jpg") no-repeat; */
   overflow: hidden;
 }
 
 .loginButt {
-  position:absolute;
 	top: 50%;
 	/* left: 50%; */
 	margin-top: -4em; /*set to a negative number 1/2 of your height*/
@@ -13,6 +13,23 @@ body {
   border-color: #6C2EB9 !important;
 }
 
-.buttonContainer {
+.landing-page-container {
   text-align:center;
+  margin-top: 10rem;
+}
+
+h1 {
+  font-size: 60px !important;
+}
+
+.white {
+  margin-top: 5rem;
+  background-color: white !important;
+  color: black !important;
+  font-size: 24px;
+}
+
+.jumbotron {
+  margin-left: 2rem;
+  margin-right: 2rem;
 }

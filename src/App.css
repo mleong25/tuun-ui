@@ -38,16 +38,22 @@
   border-color: #6C2EB9 !important;
   color: #09d3ac;
   display: flex;
-  text-align: center;
   font-weight: bold !important;
+  border-radius: 3rem !important;
+  padding: 1rem !important;
 }
 
-.Title {
+.form-button {
+  padding-top: 0.3rem !important;
+  padding-bottom: 0.3rem !important;
+}
+
+/* .Title {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 30px;
-}
+  margin-bottom: -100px;
+} */
 
 .jumbotron {
   background-color: #343a40!important;
