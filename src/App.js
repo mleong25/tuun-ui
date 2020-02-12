@@ -1,15 +1,9 @@
-import React, {Component} from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter,
-  Switch
-} from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter, Switch } from 'react-router-dom';
 import Menu from './components/Menu';
 import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
+import WebPlayer from './components/WebPlayer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Create from './components/Create';
 import Playlists from './components/Playlists';
 import Connect from './components/Connect';
@@ -18,17 +12,16 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
 
-
 const fakeAuthCentralState = {
-  isAuthenticated: false,
-  authenticate(callback) {
-    this.isAuthenticated = true;
-    setTimeout(callback, 300);
-  },
-  signout(callback) {
-    this.isAuthenticated = false;
-    setTimeout(callback, 300);
-  }
+    isAuthenticated: false,
+    authenticate(callback) {
+        this.isAuthenticated = true;
+        setTimeout(callback, 300);
+    },
+    signout(callback) {
+        this.isAuthenticated = false;
+        setTimeout(callback, 300);
+    }
 };
 
 const Public = () => <h3>You have clicked on a public content button that has displayed this content.</h3>;
@@ -37,51 +30,59 @@ const Protected = () => <h3>This is the protected contact that was locked behind
 //this is a special component that is only able to load if you are logged in...
 //as in "fakeAuthCentralState.isAuthenticated == true" .. once that happens it runs a turnary operator .. and if good will redirect to the /login
 const ProtectedRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => (
-    fakeAuthCentralState.isAuthenticated === true
-      ? <Component {...props} />
-      : <Redirect to={{
-          pathname: '/login',
-          state: { from: props.location }
-        }} />
-  )} />
+    <Route
+        {...rest}
+        render={props =>
+            fakeAuthCentralState.isAuthenticated === true ? (
+                <Component {...props} />
+            ) : (
+                <Redirect
+                    to={{
+                        pathname: '/login',
+                        state: { from: props.location }
+                    }}
+                />
+            )
+        }
+    />
 );
 
-const AuthButton = withRouter(({ history }) => (
-  fakeAuthCentralState.isAuthenticated ? (
-    <p>
-      Welcome to this amazing content!
-      <button
-      className="App-link btn btn-primary"
-      onClick={() => {
-        fakeAuthCentralState.signout(() => history.push('/'))
-      }}>
-      Sign out
-      </button>
-    </p>
+const AuthButton = withRouter(({ history }) =>
+    fakeAuthCentralState.isAuthenticated ? (
+        <p>
+            Welcome to this amazing content!
+            <button
+                className='App-link btn btn-primary'
+                onClick={() => {
+                    fakeAuthCentralState.signout(() => history.push('/'));
+                }}>
+                Sign out
+            </button>
+        </p>
     ) : (
-    <p>You are not logged in.</p>
-  )
-));
+        <p>You are not logged in.</p>
+    )
+);
 
 function isAccessible() {
-  const token = window.localStorage.getItem('token');
+    const token = window.localStorage.getItem('token');
+    console.log(token);
+    if (token) {
+        return (
+            <div className='App'>
+                <div className='App-foreground'>
+                    <Menu />
+                    <Router>
+                        <Switch>
+                            <Route exact path='/' component={Landing} />
+                            <Route path='/create' component={Create} />
+                            <Route path='/playlists' component={Playlists} />
+                            <Route path='/connect' component={Connect} />
+                            <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
+                        </Switch>
+                    </Router>
 
-  if(token){
-    return (
-      <div className="App">
-          <div className="App-foreground">
-            <Menu/>
-            <Router>
-              <Switch>
-                <Route exact path="/" component={Landing}/>
-                <Route path="/create" component={Create}/>
-                <Route path="/playlists" component={Playlists}/>
-                <Route path="/connect" component={Connect}/>
-              </Switch>
-            </Router>
-
-            {/* <Router>
+                    {/* <Router>
               <div>
                 <AuthButton/>
               </div>
@@ -91,59 +92,58 @@ function isAccessible() {
               <Route path="/login" component={withRouter(Login)}/>
               <ProtectedRoute path='/protected' component={Protected} />
             </Router> */}
-          </div>
-        </div>
-    )
-  }
-  else {
-    return(
-      <>
-        <Auth/>
-      </>
-    )}
+                </div>
+            </div>
+        );
+    } else {
+        return (
+            <>
+                <Auth />
+            </>
+        );
+    }
 }
 
 class Login extends React.Component {
+    constructor(props) {
+        super(props);
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      redirectToReferrer: false
-    };
-  }
-
-  login = () => {
-    fakeAuthCentralState.authenticate(() => {
-      this.setState(() => ({
-        redirectToReferrer: true
-      }));
-    });
-  }
-
-  render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer === true) {
-      this.props.history.push(from.pathname);
+        this.state = {
+            redirectToReferrer: false
+        };
     }
 
-    function Login() {
-      const [show, setShow] = React.useState(false);
+    login = () => {
+        fakeAuthCentralState.authenticate(() => {
+            this.setState(() => ({
+                redirectToReferrer: true
+            }));
+        });
+    };
 
-      const handleClose = () => setShow(false);
-      const handleShow = () => setShow(true);
+    render() {
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
+        const { redirectToReferrer } = this.state;
 
-      return (
-        <>
-          <div className="container">
-            <Button variant="primary" className="App-link btn-lg" onClick={window.location.replace("http://www.w3schools.com")}>
-              Connect
-            </Button>
-          </div>
+        if (redirectToReferrer === true) {
+            this.props.history.push(from.pathname);
+        }
 
-          {/* <Modal show={show} onHide={handleClose} animation={false}>
+        function Login() {
+            const [show, setShow] = React.useState(false);
+
+            const handleClose = () => setShow(false);
+            const handleShow = () => setShow(true);
+
+            return (
+                <>
+                    <div className='container'>
+                        <Button variant='primary' className='App-link btn-lg' onClick={window.location.replace('http://www.w3schools.com')}>
+                            Connect
+                        </Button>
+                    </div>
+
+                    {/* <Modal show={show} onHide={handleClose} animation={false}>
             <Modal.Header closeButton>
               <Modal.Title>Login</Modal.Title>
             </Modal.Header>
@@ -157,26 +157,18 @@ class Login extends React.Component {
               </Button>
             </Modal.Footer>
           </Modal> */}
-        </>
-      );
+                </>
+            );
+        }
+
+        return <Login />;
     }
-
-    return (
-      <Login/>
-    )
-  }
 }
-
 
 class App extends Component {
-  render() {
-
-    return(
-      <>
-        {isAccessible()}
-      </>
-    );
-  }
+    render() {
+        return <>{isAccessible()}</>;
+    }
 }
 
-export default App
+export default App;
