@@ -8,9 +8,11 @@ import Create from './components/Create';
 import Playlists from './components/Playlists';
 import Connect from './components/Connect';
 import Landing from './components/Landing';
+import Room from './components/Room';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
+import $ from "jquery"; // run npm install jquery to include jquery libraries
 
 const fakeAuthCentralState = {
     isAuthenticated: false,
@@ -79,6 +81,7 @@ function isAccessible() {
                             <Route path='/playlists' component={Playlists} />
                             <Route path='/connect' component={Connect} />
                             <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
+                            <Route path='/room' component={Room} />
                         </Switch>
                     </Router>
 

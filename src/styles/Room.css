@@ -1,0 +1,60 @@
+body {
+  overflow: scroll !important;
+}
+
+.hr-line {
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 3px solid #282c34 !important;
+}
+
+.room-container {
+  margin: 2rem;
+  text-align:left;
+  min-height: 80vh;
+}
+
+.room-block {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.table-clear {
+  background-color: #282c34;
+  color: #fff;
+}
+
+.table-column {
+  border-bottom: 1px solid #343a40 !important;
+  border-top: 1px solid #343a40 !important;
+}
+
+.purple {
+  color: #6C2EB9;
+}
+
+.align-center {
+  text-align: center;
+  align-items: center;
+}
+
+.glyphicon-chevron-down-custom span, .glyphicon-chevron-up-custom span {
+  width: 10px;
+  height: 5px;
+  background-color: rgb(99, 99, 99);
+  display: inline-block;
+  transition: all .1s linear;
+}
+.glyphicon-chevron-down-custom .sp-1, .glyphicon-chevron-up-custom .sp-2 {
+  transform: skewY(-40deg);
+}
+.glyphicon-chevron-up-custom .sp-1, .glyphicon-chevron-down-custom .sp-2 {
+  transform: skewY(40deg);
+}
+.glyphicon {
+  top: -2px;
+}

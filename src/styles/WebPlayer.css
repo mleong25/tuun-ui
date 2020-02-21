@@ -4,6 +4,7 @@
 
 .webplayer-container {
   margin: 5rem;
+  overflow:scroll;
 }
 
 .webplayer-table {

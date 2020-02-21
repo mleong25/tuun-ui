@@ -2,6 +2,9 @@
   background-color: #282c34;
   font-size: calc(10px + 2vmin);
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif; */
 }
 
 .App-foreground {
@@ -36,11 +39,11 @@
 .App-link {
   background-color: #6C2EB9 !important;
   border-color: #6C2EB9 !important;
-  color: #09d3ac;
+  color: #fff !important;
   display: flex;
   font-weight: bold !important;
-  border-radius: 3rem !important;
-  padding: 1rem !important;
+  border-radius: 0.25rem !important;
+  padding: 0.5rem !important;
 }
 
 .form-button {
@@ -67,7 +70,6 @@
 
 .NavTab {
   color: #fff !important;
-  font-weight: bold;
 }
 
 .dropdown-divider {

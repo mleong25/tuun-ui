@@ -33,8 +33,8 @@ class Menu extends Component {
                                 </Nav.Item>
                                 <NavDropdown.Divider />
                                 <Nav.Item>
-                                    <Nav.Link className='login NavTab' href='/login'>
-                                        Login
+                                    <Nav.Link className='login NavTab' href='/room'>
+                                        Temp Room 
                                     </Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>

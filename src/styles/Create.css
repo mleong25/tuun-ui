@@ -1,5 +1,6 @@
 .card {
-    background-color: #6C2EB9;
+    /* background-color: #6C2EB9; */
+    background-color:#343a40;
 }
 
 .cardBody {
@@ -9,8 +10,9 @@
 }
 
 .accordion {
-    width: 60%;
-    margin-left: 20%;
+    width: 100%;
+    margin-bottom: 10%
+    /* margin-left: 20%; */
 }
 
 .selectionContainer {
