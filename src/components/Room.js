@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Room.css';
-import '../styles/Create.css';
 import { Navbar, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card'
@@ -9,8 +8,8 @@ import Card from 'react-bootstrap/Card'
 class Room extends Component {
     render() {
 
-      // Toggle chevrons for accordian
-      // function toggleChevron(e) {
+      // // Toggle chevrons for accordian
+      // // function toggleChevron(e) {
       //   $(e.target)
       //   .prev('.panel-heading')
       //   .find("i.indicator")
@@ -20,7 +19,6 @@ class Room extends Component {
       // $('#accordion').on('shown.bs.collapse', toggleChevron);
       return (
           <>
-            <link href="https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap" rel="stylesheet"></link>
             <div className="room-container">
               <h1>
                 Room
@@ -31,6 +29,9 @@ class Room extends Component {
               <div className="row">
                 <div className="col-sm-6 room-block">
                   <h3 className="bold">Users</h3>
+                  <p className="hint">
+                    List of users currently in the room
+                  </p>
                   <table class="table table-clear">
                       <tbody>
                         <tr>
@@ -59,11 +60,9 @@ class Room extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-6 room-block">
-                  <h3 className="bold">
-                    Preferences
-                  </h3>
-                  <p>
-                    <span style={{ fontSize: "1rem" }}> select preferences you'd like the playlist generator to prioritize</span>
+                  <h3 className="bold">Preferences</h3>
+                  <p className="hint">
+                    select preferences you'd like the playlist generator to prioritize
                   </p>
                   <Accordion className="accordion" defaultActiveKey="0">
                       <Card className="card">
@@ -72,7 +71,9 @@ class Room extends Component {
                           </Accordion.Toggle>
                           <Accordion.Collapse eventKey="0">
                           <Card.Body className="cardBody">
-                              Pick from the setting selection below:
+                              <p className="hint">
+                                Pick from the setting selection below:
+                              </p>
                               <div className="selectionContainer">
                                   <Card className="selection">
                                       <Card.Body>

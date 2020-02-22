@@ -15,7 +15,8 @@
 }
 
 .Menu {
-    margin-bottom: 10%;
+    /* margin-bottom: 10%; */
+    font-family: 'Poppins', sans-serif;
 }
 
 .login {

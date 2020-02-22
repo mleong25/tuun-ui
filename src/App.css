@@ -7,6 +7,27 @@
   font-family: 'Raleway', sans-serif; */
 }
 
+.move-items-up {
+  margin-top: -50rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.purple {
+  color: #6C2EB9;
+}
+
+.dark-black {
+  color: #282c34;
+}
+
+.align-center {
+  text-align: center;
+  align-items: center;
+}
+
 .App-foreground {
   min-height: 80vh;
   display: flex;
@@ -30,6 +51,14 @@
   height: 40vmin;
 }
 
+.hint {
+  font-size: 1rem !important;
+}
+
+.top-spacing {
+  padding-top: 6rem;
+}
+
 .App-header {
   margin: 0;
   bottom: 0%;
@@ -40,7 +69,6 @@
   background-color: #6C2EB9 !important;
   border-color: #6C2EB9 !important;
   color: #fff !important;
-  display: flex;
   font-weight: bold !important;
   border-radius: 0.25rem !important;
   padding: 0.5rem !important;

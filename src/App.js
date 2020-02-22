@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter, Switch } from 'react-router-dom';
-import Menu from './components/Menu';
-import './App.css';
-import WebPlayer from './components/WebPlayer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import Menu from './components/Menu';
+import WebPlayer from './components/WebPlayer';
 import Create from './components/Create';
 import Playlists from './components/Playlists';
 import Connect from './components/Connect';
@@ -73,6 +73,7 @@ function isAccessible() {
         return (
             <div className='App'>
                 <div className='App-foreground'>
+                <link href="https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap" rel="stylesheet"></link>
                     <Menu />
                     <Router>
                         <Switch>

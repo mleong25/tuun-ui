@@ -9,6 +9,8 @@ body {
 }
 
 .room-container {
+  padding-top: 6rem;
+  margin-top: 10rem;
   margin: 2rem;
   text-align:left;
   min-height: 80vh;
@@ -17,10 +19,6 @@ body {
 .room-block {
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.bold {
-  font-weight: bold;
 }
 
 .table-clear {
@@ -33,14 +31,37 @@ body {
   border-top: 1px solid #343a40 !important;
 }
 
-.purple {
-  color: #6C2EB9;
+.card {
+    /* background-color: #6C2EB9; */
+    background-color:#343a40;
 }
 
-.align-center {
-  text-align: center;
-  align-items: center;
+.cardBody {
+    background-color: rgb(26, 24, 24);
+    display: flex;
+    flex-direction: column;
 }
+
+.accordion {
+    width: 100%;
+    margin-bottom: 10%
+    /* margin-left: 20%; */
+}
+
+.selectionContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+.selection {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+    flex: auto 1 0;
+}
+
 
 .glyphicon-chevron-down-custom span, .glyphicon-chevron-up-custom span {
   width: 10px;

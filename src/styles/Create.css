@@ -1,29 +1,12 @@
-.card {
-    /* background-color: #6C2EB9; */
-    background-color:#343a40;
-}
-
-.cardBody {
-    background-color: rgb(26, 24, 24);
-    display: flex;
-    flex-direction: column;
-}
-
-.accordion {
-    width: 100%;
-    margin-bottom: 10%
-    /* margin-left: 20%; */
-}
-
-.selectionContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.selection {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px;
-    flex: auto 1 0;
+.create-button {
+  background-color: #6C2EB9 !important;
+  font-size: 3rem;
+  border-color: #fff !important;
+  border-width: 0.1rem;
+  border-radius: 0.25rem !important;
+  color: #fff !important;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
 }

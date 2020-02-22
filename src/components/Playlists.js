@@ -7,7 +7,6 @@ class Playlists extends Component {
   render() {
     return (
       <>
-        <link href="https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap" rel="stylesheet"></link>
         <div className="room-container">
           <h1 className="bold">
             Your Playlists
