@@ -12,7 +12,7 @@ import Room from './components/Room';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
-import $ from "jquery"; // run npm install jquery to include jquery libraries
+import $ from 'jquery'; // run npm install jquery to include jquery libraries
 
 const fakeAuthCentralState = {
     isAuthenticated: false,
@@ -68,12 +68,11 @@ const AuthButton = withRouter(({ history }) =>
 
 function isAccessible() {
     const token = window.localStorage.getItem('token');
-    console.log(token);
     if (token) {
         return (
             <div className='App'>
                 <div className='App-foreground'>
-                <link href="https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap" rel="stylesheet"></link>
+                    <link href='https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap' rel='stylesheet'></link>
                     <Menu />
                     <Router>
                         <Switch>
