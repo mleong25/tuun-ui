@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Room.css';
-import { Navbar, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
+import { Form, FormControl } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card'
 
@@ -104,7 +104,10 @@ class Room extends Component {
                               Genre
                           </Accordion.Toggle>
                           <Accordion.Collapse eventKey="1">
-                          <Card.Body className="cardBody">Pick from the genre selection below:
+                          <Card.Body className="cardBody">
+                               <p className="hint">
+                                Pick from the genre selection below:
+                              </p>
                               <div className="selectionContainer">
                                   <Card className="selection">
                                       <Card.Body>
