@@ -3,6 +3,7 @@ import { Form, Col, Button, Jumbotron } from 'react-bootstrap';
 import Carousel from 'react-bootstrap/Carousel'
 import '../App.css';
 import '../styles/Connect.css';
+import RoomConnect from './RoomConnect'
 
 class Connect extends Component {
   render() {
@@ -21,6 +22,7 @@ class Connect extends Component {
               </Form.Row>
             </Form>
             <p className="hint">Enter a valid room code to join a room</p>
+            <RoomConnect></RoomConnect>
           </div>
         </div>
       </>
