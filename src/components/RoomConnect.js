@@ -8,8 +8,10 @@ import { domain } from '../Environment';
 class RoomConnect extends Component {
   constructor(props) {
     super(props);
-    this.state = { connectionId: undefined }
-    this.connection = undefined;
+    this.state = {
+      connection: undefined, 
+      connectionId: undefined
+     }
 
     this.connect = this.connect.bind(this);
   }
@@ -23,18 +25,20 @@ class RoomConnect extends Component {
   }
 
   componentDidMount() {
-    this.connection = new signalR.HubConnectionBuilder()
+    const newConnection = new signalR.HubConnectionBuilder()
       .withUrl(domain + "roomsHub")
       .build();
 
-    this.connection.on("YouConnected", (id) => {
+    newConnection.on("YouConnected", (id) => {
       this.setState({ connectionId: id });
       this.onConnect(this.state.connectionId);
     });
+
+    this.setState({connection: newConnection});
   }
 
   connect() {
-    this.connection.start()
+    this.state.connection.start()
       .then(function () {
         console.log("connected");
       })
