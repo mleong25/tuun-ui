@@ -10,7 +10,7 @@ class RoomConnect extends Component {
     super(props);
     this.state = { connectionId: undefined }
     this.connection = undefined;
-    
+
     this.connect = this.connect.bind(this);
   }
 
@@ -28,8 +28,8 @@ class RoomConnect extends Component {
       .build();
 
     this.connection.on("YouConnected", (id) => {
-      this.onConnect(id);
       this.setState({ connectionId: id });
+      this.onConnect(this.state.connectionId);
     });
   }
 
