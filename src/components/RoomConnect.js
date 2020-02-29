@@ -20,6 +20,10 @@ class RoomConnect extends Component {
     alert("Connected with id: " + id);
   }
 
+  onOtherConnect(id) {
+    alert("New user with id '" + id + "' connected.");
+  }
+
   onOtherDisconnect(id) {
     alert("User '" + id + "' disconnected.");
   }
@@ -32,6 +36,16 @@ class RoomConnect extends Component {
     newConnection.on("YouConnected", (id) => {
       this.setState({ connectionId: id });
       this.onConnect(this.state.connectionId);
+    });
+
+    newConnection.on("NewConnection", (id) => {
+      if (id !== this.state.connectionId) {
+        this.onOtherConnect(id);
+      }
+    })
+
+    newConnection.on("EndConnection", (id) => {
+      this.onOtherDisconnect(id);
     });
 
     this.setState({connection: newConnection});
