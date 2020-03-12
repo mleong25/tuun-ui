@@ -61,7 +61,8 @@ class Connect extends Component {
   }
 
   async getRoom() {
-    const data = await fetch(domain + `room/get/${this.state.roomId}`);
+    let data = await fetch(domain + `room/get/${this.state.roomId}`);
+    data = await data.text();
     return JSON.stringify(JSON.parse(data), null, '\t');
   }
 
