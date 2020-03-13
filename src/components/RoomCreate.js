@@ -10,7 +10,7 @@ class RoomCreate extends Component {
     super()
 
     this.state = {
-      username: null,
+      username: "",
       genres: [],
       connected: false,
       roomId: null,
@@ -21,14 +21,15 @@ class RoomCreate extends Component {
     this.onCreateClick = this.onCreateClick.bind(this);
     this.getRoom = this.getRoom.bind(this);
     this.handleUserChange = this.handleUserChange.bind(this);
+    this.handleGenreClick = this.handleGenreClick.bind(this);
   }
 
   async createRoom() {
     const user = {
-      username: 'asdff01',
+      username: this.state.username,
     }
     const options = {
-      Genres: ['hip-hop']
+      Genres: this.state.genres
     }
 
     let code = await fetch(domain + 'room/genCode')
@@ -78,6 +79,21 @@ class RoomCreate extends Component {
     this.setState({ username: event.target.value });
   }
 
+  handleGenreClick(event) {
+    if (event.target.checked) {
+      const genres = this.state.genres;
+      genres.push(event.target.parentNode.innerText.toLowerCase())
+      this.setState({ genres: genres });
+      console.log(this.state.genres);
+    }
+    else {
+      const genres = this.state.genres;
+      genres.splice(genres.indexOf(event.target.parentNode.innerText.toLowerCase()), 1);
+      this.setState({ genres: genres });
+      console.log(this.state.genres);
+    }
+  }
+
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
@@ -97,7 +113,7 @@ class RoomCreate extends Component {
             Genres
           </Form.Label>
           {genres.map(genre => (
-            <Form.Check label={genre}></Form.Check>
+            <Form.Check label={genre} key={genre} onClick={this.handleGenreClick}></Form.Check>
           ))}
         </Form>
         <Button className="m-1 purple-btn" onClick={this.onCreateClick}>Create</Button>
