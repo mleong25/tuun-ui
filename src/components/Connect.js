@@ -25,14 +25,17 @@ class Connect extends Component {
   }
 
   createPage() {
+    this.props.toggle();
     this.setState({ create: true });
   }
 
   joinPage() {
+    this.props.toggle();
     this.setState({ join: true });
   }
 
   onBackClick() {
+    this.props.toggle();
     this.setState({ join: false, create: false });
   }
 
@@ -43,27 +46,25 @@ class Connect extends Component {
   render() {
     return (
       <>
-        <div className="move-items-up">
-          <div className="col-sm-4 offset-sm-4">
-            {
-              !this.state.join && !this.state.create
-                ? <div className="d-flex flex-column">
-                  <Button className='m-1 purple-btn' onClick={this.joinPage}>Join Room</Button>
-                  <Button className='m-1 purple-btn' onClick={this.createPage}>New Room</Button>
-                </div>
-                : null
-            }
-            {
-              this.state.join
-                ? <RoomJoin onBackClick={this.onBackClick}></RoomJoin>
-                : null
-            }
-            {
-              this.state.create
-                ? <RoomCreate onBackClick={this.onBackClick}></RoomCreate>
-                : null
-            }
-          </div>
+        <div className="col-sm-4 offset-sm-4">
+          {
+            !this.state.join && !this.state.create
+              ? <div className="d-flex flex-column">
+                <Button className='m-1 purple-btn' onClick={this.joinPage}>Join Room</Button>
+                <Button className='m-1 purple-btn' onClick={this.createPage}>New Room</Button>
+              </div>
+              : null
+          }
+          {
+            this.state.join
+              ? <RoomJoin onBackClick={this.onBackClick}></RoomJoin>
+              : null
+          }
+          {
+            this.state.create
+              ? <RoomCreate onBackClick={this.onBackClick}></RoomCreate>
+              : null
+          }
         </div>
       </>
     );

@@ -1,8 +1,8 @@
 .App {
   background-color: #282c34;
   font-size: calc(10px + 2vmin);
-  min-height: 100vh;
   font-family: 'Poppins', sans-serif;
+  box-sizing: content-box;
   /* font-family: 'Montserrat', sans-serif;
   font-family: 'Raleway', sans-serif; */
 }
@@ -33,9 +33,11 @@
   display: flex;
   text-align: center;
   flex-direction: column;
-  justify-content: space-around;
-  align-content: center;
+  justify-content: start;
+  align-content: start;
   color: white;
+  position: relative;
+  top: 150px;
 }
 
 .better-logo {
@@ -87,12 +89,9 @@
   padding-bottom: 0.3rem !important;
 }
 
-/* .Title {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: -100px;
-} */
+.Title {
+  margin-bottom: 8vw;
+}
 
 .jumbotron {
   background-color: #343a40!important;

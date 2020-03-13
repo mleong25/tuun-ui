@@ -19,7 +19,8 @@ class RoomJoin extends Component {
 
   render() {
     return (
-      <>
+      <div className="d-flex flex-column text-left">
+        <h1 className="mb-5">Join a Room</h1>
         <Form>
           <Form.Row>
             <Col>
@@ -34,7 +35,7 @@ class RoomJoin extends Component {
         <div className="d-flex flex-column">
           <Button className="purple-btn" onClick={this.props.onBackClick}>Back</Button>
         </div>
-      </>
+      </div>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import '../App.css';
-import { Button } from 'react-bootstrap';
+import { Button, Form, } from 'react-bootstrap';
 import { domain } from '../Environment';
 
 
@@ -10,14 +10,8 @@ class RoomCreate extends Component {
     super()
 
     this.state = {
-      createOptions: {
-        // Capitalized to allow easy mapping on backend
-        Genres: [],
-        User: {
-          Token: null,
-          Username: null
-        }
-      },
+      username: null,
+      genres: [],
       connected: false,
       roomId: null,
       error: false,
@@ -26,6 +20,7 @@ class RoomCreate extends Component {
     this.createRoom = this.createRoom.bind(this);
     this.onCreateClick = this.onCreateClick.bind(this);
     this.getRoom = this.getRoom.bind(this);
+    this.handleUserChange = this.handleUserChange.bind(this);
   }
 
   async createRoom() {
@@ -79,12 +74,43 @@ class RoomCreate extends Component {
       })
   }
 
+  handleUserChange(event) {
+    this.setState({ username: event.target.value });
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
   render() {
+    const genres = ["Rock", "Hip-hop", "Indie", "Ambient", "Electronic"]
     return (
-      <div className="d-flex flex-column">
-        <Button className="m-1 purple-btn" onClick={this.onCreateClick}>Create Room</Button>
-        {this.state.error ? <p className="hint">Room creation failed.</p> : null}
-        {this.state.connected ? <p>{this.state.roomData}</p> : null}
+      <div className="d-flex flex-column text-left">
+        <h1 className="mb-5">Create a Room</h1> 
+        <Form>
+          <Form.Label className="col-form-label-sm">
+            Spotify User
+          </Form.Label>
+          <Form.Control as="input" placeholder="Username" value={this.state.username} onChange={this.handleUserChange} />
+          <Form.Label className="col-form-label-sm">
+            Genres
+          </Form.Label>
+          {genres.map(genre => (
+            <Form.Check label={genre}></Form.Check>
+          ))}
+        </Form>
+        <Button className="m-1 purple-btn" onClick={this.onCreateClick}>Create</Button>
+        {
+          this.state.error
+            ? <p className="hint">Room creation failed.</p>
+            : null
+        }
+        {
+          this.state.connected
+            ? <p>{this.state.roomData}</p>
+            : null
+        }
         <Button className="m-1 purple-btn" onClick={this.props.onBackClick}>Back</Button>
       </div>
     );

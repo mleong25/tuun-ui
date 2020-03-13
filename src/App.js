@@ -77,24 +77,11 @@ function isAccessible() {
           <Router>
             <Switch>
               <Route exact path='/' component={Landing} />
-              <Route path='/create' component={Create} />
               <Route path='/playlists' component={Playlists} />
-              <Route path='/connect' component={Connect} />
               <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
               <Route path='/room' component={Room} />
             </Switch>
           </Router>
-
-          {/* <Router>
-              <div>
-                <AuthButton/>
-              </div>
-              <Link to="/public">Public Content</Link>
-              <Link to="/protected">Protected Content</Link>
-              <Route path="/public" component={Public}/>
-              <Route path="/login" component={withRouter(Login)}/>
-              <ProtectedRoute path='/protected' component={Protected} />
-            </Router> */}
         </div>
       </div>
     );
