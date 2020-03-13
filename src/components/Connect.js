@@ -5,6 +5,8 @@ import '../App.css';
 import '../styles/Connect.css';
 import RoomConnect from './RoomConnect'
 import { domain } from '../Environment';
+import RoomCreate from './RoomCreate';
+import RoomJoin from "./RoomJoin";
 const fetch = require('node-fetch');
 
 class Connect extends Component {
@@ -12,66 +14,30 @@ class Connect extends Component {
     super(props);
 
     this.state = {
-      connected: false,
-      roomId: null,
-      error: false,
-      roomData: null
+      roomData: null,
+      join: false,
+      create: false,
     }
 
-    this.createRoom = this.createRoom.bind(this);
-    this.onCreateClick = this.onCreateClick.bind(this);
-    this.getRoom = this.getRoom.bind(this);
+    this.createPage = this.createPage.bind(this);
+    this.joinPage = this.joinPage.bind(this);
+    this.onBackClick = this.onBackClick.bind(this);
   }
 
-  async createRoom() {
-    const user = {
-      username: 'asdff01',
-    }
-    const options = {
-      Genres: ['hip-hop']
-    }
-
-    let code = await fetch(domain + 'room/genCode')
-    code = await code.text();
-    this.setState({ roomId: code });
-
-    try {
-      await fetch(
-        domain + `room/create/${this.state.roomId}/${user.username}`,
-        {
-          method: 'POST',
-          body: JSON.stringify(options),
-          headers: { 'Content-Type': 'application/json' }
-        });
-    }
-    catch (err) {
-      alert(err);
-      this.setState({ error: true });
-      return;
-    }
-
-    try {
-      let data = await this.getRoom();
-      this.setState({ roomData: data });
-    }
-    catch (err) {
-      alert(err);
-      return;
-    }
+  createPage() {
+    this.setState({ create: true });
   }
 
-  async getRoom() {
-    let data = await fetch(domain + `room/get/${this.state.roomId}`);
-    data = await data.text();
-    return JSON.stringify(JSON.parse(data), null, '\t');
+  joinPage() {
+    this.setState({ join: true });
   }
 
-  onCreateClick() {
-    this.setState({ error: false, connected: false });
-    this.createRoom()
-      .then(() => {
-        this.setState({ connected: true });
-      })
+  onBackClick() {
+    this.setState({ join: false, create: false });
+  }
+
+  handleCreateSubmit() {
+
   }
 
   render() {
@@ -79,21 +45,24 @@ class Connect extends Component {
       <>
         <div className="move-items-up">
           <div className="col-sm-4 offset-sm-4">
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Row>
-                <Col>
-                  <Form.Control placeholder="4-digit code" />
-                </Col>
-                <Button className="App-link form-button">
-                  Join
-                </Button>
-              </Form.Row>
-            </Form>
-            <p className="hint">Enter a valid room code to join a room</p>
-            {/* <RoomConnect></RoomConnect> */}
-            <Button onClick={this.onCreateClick}>Create Room</Button>
-            {this.state.error ? <p className="hint">Room creation failed.</p> : null}
-            {this.state.connected ? <p>{this.state.roomData}</p> : null}
+            {
+              !this.state.join && !this.state.create
+                ? <div className="d-flex flex-column">
+                  <Button className='m-1 purple-btn' onClick={this.joinPage}>Join Room</Button>
+                  <Button className='m-1 purple-btn' onClick={this.createPage}>New Room</Button>
+                </div>
+                : null
+            }
+            {
+              this.state.join
+                ? <RoomJoin onBackClick={this.onBackClick}></RoomJoin>
+                : null
+            }
+            {
+              this.state.create
+                ? <RoomCreate onBackClick={this.onBackClick}></RoomCreate>
+                : null
+            }
           </div>
         </div>
       </>

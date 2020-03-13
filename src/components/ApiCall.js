@@ -36,8 +36,9 @@ export class Call extends React.Component {
   render() {
     return (
       <div>
-        {this.state.loading ? <i>Loading...</i>
-                         : <div>{this.getDataFromJson()}</div>}
+        {this.state.loading 
+          ? <i>Loading...</i>
+          : <div>{this.getDataFromJson()}</div>}
       </div>
     )
   }
