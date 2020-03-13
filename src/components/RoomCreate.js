@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Router } from "react";
 import '../App.css';
 import { Button, Form, } from 'react-bootstrap';
 import { domain } from '../Environment';
+import Room from './Room';
 
 
 
@@ -15,6 +16,7 @@ class RoomCreate extends Component {
       connected: false,
       roomId: null,
       error: false,
+      roomData: null
     }
 
     this.createRoom = this.createRoom.bind(this);
@@ -46,9 +48,8 @@ class RoomCreate extends Component {
         });
     }
     catch (err) {
-      alert(err);
       this.setState({ error: true });
-      return;
+      throw (err);
     }
 
     try {
@@ -56,8 +57,8 @@ class RoomCreate extends Component {
       this.setState({ roomData: data });
     }
     catch (err) {
-      alert(err);
-      return;
+      this.setState({ error: true });
+      throw (err);
     }
   }
 
@@ -73,6 +74,7 @@ class RoomCreate extends Component {
       .then(() => {
         this.setState({ connected: true });
       })
+      .catch((err) => alert(err));
   }
 
   handleUserChange(event) {
@@ -102,33 +104,40 @@ class RoomCreate extends Component {
   render() {
     const genres = ["Rock", "Hip-hop", "Indie", "Ambient", "Electronic"]
     return (
-      <div className="d-flex flex-column text-left">
-        <h1 className="mb-5">Create a Room</h1> 
-        <Form>
-          <Form.Label className="col-form-label-sm">
-            Spotify User
-          </Form.Label>
-          <Form.Control as="input" placeholder="Username" value={this.state.username} onChange={this.handleUserChange} />
-          <Form.Label className="col-form-label-sm">
-            Genres
-          </Form.Label>
-          {genres.map(genre => (
-            <Form.Check label={genre} key={genre} onClick={this.handleGenreClick}></Form.Check>
-          ))}
-        </Form>
-        <Button className="m-1 purple-btn" onClick={this.onCreateClick}>Create</Button>
-        {
-          this.state.error
-            ? <p className="hint">Room creation failed.</p>
-            : null
+      <>
+        {this.state.connected
+          ? <Room data={this.state.roomData}></Room>
+          : <div className="col-sm-4 offset-sm-4">
+              <div className="d-flex flex-column text-left">
+              <h1 className="mb-5">Create a Room</h1> 
+              <Form>
+                <Form.Label className="col-form-label-sm">
+                  Spotify User
+                </Form.Label>
+                <Form.Control as="input" placeholder="Username" value={this.state.username} onChange={this.handleUserChange} />
+                <Form.Label className="col-form-label-sm">
+                  Genres
+                </Form.Label>
+                {genres.map(genre => (
+                  <Form.Check label={genre} key={genre} onClick={this.handleGenreClick}></Form.Check>
+                ))}
+              </Form>
+              <Button className="m-1 purple-btn" onClick={this.onCreateClick}>Create</Button>
+              {
+                this.state.error
+                  ? <p className="hint">Room creation failed.</p>
+                  : null
+              }
+              {
+                this.state.connected
+                  ? <p>{this.state.roomData}</p>
+                  : null
+              }
+              <Button className="m-1 purple-btn" onClick={this.props.onBackClick}>Back</Button>
+            </div>
+          </div>
         }
-        {
-          this.state.connected
-            ? <p>{this.state.roomData}</p>
-            : null
-        }
-        <Button className="m-1 purple-btn" onClick={this.props.onBackClick}>Back</Button>
-      </div>
+      </>
     );
   }
 }

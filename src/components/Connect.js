@@ -46,12 +46,13 @@ class Connect extends Component {
   render() {
     return (
       <>
-        <div className="col-sm-4 offset-sm-4">
           {
             !this.state.join && !this.state.create
-              ? <div className="d-flex flex-column">
-                <Button className='m-1 purple-btn' onClick={this.joinPage}>Join Room</Button>
-                <Button className='m-1 purple-btn' onClick={this.createPage}>New Room</Button>
+              ? <div className="col-sm-4 offset-sm-4">
+                <div className="d-flex flex-column">
+                  <Button className='m-1 purple-btn' onClick={this.joinPage}>Join Room</Button>
+                  <Button className='m-1 purple-btn' onClick={this.createPage}>New Room</Button>
+                </div>
               </div>
               : null
           }
@@ -65,7 +66,6 @@ class Connect extends Component {
               ? <RoomCreate onBackClick={this.onBackClick}></RoomCreate>
               : null
           }
-        </div>
       </>
     );
   }
