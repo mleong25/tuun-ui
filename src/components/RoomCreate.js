@@ -69,6 +69,10 @@ class RoomCreate extends Component {
   }
 
   onCreateClick() {
+    if (this.state.username === "" || this.state.genres.length < 1) {
+      alert("Please enter username and select at least one genre.");
+      return;
+    }
     this.setState({ error: false, connected: false });
     this.createRoom()
       .then(() => {
