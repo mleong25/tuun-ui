@@ -28,11 +28,6 @@ class Menu extends Component {
                 </Nav.Link>
                 <NavDropdown.Divider />
                 <Nav.Item>
-                  <Nav.Link className='login NavTab' href='/room'>
-                    Room
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
                   <Nav.Link className='NavTab' href='/webPlayer'>
                     WebPlayer
                   </Nav.Link>

@@ -79,7 +79,6 @@ function isAccessible() {
               <Route exact path='/' component={Landing} />
               <Route path='/playlists' component={Playlists} />
               <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
-              <Route path='/room' component={Room} />
             </Switch>
           </Router>
         </div>
