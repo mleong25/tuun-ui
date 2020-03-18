@@ -13,7 +13,8 @@ class RoomCreate extends Component {
     this.state = {
       username: "",
       genres: [],
-      connected: false,
+      loading: false,
+      responded: false,
       roomId: null,
       error: false,
       roomData: null
@@ -73,12 +74,15 @@ class RoomCreate extends Component {
       alert("Please enter username and select at least one genre.");
       return;
     }
-    this.setState({ error: false, connected: false });
+    this.setState({ error: false, responded: false, loading: true });
     this.createRoom()
       .then(() => {
-        this.setState({ connected: true });
+        this.setState({ responded: true, loading: false });
       })
-      .catch((err) => alert(err));
+      .catch((err) => {
+        this.setState({ loading: false });
+        alert(err);
+      });
   }
 
   handleUserChange(event) {
@@ -109,37 +113,33 @@ class RoomCreate extends Component {
     const genres = ["Rock", "Hip-hop", "Indie", "Ambient", "Electronic"]
     return (
       <>
-        {this.state.connected
-          ? <Room data={this.state.roomData}></Room>
-          : <div className="col-sm-4 offset-sm-4">
+        {
+          this.state.responded
+            ? <Room user={this.state.username} data={this.state.roomData}></Room>
+            : <div className="col-sm-4 offset-sm-4">
               <div className="d-flex flex-column text-left">
               <h1 className="mb-5">Create a Room</h1> 
-              <Form>
-                <Form.Label className="col-form-label-sm">
-                  Spotify User
-                </Form.Label>
-                <Form.Control as="input" placeholder="Username" value={this.state.username} onChange={this.handleUserChange} />
-                <Form.Label className="col-form-label-sm">
-                  Genres
-                </Form.Label>
-                {genres.map(genre => (
-                  <Form.Check label={genre} key={genre} onClick={this.handleGenreClick}></Form.Check>
-                ))}
-              </Form>
+                <Form>
+                  <Form.Label className="col-form-label-sm">
+                    Spotify User
+                  </Form.Label>
+                  <Form.Control as="input" placeholder="Username" value={this.state.username} onChange={this.handleUserChange} />
+                  <Form.Label className="col-form-label-sm">
+                    Genres
+                  </Form.Label>
+                  {genres.map(genre => (
+                    <Form.Check label={genre} key={genre} onClick={this.handleGenreClick}></Form.Check>
+                  ))}
+                </Form>
               <Button className="m-1 purple-btn" onClick={this.onCreateClick}>Create</Button>
               {
                 this.state.error
                   ? <p className="hint">Room creation failed.</p>
                   : null
               }
-              {
-                this.state.connected
-                  ? <p>{this.state.roomData}</p>
-                  : null
-              }
-              <Button className="m-1 purple-btn" onClick={this.props.onBackClick}>Back</Button>
+                <Button className="m-1 purple-btn" onClick={this.props.onBackClick}>Back</Button>
+              </div>
             </div>
-          </div>
         }
       </>
     );

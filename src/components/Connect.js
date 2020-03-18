@@ -39,33 +39,29 @@ class Connect extends Component {
     this.setState({ join: false, create: false });
   }
 
-  handleCreateSubmit() {
-
-  }
-
   render() {
     return (
       <>
-          {
-            !this.state.join && !this.state.create
-              ? <div className="col-sm-4 offset-sm-4">
-                <div className="d-flex flex-column">
-                  <Button className='m-1 purple-btn' onClick={this.joinPage}>Join Room</Button>
-                  <Button className='m-1 purple-btn' onClick={this.createPage}>New Room</Button>
-                </div>
+        {
+          !this.state.join && !this.state.create
+            ? <div className="col-sm-4 offset-sm-4">
+              <div className="d-flex flex-column">
+                <Button className='m-1 purple-btn' onClick={this.joinPage}>Join Room</Button>
+                <Button className='m-1 purple-btn' onClick={this.createPage}>New Room</Button>
               </div>
-              : null
-          }
-          {
-            this.state.join
-              ? <RoomJoin onBackClick={this.onBackClick}></RoomJoin>
-              : null
-          }
-          {
-            this.state.create
-              ? <RoomCreate onBackClick={this.onBackClick}></RoomCreate>
-              : null
-          }
+            </div>
+            : null
+        }
+        {
+          this.state.join
+            ? <RoomJoin onBackClick={this.onBackClick}></RoomJoin>
+            : null
+        }
+        {
+          this.state.create
+            ? <RoomCreate onBackClick={this.onBackClick}></RoomCreate>
+            : null
+        }
       </>
     );
   }

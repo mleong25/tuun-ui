@@ -5,15 +5,53 @@ import { Form, FormControl, Col, Row, Container } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card'
 import WebPlayer from './WebPlayer';
+import { domain } from '../Environment';
+import * as signalR from '@microsoft/signalr';
+import User from '../models/User';
+
 
 class Room extends Component {
   constructor(props) {
     super();
     this.state = {
-      data: JSON.parse(props.data)
+      data: JSON.parse(props.data),
+      user: props.user,
+      connection: undefined,
+      connected: false
     }
 
+    this.hostGuard = this.hostGuard.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.render = this.render.bind(this);
+    this.upsertData = this.upsertData.bind(this);
+  }
+
+  hostGuard(func, ...params) {
+    if (this.state.user.toLowerCase() === this.state.data.Host.toLowerCase()) {
+      func(...params);
+    }
+    else {
+      alert(`Only the host (${this.data.Host}) can perform this action.`);
+    }
+  }
+
+  upsertData(data) {
+    this.setState({ data: JSON.parse(data) });
+    this.setState({ connected: true });
+  }
+
+  componentDidMount() {
+    const newConnection = new signalR.HubConnectionBuilder()
+      .withUrl(domain + "roomsHub")
+      .build();
+
+    newConnection.on("SetState", this.upsertData);
+
+    this.setState({ connection: newConnection }, async () => {
+      await this.state.connection.start();
+      console.log("connected");
+      this.state.connection.invoke("AddUser", parseInt(this.state.data.Id), this.state.user, "abcd");
+    });
   }
 
   render() {
@@ -29,8 +67,6 @@ class Room extends Component {
     // $('#accordion').on('shown.bs.collapse', toggleChevron);
     return (
       <Container fluid>
-        <p>TODO: Remove room and webplayer tabs</p>
-
         <>{/* <Col className="text-left lg">
             <h1>
               Room
@@ -175,56 +211,43 @@ class Room extends Component {
                 </button>
             </div>
           </Col> */}</>
-        <Row>
-          <Col lg={10}>
-            <div className="text-left">
-              <h1>
-                Room
-                <span style={{ color: "#6C2EB9" }}> #</span>
-                <span className="bold">{this.state.data.Id}</span>
-              </h1>
-            </div>
-            <WebPlayer token="abcd"></WebPlayer>
-          </Col>
-          <Col>
-            <h3 className="bold">Users</h3>
-            <p className="hint">
-              List of users currently in the room
-            </p>
-            <table class="table table-clear">
-              <tbody>
-                {
-                  Object.values(this.state.data.Users).map((user) => (
-                    <tr>
-                      <td class="table-column">{user.Username}</td>
-                      <td class="table-column">(This can be a different data point)</td>
-                    </tr>
-                  ))
-                }
-                {/* <tr>
-                    <td class="table-column">Cbeeb121</td>
-                    <td class="table-column">(This can be a different data point)</td>
-                  </tr>
-                  <tr>
-                    <td class="table-column">Awallace</td>
-                    <td class="table-column">12 followers</td>
-                  </tr>
-                  <tr>
-                    <td class="table-column">zBath</td>
-                    <td class="table-column">35 followers</td>
-                  </tr>
-                  <tr>
-                    <td class="table-column">Mleong25</td>
-                    <td class="table-column">25 followers</td>
-                  </tr>
-                  <tr>
-                    <td class="table-column">AWittywitt</td>
-                    <td class="table-column">46 followers</td>
-                  </tr> */}
-              </tbody>
-            </table>
-          </Col>
-        </Row>
+        {
+          !this.state.connected
+            ? <p>Loading...</p>
+            : <Row>
+              <Col lg={10}>
+                <div className="text-left">
+                  <h1>
+                    Room
+                    <span style={{ color: "#6C2EB9" }}> #</span>
+                    <span className="bold">{this.state.data.Id}</span>
+                  </h1>
+                </div>
+                <WebPlayer token="abcd"></WebPlayer>
+              </Col>
+              <Col>
+                <h3 className="bold">Users</h3>
+                <p className="hint">
+                  List of users currently in the room
+                </p>
+                <table class="table table-clear">
+                  <tbody>
+                    {
+                      Object.values(this.state.data.Users).map((user) => (
+                        <tr>
+                          <td class="table-column">
+                            <a className="w-100 d-block font-weight-bold" style={{ color: "#6C2EB9" }} href={`https://open.spotify.com/user/${user.Username}`} rel="noopener noreferrer" target="_blank">
+                              {user.Username}
+                            </a>
+                          </td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </Col>
+            </Row>
+        }
       </Container>
     );
   }

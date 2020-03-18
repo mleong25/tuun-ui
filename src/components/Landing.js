@@ -24,12 +24,10 @@ class Landing extends Component {
         {
           this.state.showTitle
             ? <span className="Title">
-              <h1 className="App-header">
-                Tuun
-                  </h1>
+              <h1 className="App-header">Tuun</h1>
               <p>
                 A better way to <span style={{ color: "#6C2EB9" }}>connect</span> with music
-                  </p>
+              </p>
             </span>
             : null
         }
