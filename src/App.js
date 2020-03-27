@@ -12,6 +12,7 @@ import Room from './components/Room';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
+import { Navbar, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import $ from 'jquery'; // run npm install jquery to include jquery libraries
 import { domain } from './Environment';
 import * as signalR from '@microsoft/signalr';
@@ -55,7 +56,7 @@ const AuthButton = withRouter(({ history }) =>
   fakeAuthCentralState.isAuthenticated ? (
     <p>
       Welcome to this amazing content!
-            <button
+      <button
         className='App-link btn btn-primary'
         onClick={() => {
           fakeAuthCentralState.signout(() => history.push('/'));
@@ -88,15 +89,43 @@ class IsAccessible extends Component {
 
 
       const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl(domain + "roomsHub")
-      .build();
+        .withUrl(domain + "roomsHub")
+        .build();
 
       return (
         <div className='App'>
           <div className='App-foreground'>
             <link href='https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap' rel='stylesheet'></link>
-            <Menu />
             <Router>
+              <div className='Menu'>
+                <Navbar fixed='top' bg='dark' expand='lg'>
+                  <Navbar.Brand className='brand' href='/'>
+                    <img
+                      src='ToffWhite.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
+                      width='60'
+                      height='60'
+                      alt='tuun logo'
+                    />
+                  </Navbar.Brand>
+                  <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                  <Navbar.Collapse id='basic-navbar-nav'>
+                    <Nav className='mr-auto'>
+                      <Link to='/' className='NavTab'>
+                        Home
+                      </Link>
+                      <Link to='/playlists' className='NavTab'>
+                        Playlists
+                      </Link>
+                      <NavDropdown.Divider />
+                      <Nav.Item>
+                        <Link className='NavTab' to='/webPlayer'>
+                          WebPlayer
+                        </Link>
+                      </Nav.Item>
+                    </Nav>
+                  </Navbar.Collapse>
+                </Navbar>
+              </div>
               <Switch>
                 <Route exact path='/' render={() => <Landing connection={newConnection} toggleJoined={this.toggleJoined} joined={this.state.joined} roomData={this.state.roomData} />} />
                 <Route path='/playlists' component={Playlists} />

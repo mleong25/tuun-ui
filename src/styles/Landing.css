@@ -1,3 +1,28 @@
 .App-header {
     color: white !important;
 }
+
+.brand.navbar-brand {
+  font-size: 30px;
+}
+
+.navbar-dark {
+  font-size: 20px;
+}
+
+.navs {
+  width: 25%;
+}
+
+.nav-link {
+  margin: 0.5em;
+}
+
+.Menu {
+  /* margin-bottom: 10%; */
+  font-family: 'Poppins', sans-serif;
+}
+
+.login {
+
+}
