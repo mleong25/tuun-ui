@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Room.css';
-import { Form, FormControl, Col, Row, Container } from 'react-bootstrap';
+import { Form, FormControl, Col, Row, Container, Button } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card'
 import WebPlayer from './WebPlayer';
@@ -12,6 +12,7 @@ import User from '../models/User';
 class Room extends Component {
   constructor(props) {
     super();
+    console.log(props.data)
     this.state = {
       data: JSON.parse(props.data),
       user: props.user,
@@ -47,6 +48,7 @@ class Room extends Component {
       // start websocket connection
       await this.state.connection.start();
       console.log("connected");
+      console.log("AddUser", parseInt(this.state.data.Id), this.state.user, "abcd");
       this.state.connection.invoke("AddUser", parseInt(this.state.data.Id), this.state.user, "abcd");
     });
   }
@@ -218,6 +220,7 @@ class Room extends Component {
             : <Row>
               <Col lg={10}>
                 <div className="text-left">
+                  <Button className="purple-btn" onClick={this.props.leaveRoom}>Leave Room</Button>
                   <h1>
                     Room
                     <span style={{ color: "#6C2EB9" }}> #</span>
@@ -235,7 +238,7 @@ class Room extends Component {
                   <tbody>
                     {
                       Object.values(this.state.data.Users).map((user) => (
-                        <tr>
+                        <tr key={user}>
                           <td class="table-column">
                             <a className="w-100 d-block font-weight-bold" style={{ color: "#6C2EB9" }} href={`https://open.spotify.com/user/${user.Username}`} rel="noopener noreferrer" target="_blank">
                               {user.Username}

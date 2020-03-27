@@ -42,10 +42,10 @@ class RoomJoin extends Component {
     }
 
     if (0 <= roomId && roomId <= 10000) {
+      this.props.setRoomData(JSON.stringify({ Id: this.state.roomId }));
+      this.props.setUsername(this.state.username);
       this.props.toggleJoined();
-      this.setState({ roomId: roomId, clicked: true}, () => {
-        this.props.toggleJoined();
-      })
+
     }
     else {
       alert("Room code must be less than 5 digits.")
@@ -59,43 +59,32 @@ class RoomJoin extends Component {
 
   render() {
     return (
-      <>
-        {
-          this.state.clicked || this.props.joined
-            ? <Room 
-                user={this.state.username} 
-                data={JSON.stringify({ Id: this.state.roomId })} 
-                toggleJoined={this.props.toggleJoined}
-                connection={this.props.connection}>
-              </Room>
-            : <div className="col-sm-4 offset-sm-4">
-              <div className="d-flex flex-column text-left">
-                <h1 className="mb-5">Join a Room</h1>
-                <Form>
-                  <Form.Row>
-                    <Col>
-                      <Form.Label className="col-form-label-sm">
-                        Spotify User
+      <div className="col-sm-4 offset-sm-4">
+        <div className="d-flex flex-column text-left">
+          <h1 className="mb-5">Join a Room</h1>
+          <Form>
+            <Form.Row>
+              <Col>
+                <Form.Label className="col-form-label-sm">
+                  Spotify User
                     </Form.Label>
-                      <Form.Control as="input" placeholder="Username" value={this.state.username} onChange={this.handleUserChange} />
-                      <Form.Label className="col-form-label-sm">
-                        Room Code
-                    </Form.Label>
-                      <Form.Control as="input" placeholder="Code" value={this.state.roomId} onChange={this.handleCodeChange} />
-                    </Col>
-                  </Form.Row>
-                </Form>
-                <p className="hint">Enter a valid room code to join a room</p>
-                <div className="d-flex flex-column">
-                  <Button className="m-1 purple-btn" onClick={this.onJoinClick}>
-                    Join
-                </Button>
-                  <Button className="m-1 purple-btn" onClick={this.props.onBackClick}>Back</Button>
-                </div>
-              </div>
-            </div>
-        }
-      </>
+                <Form.Control as="input" placeholder="Username" value={this.state.username} onChange={this.handleUserChange} />
+                <Form.Label className="col-form-label-sm">
+                  Room Code
+                </Form.Label>
+                <Form.Control as="input" placeholder="Code" value={this.state.roomId} onChange={this.handleCodeChange} />
+              </Col>
+            </Form.Row>
+          </Form>
+          <p className="hint">Enter a valid room code to join a room</p>
+          <div className="d-flex flex-column">
+            <Button className="m-1 purple-btn" onClick={this.onJoinClick}>
+              Join
+            </Button>
+            <Button className="m-1 purple-btn" onClick={this.props.onBackClick}>Back</Button>
+          </div>
+        </div>
+      </div>
     );
   }
 }

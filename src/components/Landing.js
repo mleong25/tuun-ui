@@ -4,27 +4,11 @@ import '../styles/Landing.css';
 import Connect from './Connect';
 
 class Landing extends Component {
-  constructor(props) {
-    super();
-
-    this.state = {
-      showTitle: true,
-      joined: props.joined,
-      roomData: null
-    }
-
-    this.toggleTitle = this.toggleTitle.bind(this);
-  }
-
-  toggleTitle() {
-    this.setState({ showTitle: !this.state.showTitle });
-  }
-
   render() {
     return (
       <>
         {
-          this.state.showTitle
+          this.props.showTitle
             ? <span className="Title">
               <h1 className="App-header">Tuun</h1>
               <p>
@@ -35,11 +19,16 @@ class Landing extends Component {
         }
 
         <Connect 
-          toggle={this.toggleTitle} 
+          toggle={this.props.toggleTitle} 
           toggleJoined={this.props.toggleJoined} 
-          joined={this.state.joined} 
+          joined={this.props.joined} 
           roomData={this.props.roomData}
-          connection={this.props.connection}></Connect>
+          setRoomData={this.props.setRoomData}
+          connection={this.props.connection}
+          setUsername={this.props.setUsername}
+          username={this.props.username}
+          leaveRoom={this.props.leaveRoom}>
+        </Connect>  
       </>
     );
   }

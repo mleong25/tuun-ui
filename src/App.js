@@ -70,24 +70,9 @@ const AuthButton = withRouter(({ history }) =>
 );
 
 class IsAccessible extends Component {
-  constructor() {
-    super();
-    this.state = {
-      joined: false,
-      roomData: null
-    }
-
-    this.toggleJoined = this.toggleJoined.bind(this);
-  }
-
-  toggleJoined() {
-    this.setState({ joined: !this.state.joined })
-  }
   render() {
     const token = window.localStorage.getItem('token');
     if (token) {
-
-
       const newConnection = new signalR.HubConnectionBuilder()
         .withUrl(domain + "roomsHub")
         .build();
@@ -127,7 +112,17 @@ class IsAccessible extends Component {
                 </Navbar>
               </div>
               <Switch>
-                <Route exact path='/' render={() => <Landing connection={newConnection} toggleJoined={this.toggleJoined} joined={this.state.joined} roomData={this.state.roomData} />} />
+                <Route exact path='/' render={() => <Landing connection={newConnection} 
+                                                             showTitle={this.props.showTitle} 
+                                                             toggleTitle={this.props.toggleTitle} 
+                                                             toggleJoined={this.props.toggleJoined} 
+                                                             joined={this.props.joined} 
+                                                             roomData={this.props.roomData}
+                                                             setRoomData={this.props.setRoomData}
+                                                             setUsername={this.props.setUsername}
+                                                             username={this.props.username}
+                                                             leaveRoom={this.props.leaveRoom} />} 
+                />
                 <Route path='/playlists' component={Playlists} />
                 <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
               </Switch>
@@ -207,8 +202,57 @@ class Login extends React.Component {
 }
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      joined: false,
+      roomData: null,
+      showTitle: true,
+      username: null
+    }
+
+    this.toggleJoined = this.toggleJoined.bind(this);
+    this.toggleTitle = this.toggleTitle.bind(this);
+    this.setRoomData = this.setRoomData.bind(this);
+    this.setUsername = this.setUsername.bind(this);
+    this.leaveRoom = this.leaveRoom.bind(this);
+  }
+
+  toggleTitle() {
+    this.setState({ showTitle: !this.state.showTitle });
+  }
+
+  leaveRoom() {
+    this.setState({ joined: false, showTitle: true });
+  }
+
+  toggleJoined() {
+    this.setState({ joined: !this.state.joined });
+  }
+
+  setRoomData(jsonStr) {
+    this.setState({ roomData: jsonStr });
+  }
+
+  setUsername(username) {
+    this.setState({ username: username });
+  }
+
   render() {
-    return <>{<IsAccessible />}</>;
+    return <>
+    {
+      <IsAccessible 
+        roomData={this.state.roomData}
+        setRoomData={this.setRoomData} 
+        showTitle={this.state.showTitle} 
+        toggleTitle={this.toggleTitle} 
+        toggleJoined={this.toggleJoined} 
+        joined={this.state.joined}
+        setUsername={this.setUsername}
+        username={this.state.username}
+        leaveRoom={this.leaveRoom}/>
+    }
+    </>;
   }
 }
 
