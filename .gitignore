@@ -3,4 +3,4 @@ package-lock.json
 yarn.lock
 .DS_STORE
 Secrets.js
-./vscode
+vscode/
