@@ -77,6 +77,7 @@ class RoomCreate extends Component {
     this.setState({ error: false, responded: false, loading: true });
     this.createRoom()
       .then(() => {
+        this.props.toggleJoined();
         this.setState({ responded: true, loading: false });
       })
       .catch((err) => {
@@ -114,8 +115,14 @@ class RoomCreate extends Component {
     return (
       <>
         {
-          this.state.responded
-            ? <Room user={this.state.username} data={this.state.roomData}></Room>
+          this.state.responded || this.state.joined
+            ? <Room 
+                user={this.state.username} 
+                data={this.state.roomData}
+                connection={this.props.connection}
+                toggleJoined={this.props.toggleJoined}
+                  
+              ></Room>
             : <div className="col-sm-4 offset-sm-4">
               <div className="d-flex flex-column text-left">
               <h1 className="mb-5">Create a Room</h1> 

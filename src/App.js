@@ -13,6 +13,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
 import $ from 'jquery'; // run npm install jquery to include jquery libraries
+import { domain } from './Environment';
+import * as signalR from '@microsoft/signalr';
 
 const fakeAuthCentralState = {
   isAuthenticated: false,
@@ -66,30 +68,51 @@ const AuthButton = withRouter(({ history }) =>
     )
 );
 
-function isAccessible() {
-  const token = window.localStorage.getItem('token');
-  if (token) {
-    return (
-      <div className='App'>
-        <div className='App-foreground'>
-          <link href='https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap' rel='stylesheet'></link>
-          <Menu />
-          <Router>
-            <Switch>
-              <Route exact path='/' component={Landing} />
-              <Route path='/playlists' component={Playlists} />
-              <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
-            </Switch>
-          </Router>
+class IsAccessible extends Component {
+  constructor() {
+    super();
+    this.state = {
+      joined: false,
+      roomData: null
+    }
+
+    this.toggleJoined = this.toggleJoined.bind(this);
+  }
+
+  toggleJoined() {
+    this.setState({ joined: !this.state.joined })
+  }
+  render() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+
+
+      const newConnection = new signalR.HubConnectionBuilder()
+      .withUrl(domain + "roomsHub")
+      .build();
+
+      return (
+        <div className='App'>
+          <div className='App-foreground'>
+            <link href='https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap' rel='stylesheet'></link>
+            <Menu />
+            <Router>
+              <Switch>
+                <Route exact path='/' render={() => <Landing connection={newConnection} toggleJoined={this.toggleJoined} joined={this.state.joined} roomData={this.state.roomData} />} />
+                <Route path='/playlists' component={Playlists} />
+                <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
+              </Switch>
+            </Router>
+          </div>
         </div>
-      </div>
-    );
-  } else {
-    return (
-      <>
-        <Auth />
-      </>
-    );
+      );
+    } else {
+      return (
+        <>
+          <Auth />
+        </>
+      );
+    }
   }
 }
 
@@ -156,7 +179,7 @@ class Login extends React.Component {
 
 class App extends Component {
   render() {
-    return <>{isAccessible()}</>;
+    return <>{<IsAccessible />}</>;
   }
 }
 

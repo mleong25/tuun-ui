@@ -5,8 +5,7 @@ import { Form, FormControl, Col, Row, Container } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card'
 import WebPlayer from './WebPlayer';
-import { domain } from '../Environment';
-import * as signalR from '@microsoft/signalr';
+
 import User from '../models/User';
 
 
@@ -41,17 +40,19 @@ class Room extends Component {
   }
 
   componentDidMount() {
-    const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl(domain + "roomsHub")
-      .build();
+    this.setState({ connection: this.props.connection }, async () => {
+      // define websocket reactions on frontend
+      this.state.connection.on("SetState", this.upsertData);
 
-    newConnection.on("SetState", this.upsertData);
-
-    this.setState({ connection: newConnection }, async () => {
+      // start websocket connection
       await this.state.connection.start();
       console.log("connected");
       this.state.connection.invoke("AddUser", parseInt(this.state.data.Id), this.state.user, "abcd");
     });
+  }
+
+  async componentWillUnmount() {
+    await this.state.connection.stop();
   }
 
   render() {

@@ -4,11 +4,13 @@ import '../styles/Landing.css';
 import Connect from './Connect';
 
 class Landing extends Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
-      showTitle: true
+      showTitle: true,
+      joined: props.joined,
+      roomData: null
     }
 
     this.toggleTitle = this.toggleTitle.bind(this);
@@ -32,7 +34,12 @@ class Landing extends Component {
             : null
         }
 
-        <Connect toggle={this.toggleTitle}></Connect>
+        <Connect 
+          toggle={this.toggleTitle} 
+          toggleJoined={this.props.toggleJoined} 
+          joined={this.state.joined} 
+          roomData={this.props.roomData}
+          connection={this.props.connection}></Connect>
       </>
     );
   }

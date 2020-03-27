@@ -17,6 +17,7 @@ class Connect extends Component {
       roomData: null,
       join: false,
       create: false,
+      joined: this.props.joined
     }
 
     this.createPage = this.createPage.bind(this);
@@ -54,12 +55,24 @@ class Connect extends Component {
         }
         {
           this.state.join
-            ? <RoomJoin onBackClick={this.onBackClick}></RoomJoin>
+            ? <RoomJoin 
+                joined={this.state.joined} 
+                toggleJoined={this.props.toggleJoined} 
+                onBackClick={this.onBackClick} 
+                roomData={this.props.roomData}
+                connection={this.props.connection}>
+              </RoomJoin>
             : null
         }
         {
           this.state.create
-            ? <RoomCreate onBackClick={this.onBackClick}></RoomCreate>
+            ? <RoomCreate 
+                joined={this.state.joined} 
+                toggleJoined={this.props.toggleJoined}
+                onBackClick={this.onBackClick} 
+                roomData={this.props.roomData}
+                connection={this.props.connection}>
+              </RoomCreate>
             : null
         }
       </>

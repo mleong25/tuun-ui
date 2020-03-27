@@ -41,9 +41,11 @@ class RoomJoin extends Component {
       return;
     }
 
-    console.log(roomId);
     if (0 <= roomId && roomId <= 10000) {
-      this.setState({ roomId: roomId, clicked: true })
+      this.props.toggleJoined();
+      this.setState({ roomId: roomId, clicked: true}, () => {
+        this.props.toggleJoined();
+      })
     }
     else {
       alert("Room code must be less than 5 digits.")
@@ -59,8 +61,13 @@ class RoomJoin extends Component {
     return (
       <>
         {
-          this.state.clicked
-            ? <Room user={this.state.username} data={JSON.stringify({ Id: this.state.roomId })}></Room>
+          this.state.clicked || this.props.joined
+            ? <Room 
+                user={this.state.username} 
+                data={JSON.stringify({ Id: this.state.roomId })} 
+                toggleJoined={this.props.toggleJoined}
+                connection={this.props.connection}>
+              </Room>
             : <div className="col-sm-4 offset-sm-4">
               <div className="d-flex flex-column text-left">
                 <h1 className="mb-5">Join a Room</h1>
