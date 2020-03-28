@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import '../App.css';
 import { Button, Form, Col } from 'react-bootstrap';
-import { domain } from '../Environment';
-import Room from "./Room";
-
 
 
 class RoomJoin extends Component {

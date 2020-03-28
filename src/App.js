@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Menu from './components/Menu';
 import WebPlayer from './components/WebPlayer';
-import Create from './components/Create';
 import Playlists from './components/Playlists';
-import Connect from './components/Connect';
 import Landing from './components/Landing';
-import Room from './components/Room';
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
-import { Navbar, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
-import $ from 'jquery'; // run npm install jquery to include jquery libraries
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { domain } from './Environment';
 import * as signalR from '@microsoft/signalr';
 
@@ -70,13 +64,21 @@ const AuthButton = withRouter(({ history }) =>
 );
 
 class IsAccessible extends Component {
-  render() {
-    const token = window.localStorage.getItem('token');
-    if (token) {
-      const newConnection = new signalR.HubConnectionBuilder()
+  constructor(props) {
+    super();
+
+    const newConnection = new signalR.HubConnectionBuilder()
         .withUrl(domain + "roomsHub")
         .build();
 
+    this.state = {
+      connection: newConnection
+    }
+  }
+
+  render() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
       return (
         <div className='App'>
           <div className='App-foreground'>
@@ -112,7 +114,7 @@ class IsAccessible extends Component {
                 </Navbar>
               </div>
               <Switch>
-                <Route exact path='/' render={() => <Landing connection={newConnection} 
+                <Route exact path='/' render={() => <Landing connection={this.state.connection} 
                                                              showTitle={this.props.showTitle} 
                                                              toggleTitle={this.props.toggleTitle} 
                                                              toggleJoined={this.props.toggleJoined} 

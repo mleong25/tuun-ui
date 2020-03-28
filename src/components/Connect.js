@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import { Form, Col, Button, Jumbotron } from 'react-bootstrap';
-import Carousel from 'react-bootstrap/Carousel'
+import { Button } from 'react-bootstrap';
 import '../App.css';
 import '../styles/Connect.css';
-import RoomConnect from './RoomConnect'
-import { domain } from '../Environment';
 import RoomCreate from './RoomCreate';
 import RoomJoin from "./RoomJoin";
 import Room from "./Room"

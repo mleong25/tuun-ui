@@ -20,6 +20,11 @@ body {
   margin-bottom: 20px;
 }
 
+.users-item {
+  position: relative;
+  top: 11px;
+}
+
 .table-clear {
   background-color: #282c34;
   color: #fff;

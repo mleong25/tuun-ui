@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Room.css';
-import { Form, FormControl, Col, Row, Container, Button } from 'react-bootstrap';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card'
+import { Col, Row, Container, Button } from 'react-bootstrap';
 import WebPlayer from './WebPlayer';
-
-import User from '../models/User';
 
 
 class Room extends Component {
@@ -24,6 +20,19 @@ class Room extends Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.render = this.render.bind(this);
     this.upsertData = this.upsertData.bind(this);
+    this.leaveRoom = this.leaveRoom.bind(this);
+    this.promote = this.promote.bind(this);
+    this.getKicked = this.getKicked.bind(this);
+    this.kick = this.kick.bind(this);
+  }
+
+  async promote(roomId, username) {
+    await this.state.connection.invoke("Promote", roomId, username);
+  }
+
+  async leaveRoom() {
+    await this.state.connection.invoke("LeaveRoom", parseInt(this.state.data.Id), this.state.user);
+    this.props.leaveRoom();
   }
 
   hostGuard(func, ...params) {
@@ -35,6 +44,15 @@ class Room extends Component {
     }
   }
 
+  async kick(roomId, username) {
+    await this.state.connection.invoke("Kick", roomId, username);
+  }
+
+  getKicked() {
+    alert("You have been kicked from the room.")
+    this.props.leaveRoom();
+  }
+
   upsertData(data) {
     this.setState({ data: JSON.parse(data) });
     this.setState({ connected: true });
@@ -44,11 +62,11 @@ class Room extends Component {
     this.setState({ connection: this.props.connection }, async () => {
       // define websocket reactions on frontend
       this.state.connection.on("SetState", this.upsertData);
+      this.state.connection.on("GetKicked", this.getKicked);
 
       // start websocket connection
       await this.state.connection.start();
       console.log("connected");
-      console.log("AddUser", parseInt(this.state.data.Id), this.state.user, "abcd");
       this.state.connection.invoke("AddUser", parseInt(this.state.data.Id), this.state.user, "abcd");
     });
   }
@@ -220,7 +238,7 @@ class Room extends Component {
             : <Row>
               <Col lg={10}>
                 <div className="text-left">
-                  <Button className="purple-btn" onClick={this.props.leaveRoom}>Leave Room</Button>
+                  <Button className="purple-btn" onClick={this.leaveRoom}>Leave Room</Button>
                   <h1>
                     Room
                     <span style={{ color: "#6C2EB9" }}> #</span>
@@ -238,11 +256,35 @@ class Room extends Component {
                   <tbody>
                     {
                       Object.values(this.state.data.Users).map((user) => (
-                        <tr key={user}>
-                          <td class="table-column">
-                            <a className="w-100 d-block font-weight-bold" style={{ color: "#6C2EB9" }} href={`https://open.spotify.com/user/${user.Username}`} rel="noopener noreferrer" target="_blank">
-                              {user.Username}
-                            </a>
+                        <tr key={user.Username}>
+                          <td key={user.Username} className="table-column d-flex">
+                            {
+                              this.state.data.Host === this.state.user && user.Username !== this.state.data.Host
+                                ? <>
+                                  {
+                                    user.Username === this.state.user
+                                      ? <a key={user.Username} className="w-100 d-block font-weight-bold users-item" style={{ color: "white" }} href={`https://open.spotify.com/user/${user.Username}`} rel="noopener noreferrer" target="_blank">
+                                        {user.Username === this.state.data.Host ? <>{user.Username} <span className="font-italic"> - Host</span></> : user.Username}
+                                      </a>
+                                      : <a key={user.Username} className="w-100 d-block font-weight-bold users-item" style={{ color: "#6C2EB9" }} href={`https://open.spotify.com/user/${user.Username}`} rel="noopener noreferrer" target="_blank">
+                                        {user.Username === this.state.data.Host ? <>{user.Username} <span className="font-italic"> - Host</span></> : user.Username}
+                                      </a>
+                                  }
+                                  <Button className="purple-btn btn-sm float-right m-1" onClick={() => this.promote(this.state.data.Id, user.Username)}>Promote</Button>
+                                  <Button className="purple-btn btn-sm float-right m-1" onClick={() => this.kick(this.state.data.Id, user.Username)}>Kick</Button>
+                                </>
+                                : <>
+                                  {
+                                    user.Username === this.state.user
+                                      ? <a key={user.Username} className="w-100 d-block font-weight-bold" style={{ color: "white" }} href={`https://open.spotify.com/user/${user.Username}`} rel="noopener noreferrer" target="_blank">
+                                        {user.Username === this.state.data.Host ? <>{user.Username} <span className="font-italic"> - Host</span></> : user.Username}
+                                      </a>
+                                      : <a key={user.Username} className="w-100 d-block font-weight-bold" style={{ color: "#6C2EB9" }} href={`https://open.spotify.com/user/${user.Username}`} rel="noopener noreferrer" target="_blank">
+                                        {user.Username === this.state.data.Host ? <>{user.Username} <span className="font-italic"> - Host</span></> : user.Username}
+                                      </a>
+                                  }
+                                </>
+                            }
                           </td>
                         </tr>
                       ))
