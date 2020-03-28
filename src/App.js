@@ -254,6 +254,7 @@ class App extends Component {
         username={this.state.username}
         leaveRoom={this.leaveRoom}/>
     }
+    <Auth />
     </>;
   }
 }
