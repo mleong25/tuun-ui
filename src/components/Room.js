@@ -242,6 +242,9 @@ class Room extends Component {
                                 <Button className='purple-btn' onClick={this.leaveRoom}>
                                     Leave Room
                                 </Button>
+                                <Button className='purple-btn' onClick={() => {}}>
+                                    Save Playlist
+                                </Button>
                                 <h1>
                                     Room
                                     <span style={{ color: '#6C2EB9' }}> #</span>

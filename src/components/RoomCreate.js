@@ -8,7 +8,7 @@ class RoomCreate extends Component {
         super();
 
         this.state = {
-            username: '',
+            username: props.username,
             genres: [],
             loading: false,
             responded: false,
@@ -110,7 +110,7 @@ class RoomCreate extends Component {
                     <h1 className='mb-5'>Create a Room</h1>
                     <Form>
                         <Form.Label className='col-form-label-sm'>Spotify User</Form.Label>
-                        <Form.Control as='input' placeholder='Username' value={this.state.username} onChange={this.handleUserChange} />
+                        <Form.Control as='input' disabled={true} placeholder='Username' value={this.state.username} onChange={this.handleUserChange} />
                         <Form.Label className='col-form-label-sm'>Genres</Form.Label>
                         {genres.map(genre => (
                             <Form.Check label={genre} key={genre} onClick={this.handleGenreClick}></Form.Check>
