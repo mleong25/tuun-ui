@@ -28,7 +28,8 @@ class PlayerController extends React.Component {
             interval: null,
             songIDs: props.songIDs,
             token: props.token,
-            device_id: ''
+            songIndex: 0,
+            songIndexMax: props.songIDs.length - 1
         };
 
         window.onSpotifyWebPlaybackSDKReady = () => {
@@ -156,8 +157,9 @@ class PlayerController extends React.Component {
         this.setState({ songCurrentMS: seekPos });
     }
 
-    Play() {
+    Play(plusMinusIndex) {
         this.PlayPause.current.setState({ isPlaying: true });
+        this.setState({ songIndex: this.state.songIndex + plusMinusIndex });
     }
 
     render() {
@@ -165,13 +167,13 @@ class PlayerController extends React.Component {
             <div>
                 <div className='btn-group' role='group' aria-label='Basic example'>
                     <div type='button' className='btn btn-secondary'>
-                        <Previous togglePlay={this.Play} />
+                        <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
                     </div>
                     <div type='button' className='btn btn-secondary'>
                         <PlayPause ref={this.PlayPause} />
                     </div>
                     <div type='button' className='btn btn-secondary'>
-                        <Next togglePlay={this.Play} />
+                        <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
                     </div>
                 </div>
                 <div>
@@ -262,25 +264,45 @@ class Previous extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            togglePlay: props.togglePlay
+            togglePlay: props.togglePlay,
+            currentIndex: props.currentIndex,
+            maxIndex: props.maxIndex
         };
         this.previous = this.previous.bind(this);
     }
 
     previous() {
         spotifyApi.skipToPrevious();
-        this.state.togglePlay();
+        this.state.togglePlay(-1);
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.currentIndex !== prevState.currentIndex) {
+            return nextProps;
+        } else return null;
     }
 
     render() {
-        return (
-            <div>
-                <button className='btn btn-primary' onClick={this.previous}>
-                    {' '}
-                    Back{' '}
-                </button>
-            </div>
-        );
+        console.log('CURRENT INDEX: ' + this.state.currentIndex + ' MAX INDEX: ' + this.state.maxIndex);
+        if (this.state.currentIndex > 0) {
+            return (
+                <div>
+                    <button className='btn btn-primary' onClick={this.previous}>
+                        {' '}
+                        Back{' '}
+                    </button>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <button className='btn btn-primary' disabled={true}>
+                        {' '}
+                        Back{' '}
+                    </button>
+                </div>
+            );
+        }
     }
 }
 
@@ -288,25 +310,45 @@ class Next extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            togglePlay: props.togglePlay
+            togglePlay: props.togglePlay,
+            currentIndex: props.currentIndex,
+            maxIndex: props.maxIndex
         };
         this.next = this.next.bind(this);
     }
 
     next() {
         spotifyApi.skipToNext();
-        this.state.togglePlay();
+        this.state.togglePlay(1);
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.currentIndex !== prevState.currentIndex) {
+            return nextProps;
+        } else return null;
     }
 
     render() {
-        return (
-            <div>
-                <button className='btn btn-primary' onClick={this.next}>
-                    {' '}
-                    Next
-                </button>
-            </div>
-        );
+        console.log('CURRENT INDEX: ' + this.state.currentIndex + ' MAX INDEX: ' + this.state.maxIndex);
+        if (this.state.currentIndex < this.state.maxIndex) {
+            return (
+                <div>
+                    <button className='btn btn-primary' onClick={this.next}>
+                        {' '}
+                        Next
+                    </button>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <button className='btn btn-primary' disabled={true}>
+                        {' '}
+                        Next
+                    </button>
+                </div>
+            );
+        }
     }
 }
 
@@ -472,7 +514,8 @@ class WebPlayer extends React.Component {
         super(props);
         this.state = {
             prevSongs: [],
-            songQueue: songIDs,
+            songIDs: songIDs,
+            // songIDs: props.songIDs,
             token: props.token
         };
         spotifyApi.setAccessToken(this.state.token);
@@ -481,8 +524,8 @@ class WebPlayer extends React.Component {
     render() {
         return (
             <div>
-                <SongQueue songs={songIDs} />
-                <PlayerController songIDs={songIDs} token={this.state.token} />
+                <SongQueue songs={this.state.songIDs} />
+                <PlayerController songIDs={this.state.songIDs} token={this.state.token} />
             </div>
         );
     }
