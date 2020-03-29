@@ -31,25 +31,20 @@ class Auth extends Component {
 
     render() {
         return (
-            <div className='landing-page-container'>
-                <h1 className='App-header'>
-                    Welcome to T<span style={{ color: '#6C2EB9' }}>u</span>un
-                </h1>
-                <Button
-                    variant='primary'
-                    className='App-link white btn-lg'
-                    onClick={() => {
-                        window.location.href = OauthURL;
-                    }}>
-                    <img
-                        src='spotifylogo.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
-                        width='50'
-                        height='50'
-                        alt='tuun logo'
-                    />
-                    Login with Spotify
-                </Button>
-            </div>
+          <Button
+              variant='primary'
+              className='App-link white btn-lg'
+              onClick={() => {
+                  window.location.href = OauthURL;
+              }}>
+              <img
+                  src='spotifylogo.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
+                  width='50'
+                  height='50'
+                  alt='tuun logo'
+              />
+              Login with Spotify
+          </Button>
         );
     }
 }
