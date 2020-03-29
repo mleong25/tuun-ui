@@ -102,7 +102,6 @@ class PlayerController extends React.Component {
     }
 
     Update() {
-        //console.log('UPDATING WEBPLAYER VISUAL');
         spotifyApi.getMyCurrentPlayingTrack().then(data => {
             let songID = data['item']['id'];
             let songTitle = data['item']['name'];
@@ -114,7 +113,6 @@ class PlayerController extends React.Component {
             let songImageURL = data['item']['album']['images'][0]['url'];
             let songLengthMS = data['item']['duration_ms'];
             let songCurrentMS = data['progress_ms'];
-            //console.log('ACTUAL: ' + songCurrentMS);
             this.setState({
                 songID: songID,
                 songTitle: songTitle,
@@ -123,7 +121,6 @@ class PlayerController extends React.Component {
                 songLengthMS: songLengthMS,
                 songCurrentMS: songCurrentMS
             });
-            //console.log('STATE: ' + this.state.songCurrentMS);
         });
     }
 
@@ -283,7 +280,6 @@ class Previous extends React.Component {
     }
 
     render() {
-        console.log('CURRENT INDEX: ' + this.state.currentIndex + ' MAX INDEX: ' + this.state.maxIndex);
         if (this.state.currentIndex > 0) {
             return (
                 <div>
@@ -329,7 +325,6 @@ class Next extends React.Component {
     }
 
     render() {
-        console.log('CURRENT INDEX: ' + this.state.currentIndex + ' MAX INDEX: ' + this.state.maxIndex);
         if (this.state.currentIndex < this.state.maxIndex) {
             return (
                 <div>
