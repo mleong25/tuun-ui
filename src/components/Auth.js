@@ -19,8 +19,10 @@ class Auth extends Component {
         const params = new URLSearchParams(window.location.hash.replace('#', ''));
 
         const token = params.get('access_token');
+        console.log(params.toString())
 
         if (token) {
+            console.log("hi", params.toString())
             window.localStorage.setItem('token', token);
 
             window.location.pathname = '/';

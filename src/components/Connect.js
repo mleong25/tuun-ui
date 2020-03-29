@@ -90,7 +90,8 @@ class Connect extends Component {
                 data={this.props.roomData}
                 connection={this.props.connection}
                 toggleJoined={this.props.toggleJoined}
-                leaveRoom={this.props.leaveRoom}>
+                leaveRoom={this.props.leaveRoom}
+                token={this.props.token}>
               </Room>
             : null
         } 

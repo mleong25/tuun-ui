@@ -77,6 +77,7 @@ class Room extends Component {
 
   render() {
     console.log(this.state.data)
+    console.log(this.props.token)
     // // Toggle chevrons for accordian
     // // function toggleChevron(e) {
     //   $(e.target)
@@ -245,7 +246,7 @@ class Room extends Component {
                     <span className="bold">{this.state.data.Id}</span>
                   </h1>
                 </div>
-                <WebPlayer token="abcd"></WebPlayer>
+                <WebPlayer token={this.props.token}></WebPlayer>
               </Col>
               <Col>
                 <h3 className="bold">Users</h3>

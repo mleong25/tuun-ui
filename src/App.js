@@ -123,7 +123,8 @@ class IsAccessible extends Component {
                                                              setRoomData={this.props.setRoomData}
                                                              setUsername={this.props.setUsername}
                                                              username={this.props.username}
-                                                             leaveRoom={this.props.leaveRoom} />} 
+                                                             leaveRoom={this.props.leaveRoom}
+                                                             token={token} />} 
                 />
                 <Route path='/playlists' component={Playlists} />
                 <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />

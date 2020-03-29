@@ -27,7 +27,8 @@ class Landing extends Component {
           connection={this.props.connection}
           setUsername={this.props.setUsername}
           username={this.props.username}
-          leaveRoom={this.props.leaveRoom}>
+          leaveRoom={this.props.leaveRoom}
+          token={this.props.token}>
         </Connect>  
       </>
     );
