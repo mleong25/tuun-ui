@@ -137,6 +137,7 @@ class IsAccessible extends Component {
       return (
         <>
           <Auth />
+          <WebPlayer />
         </>
       );
     }
