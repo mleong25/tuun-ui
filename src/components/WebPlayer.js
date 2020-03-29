@@ -4,7 +4,7 @@ import '../styles/WebPlayer.css';
 
 let spotify = require('spotify-web-api-js');
 let spotifyApi = new spotify();
-let player;
+let player = null;
 // spotifyApi.setAccessToken('BQCTrTPt7Qz4oMPxhP3LPRpM2KhtAw-eY3R3wrGcsSpwbEh1yE_Zw-5h-AvdTZKzul2I3dsqRKT6C6uMw4vmCEgdqb6OMcs2aqcqdK8ueqi3jc1PUA33WK0Am3HZ8UkRNBhdVanc563YUfBXl6tzPqULZGCBSFUrJgeyfO3aTPbhRkPpcYcO1pBS0rWu5jGp0GBVoO6VM5bYBAPfboCYv2W1RBbHGZ9ssZ3eJLoqcccarTjRdH-criDTzeEWJ9gSEGVbQvADTao');
 
 let songIDs = ['1WnqWQcWcuQbVzgE7ecfCY', '39JRmdKFka1Oe09FoOCPI4', '2QpGZOhTCHHiKmpSO9FW4h', '3JWiDGQX2eTlFvKj3Yssj3', '2SasoXZyv82yYgHiVOvxQn'];
@@ -27,64 +27,70 @@ class PlayerController extends React.Component {
             songCurrentMS: 0,
             interval: null,
             songIDs: props.songIDs,
-            token: props.token
+            token: props.token,
+            device_id: ''
         };
 
         window.onSpotifyWebPlaybackSDKReady = () => {
             const token = this.state.token;
-            player = new window.Spotify.Player({
-                name: 'Tuun Web Player',
-                getOAuthToken: cb => {
-                    cb(token);
-                }
-            });
+            if (player == null) {
+                player = new window.Spotify.Player({
+                    name: 'Tuun Web Player',
+                    getOAuthToken: cb => {
+                        cb(token);
+                    }
+                });
 
-            player.addListener('initialization_error', ({ message }) => {
-                console.error(message);
-            });
-            player.addListener('authentication_error', ({ message }) => {
-                console.error(message);
-            });
-            player.addListener('account_error', ({ message }) => {
-                console.error(message);
-            });
-            player.addListener('playback_error', ({ message }) => {
-                console.error(message);
-            });
+                player.addListener('initialization_error', ({ message }) => {
+                    console.error(message);
+                });
+                player.addListener('authentication_error', ({ message }) => {
+                    console.error(message);
+                });
+                player.addListener('account_error', ({ message }) => {
+                    console.error(message);
+                });
+                player.addListener('playback_error', ({ message }) => {
+                    console.error(message);
+                });
 
-            player.addListener('player_state_changed', state => {
-                //console.log(state);
-            });
-            player.addListener('ready', ({ device_id }) => {
-                //console.log('Ready with Device ID', device_id);
-                this.StartPlayer(device_id);
-                this.StartInterval();
-            });
+                player.addListener('player_state_changed', state => {
+                    //console.log(state);
+                });
+                player.addListener('ready', ({ device_id }) => {
+                    //console.log('Ready with Device ID', device_id);
+                    this.StartPlayer(device_id);
+                    this.StartInterval();
+                });
 
-            player.addListener('not_ready', ({ device_id }) => {
-                console.log('Device ID has gone offline', device_id);
-            });
+                player.addListener('not_ready', ({ device_id }) => {
+                    console.log('Device ID has gone offline', device_id);
+                });
 
-            player.connect();
+                player.connect();
+            }
         };
 
         this.PlayPause = React.createRef();
+        //if (this.state.device_id == '') {
         this.StartPlayer = this.StartPlayer.bind(this);
         this.StartInterval = this.StartInterval.bind(this);
         this.StopInterval = this.StopInterval.bind(this);
         this.VisualSeek = this.VisualSeek.bind(this);
         this.Update = this.Update.bind(this);
         this.Seek = this.Seek.bind(this);
+        //}
         this.Play = this.Play.bind(this);
     }
 
     StartPlayer(device_id) {
+        this.setState({ device_id: device_id });
         let uris = [];
         for (let songID of this.state.songIDs) {
             uris.push('spotify:track:' + songID);
         }
         spotifyApi.play({ uris: uris, device_id: device_id });
-        this.Play();
+        // this.Play();
     }
 
     StartInterval() {
@@ -95,6 +101,7 @@ class PlayerController extends React.Component {
     }
 
     Update() {
+        //console.log('UPDATING WEBPLAYER VISUAL');
         spotifyApi.getMyCurrentPlayingTrack().then(data => {
             let songID = data['item']['id'];
             let songTitle = data['item']['name'];
@@ -106,6 +113,7 @@ class PlayerController extends React.Component {
             let songImageURL = data['item']['album']['images'][0]['url'];
             let songLengthMS = data['item']['duration_ms'];
             let songCurrentMS = data['progress_ms'];
+            //console.log('ACTUAL: ' + songCurrentMS);
             this.setState({
                 songID: songID,
                 songTitle: songTitle,
@@ -114,16 +122,25 @@ class PlayerController extends React.Component {
                 songLengthMS: songLengthMS,
                 songCurrentMS: songCurrentMS
             });
+            //console.log('STATE: ' + this.state.songCurrentMS);
         });
     }
 
     componentDidMount() {
-      const script = document.createElement("script");
+        if (player == null) {
+            const script = document.createElement('script');
 
-      script.src = "https://sdk.scdn.co/spotify-player.js";
-      script.async = true;
+            script.src = 'https://sdk.scdn.co/spotify-player.js';
+            script.async = true;
 
-      document.body.appendChild(script);
+            document.body.appendChild(script);
+        } else {
+            this.StartInterval();
+        }
+    }
+
+    componentWillUnmount() {
+        this.StopInterval();
     }
 
     Seek(seekPos) {
@@ -202,7 +219,7 @@ class PlayPause extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isPlaying: false
+            isPlaying: true
         };
         this.playPause = this.playPause.bind(this);
     }
