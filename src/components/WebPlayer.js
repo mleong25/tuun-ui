@@ -103,6 +103,7 @@ class PlayerController extends React.Component {
 
     Update() {
         spotifyApi.getMyCurrentPlayingTrack().then(data => {
+          if (data['item']['id']) {
             let songID = data['item']['id'];
             let songTitle = data['item']['name'];
             let songArtist = '';
@@ -121,6 +122,8 @@ class PlayerController extends React.Component {
                 songLengthMS: songLengthMS,
                 songCurrentMS: songCurrentMS
             });
+          }
+              
         });
     }
 
@@ -238,7 +241,7 @@ class PlayPause extends React.Component {
         if (this.state.isPlaying) {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.playPause}>
+                    <button className='btn btn-primary purple-btn' onClick={this.playPause}>
                         {' '}
                         Pause
                     </button>
@@ -247,7 +250,7 @@ class PlayPause extends React.Component {
         } else {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.playPause}>
+                    <button className='btn btn-primary purple-btn' onClick={this.playPause}>
                         {' '}
                         Play
                     </button>
@@ -283,7 +286,7 @@ class Previous extends React.Component {
         if (this.state.currentIndex > 0) {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.previous}>
+                    <button className='btn btn-primary purple-btn' onClick={this.previous}>
                         {' '}
                         Back{' '}
                     </button>
@@ -292,7 +295,7 @@ class Previous extends React.Component {
         } else {
             return (
                 <div>
-                    <button className='btn btn-primary' disabled={true}>
+                    <button className='btn btn-primary purple-btn' disabled={true}>
                         {' '}
                         Back{' '}
                     </button>
@@ -328,7 +331,7 @@ class Next extends React.Component {
         if (this.state.currentIndex < this.state.maxIndex) {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.next}>
+                    <button className='btn btn-primary purple-btn' onClick={this.next}>
                         {' '}
                         Next
                     </button>
@@ -337,7 +340,7 @@ class Next extends React.Component {
         } else {
             return (
                 <div>
-                    <button className='btn btn-primary' disabled={true}>
+                    <button className='btn btn-primary purple-btn' disabled={true}>
                         {' '}
                         Next
                     </button>
@@ -513,7 +516,18 @@ class WebPlayer extends React.Component {
             // songIDs: props.songIDs,
             token: props.token
         };
+        
+
         spotifyApi.setAccessToken(this.state.token);
+    }
+
+    componentDidMount() {
+      // this.props.songIDs: { shared: string[], rest: string[] }
+      // TODO: mix shared tracks evenly with 'rest'
+      let merged = this.props.songIDs.shared.concat(this.props.songIDs.rest);
+      if (merged.length > 0) {
+        this.setState({ songIDs: merged });
+      }
     }
 
     render() {
