@@ -64,6 +64,9 @@ const AuthButton = withRouter(({ history }) =>
 );
 
 class IsAccessible extends Component {
+    state = {
+      user: {}
+    }
     constructor(props) {
         super();
 
@@ -77,6 +80,18 @@ class IsAccessible extends Component {
     render() {
         const token = window.localStorage.getItem('token');
         if (token) {
+            console.log(token)
+            // const response =
+            //   fetch("https://api.spotify.com/v1/me", {
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //       'Authorization': 'Bearer ' + token
+            //     }
+            //   }).then(data => {
+            //     this.setState({user: data})
+            //   })
+            //   .catch(error => console.log(error));
+            console.log(this.user)
             return (
                 <div className='App'>
                     <div className='App-foreground'>
