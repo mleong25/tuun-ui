@@ -103,7 +103,7 @@ class RoomCreate extends Component {
     }
 
     render() {
-        const genres = ['Rock', 'Hip-hop', 'Indie', 'Ambient', 'Electronic'];
+        const genres = ['Rock', 'Hip-hop', 'Indie', 'Ambient', 'Electronic', 'indie pop'];
         return (
             <div className='col-sm-4 offset-sm-4'>
                 <div className='d-flex flex-column text-left'>

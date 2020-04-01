@@ -13,7 +13,8 @@ class Room extends Component {
             user: props.user,
             connection: undefined,
             connected: false,
-            generating: false
+            generating: false,
+            startPlayer: false
         };
 
         this.hostGuard = this.hostGuard.bind(this);
@@ -25,6 +26,16 @@ class Room extends Component {
         this.getKicked = this.getKicked.bind(this);
         this.kick = this.kick.bind(this);
         this.generatePlaylist = this.generatePlaylist.bind(this);
+        this.startedPlayer = this.startedPlayer.bind(this);
+        this.startPlayer = this.startPlayer.bind(this);
+    }
+
+    startedPlayer() {
+        this.setState({ startPlayer: false });
+    }
+
+    startPlayer() {
+        this.setState({ startPlayer: true });
     }
 
     async promote(roomId, username) {
@@ -54,14 +65,15 @@ class Room extends Component {
     }
 
     upsertData(data) {
+        console.log(data);
         this.setState({ data: JSON.parse(data) });
         this.setState({ connected: true });
     }
 
     async generatePlaylist() {
-      this.setState({ generating: true });
-      await this.state.connection.invoke("Generate", parseInt(this.state.data.Id));
-      this.setState({ generating: false });
+        this.setState({ generating: true });
+        await this.state.connection.invoke('Generate', parseInt(this.state.data.Id));
+        this.setState({ generating: false });
     }
 
     componentDidMount() {
@@ -69,6 +81,7 @@ class Room extends Component {
             // define websocket reactions on frontend
             this.state.connection.on('SetState', this.upsertData);
             this.state.connection.on('GetKicked', this.getKicked);
+            this.state.connection.on('StartPlayer', this.startPlayer);
 
             // start websocket connection
             await this.state.connection.start();
@@ -250,27 +263,23 @@ class Room extends Component {
                                 <Button className='purple-btn m-2' onClick={this.leaveRoom}>
                                     Leave Room
                                 </Button>
-                                { 
-                                  this.state.user === this.state.data.Host && !this.state.generating
-                                    ? <Button className='purple-btn m-2' onClick={this.generatePlaylist}>
+                                {this.state.user === this.state.data.Host && !this.state.generating ? (
+                                    <Button className='purple-btn m-2' onClick={this.generatePlaylist}>
                                         Generate Playlist
-                                      </Button>
-                                    : null
-                                }
-                                {
-                                  this.state.user === this.state.data.Host && this.state.generating
-                                    ? <Button className='purple-btn m-2' disabled>
+                                    </Button>
+                                ) : null}
+                                {this.state.user === this.state.data.Host && this.state.generating ? (
+                                    <Button className='purple-btn m-2' disabled>
                                         Generating...
-                                      </Button>
-                                    : null
-                                }
+                                    </Button>
+                                ) : null}
                                 <h1>
                                     Room
                                     <span style={{ color: '#6C2EB9' }}> #</span>
                                     <span className='bold'>{this.state.data.Id}</span>
                                 </h1>
                             </div>
-                            <WebPlayer songIDs={this.state.data.Playlist} token={this.props.token}></WebPlayer>
+                            <WebPlayer StartNewPlayer={this.state.startPlayer} startedPlayer={this.startedPlayer} songIDs={this.state.data.Playlist} token={this.props.token}></WebPlayer>
                         </Col>
                         <Col>
                             <h3 className='bold'>Users</h3>

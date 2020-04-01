@@ -114,7 +114,7 @@ class IsAccessible extends Component {
                             <Switch>
                                 <Route exact path='/' render={() => <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={token} />} />
                                 <Route path='/playlists' component={Playlists} />
-                                <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
+                                {/*<Route path='/webPlayer' component={() => <WebPlayer token={token} />} />*/}
                             </Switch>
                         </Router>
                     </div>
