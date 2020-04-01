@@ -12,7 +12,9 @@ class Room extends Component {
             data: JSON.parse(props.data),
             user: props.user,
             connection: undefined,
-            connected: false
+            connected: false,
+            generating: false,
+            startPlayer: false
         };
 
         this.hostGuard = this.hostGuard.bind(this);
@@ -23,6 +25,17 @@ class Room extends Component {
         this.promote = this.promote.bind(this);
         this.getKicked = this.getKicked.bind(this);
         this.kick = this.kick.bind(this);
+        this.generatePlaylist = this.generatePlaylist.bind(this);
+        this.startedPlayer = this.startedPlayer.bind(this);
+        this.startPlayer = this.startPlayer.bind(this);
+    }
+
+    startedPlayer() {
+        this.setState({ startPlayer: false });
+    }
+
+    startPlayer() {
+        this.setState({ startPlayer: true });
     }
 
     async promote(roomId, username) {
@@ -52,8 +65,15 @@ class Room extends Component {
     }
 
     upsertData(data) {
+        console.log(data);
         this.setState({ data: JSON.parse(data) });
         this.setState({ connected: true });
+    }
+
+    async generatePlaylist() {
+        this.setState({ generating: true });
+        await this.state.connection.invoke('Generate', parseInt(this.state.data.Id));
+        this.setState({ generating: false });
     }
 
     componentDidMount() {
@@ -61,11 +81,12 @@ class Room extends Component {
             // define websocket reactions on frontend
             this.state.connection.on('SetState', this.upsertData);
             this.state.connection.on('GetKicked', this.getKicked);
+            this.state.connection.on('StartPlayer', this.startPlayer);
 
             // start websocket connection
             await this.state.connection.start();
             console.log('connected');
-            this.state.connection.invoke('AddUser', parseInt(this.state.data.Id), this.state.user, 'abcd');
+            this.state.connection.invoke('AddUser', parseInt(this.state.data.Id), this.state.user, this.props.token);
         });
     }
 
@@ -74,7 +95,7 @@ class Room extends Component {
     }
 
     render() {
-        //console.log(this.state.data);
+        console.log(this.state.data);
         //console.log(this.props.token);
         // // Toggle chevrons for accordian
         // // function toggleChevron(e) {
@@ -239,19 +260,29 @@ class Room extends Component {
                     <Row>
                         <Col lg={10}>
                             <div className='text-left'>
-                                <Button className='purple-btn' onClick={this.leaveRoom}>
+                                <Button className='purple-btn m-2' onClick={this.leaveRoom}>
                                     Leave Room
                                 </Button>
                                 <Button className='purple-btn' onClick={() => {}}>
                                     Save Playlist
                                 </Button>
+                                {this.state.user === this.state.data.Host && !this.state.generating ? (
+                                    <Button className='purple-btn m-2' onClick={this.generatePlaylist}>
+                                        Generate Playlist
+                                    </Button>
+                                ) : null}
+                                {this.state.user === this.state.data.Host && this.state.generating ? (
+                                    <Button className='purple-btn m-2' disabled>
+                                        Generating...
+                                    </Button>
+                                ) : null}
                                 <h1>
                                     Room
                                     <span style={{ color: '#6C2EB9' }}> #</span>
                                     <span className='bold'>{this.state.data.Id}</span>
                                 </h1>
                             </div>
-                            <WebPlayer token={this.props.token}></WebPlayer>
+                            <WebPlayer StartNewPlayer={this.state.startPlayer} startedPlayer={this.startedPlayer} songIDs={this.state.data.Playlist} token={this.props.token}></WebPlayer>
                         </Col>
                         <Col>
                             <h3 className='bold'>Users</h3>

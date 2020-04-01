@@ -7,7 +7,7 @@ let spotifyApi = new spotify();
 let player = null;
 // spotifyApi.setAccessToken('BQCTrTPt7Qz4oMPxhP3LPRpM2KhtAw-eY3R3wrGcsSpwbEh1yE_Zw-5h-AvdTZKzul2I3dsqRKT6C6uMw4vmCEgdqb6OMcs2aqcqdK8ueqi3jc1PUA33WK0Am3HZ8UkRNBhdVanc563YUfBXl6tzPqULZGCBSFUrJgeyfO3aTPbhRkPpcYcO1pBS0rWu5jGp0GBVoO6VM5bYBAPfboCYv2W1RBbHGZ9ssZ3eJLoqcccarTjRdH-criDTzeEWJ9gSEGVbQvADTao');
 
-let songIDs = ['1WnqWQcWcuQbVzgE7ecfCY', '39JRmdKFka1Oe09FoOCPI4', '2QpGZOhTCHHiKmpSO9FW4h', '3JWiDGQX2eTlFvKj3Yssj3', '2SasoXZyv82yYgHiVOvxQn'];
+//let songIDs = ['1WnqWQcWcuQbVzgE7ecfCY', '39JRmdKFka1Oe09FoOCPI4', '2QpGZOhTCHHiKmpSO9FW4h', '3JWiDGQX2eTlFvKj3Yssj3', '2SasoXZyv82yYgHiVOvxQn'];
 
 function convertMsToMMSS(ms) {
     let minutes = Math.floor(ms / 60000);
@@ -59,9 +59,10 @@ class PlayerController extends React.Component {
                     //console.log(state);
                 });
                 player.addListener('ready', ({ device_id }) => {
-                    //console.log('Ready with Device ID', device_id);
-                    this.StartPlayer(device_id);
-                    this.StartInterval();
+                    console.log('Ready with Device ID', device_id);
+                    // this.StartPlayer(device_id);
+                    // this.StartInterval();
+                    this.setState({ device_id: device_id });
                 });
 
                 player.addListener('not_ready', ({ device_id }) => {
@@ -84,14 +85,32 @@ class PlayerController extends React.Component {
         this.Play = this.Play.bind(this);
     }
 
-    StartPlayer(device_id) {
-        this.setState({ device_id: device_id });
+    StartPlayer() {
+        //this.setState({ device_id: device_id });
         let uris = [];
         for (let songID of this.state.songIDs) {
             uris.push('spotify:track:' + songID);
         }
-        spotifyApi.play({ uris: uris, device_id: device_id });
+        spotifyApi.play({ uris: uris, device_id: this.state.device_id });
+        this.Play();
+        this.StartInterval();
         // this.Play();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.songIDs.length > 0) {
+            if (nextProps.songIDs[0] != this.state.songIDs[0]) {
+                this.setState({ songIDs: nextProps.songIDs, songIndexMax: nextProps.songIDs.length - 1 });
+            }
+        }
+    }
+
+    componentDidUpdate(nextProps, prevProps) {
+        console.log(this.props.StartNewPlayer);
+        if (this.props.StartNewPlayer) {
+            this.StartPlayer();
+            this.props.startedPlayer();
+        }
     }
 
     StartInterval() {
@@ -103,24 +122,29 @@ class PlayerController extends React.Component {
 
     Update() {
         spotifyApi.getMyCurrentPlayingTrack().then(data => {
-            let songID = data['item']['id'];
-            let songTitle = data['item']['name'];
-            let songArtist = '';
-            for (let i = 0; i < data['item']['artists'].length; i++) {
-                songArtist += data['item']['artists'][i]['name'] + ', ';
+            console.log(data);
+            if (data) {
+                let songID = data['item']['id'];
+                let songTitle = data['item']['name'];
+                let songArtist = '';
+                for (let i = 0; i < data['item']['artists'].length; i++) {
+                    songArtist += data['item']['artists'][i]['name'] + ', ';
+                }
+                songArtist = songArtist.slice(0, songArtist.length - 2);
+                let songImageURL = data['item']['album']['images'][0]['url'];
+                let songLengthMS = data['item']['duration_ms'];
+                let songCurrentMS = data['progress_ms'];
+                this.setState({
+                    songID: songID,
+                    songTitle: songTitle,
+                    songArtist: songArtist,
+                    songImageURL: songImageURL,
+                    songLengthMS: songLengthMS,
+                    songCurrentMS: songCurrentMS,
+                    songIndexMax: this.state.songIDs.length - 1,
+                    playing: data['is_playing']
+                });
             }
-            songArtist = songArtist.slice(0, songArtist.length - 2);
-            let songImageURL = data['item']['album']['images'][0]['url'];
-            let songLengthMS = data['item']['duration_ms'];
-            let songCurrentMS = data['progress_ms'];
-            this.setState({
-                songID: songID,
-                songTitle: songTitle,
-                songArtist: songArtist,
-                songImageURL: songImageURL,
-                songLengthMS: songLengthMS,
-                songCurrentMS: songCurrentMS
-            });
         });
     }
 
@@ -167,7 +191,7 @@ class PlayerController extends React.Component {
                         <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
                     </div>
                     <div type='button' className='btn btn-secondary'>
-                        <PlayPause ref={this.PlayPause} />
+                        <PlayPause ref={this.PlayPause} isPlaying={this.state.playing} />
                     </div>
                     <div type='button' className='btn btn-secondary'>
                         <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
@@ -218,7 +242,7 @@ class PlayPause extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isPlaying: true
+            isPlaying: false
         };
         this.playPause = this.playPause.bind(this);
     }
@@ -238,7 +262,7 @@ class PlayPause extends React.Component {
         if (this.state.isPlaying) {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.playPause}>
+                    <button className='btn btn-primary purple-btn' onClick={this.playPause}>
                         {' '}
                         Pause
                     </button>
@@ -247,7 +271,7 @@ class PlayPause extends React.Component {
         } else {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.playPause}>
+                    <button className='btn btn-primary purple-btn' onClick={this.playPause}>
                         {' '}
                         Play
                     </button>
@@ -268,13 +292,19 @@ class Previous extends React.Component {
         this.previous = this.previous.bind(this);
     }
 
+    componentDidUpdate(next, prev) {
+        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
+            this.setState(next);
+        }
+    }
+
     previous() {
         spotifyApi.skipToPrevious();
         this.state.togglePlay(-1);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.currentIndex !== prevState.currentIndex) {
+        if (nextProps.currentIndex !== prevState.currentIndex || nextProps.maxIndex != prevState.maxIndex) {
             return nextProps;
         } else return null;
     }
@@ -283,7 +313,7 @@ class Previous extends React.Component {
         if (this.state.currentIndex > 0) {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.previous}>
+                    <button className='btn btn-primary purple-btn' onClick={this.previous}>
                         {' '}
                         Back{' '}
                     </button>
@@ -292,7 +322,7 @@ class Previous extends React.Component {
         } else {
             return (
                 <div>
-                    <button className='btn btn-primary' disabled={true}>
+                    <button className='btn btn-primary purple-btn' disabled={true}>
                         {' '}
                         Back{' '}
                     </button>
@@ -313,6 +343,12 @@ class Next extends React.Component {
         this.next = this.next.bind(this);
     }
 
+    componentDidUpdate(next, prev) {
+        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
+            this.setState(next);
+        }
+    }
+
     next() {
         spotifyApi.skipToNext();
         this.state.togglePlay(1);
@@ -328,7 +364,7 @@ class Next extends React.Component {
         if (this.state.currentIndex < this.state.maxIndex) {
             return (
                 <div>
-                    <button className='btn btn-primary' onClick={this.next}>
+                    <button className='btn btn-primary purple-btn' onClick={this.next}>
                         {' '}
                         Next
                     </button>
@@ -337,7 +373,7 @@ class Next extends React.Component {
         } else {
             return (
                 <div>
-                    <button className='btn btn-primary' disabled={true}>
+                    <button className='btn btn-primary purple-btn' disabled={true}>
                         {' '}
                         Next
                     </button>
@@ -438,9 +474,23 @@ class SongQueue extends React.Component {
         };
     }
 
+    componentWillReceiveProps(props) {
+        console.log('PROPS: ', props);
+        this.setState({ songs: props.songs });
+    }
+
+    componentDidUpdate(nextProps, prevProps) {
+        console.log(nextProps, prevProps);
+        if (nextProps.songs.length > 0) {
+            if (nextProps.songs[0] != prevProps.songs[0]) {
+                this.setState({ songs: nextProps.songs });
+            }
+        }
+    }
+
     render() {
         let Songs = [];
-        for (let i = 0; i < songIDs.length; i++) {
+        for (let i = 0; i < this.state.songs.length; i++) {
             Songs.push(<Song id={this.state.songs[i]} key={i} />);
         }
         return (
@@ -472,6 +522,13 @@ class Song extends React.Component {
             length: 0
         };
         this.GetTrackInfo();
+    }
+
+    componentDidUpdate(nextProps, prevProps) {
+        if (nextProps.id != prevProps.id) {
+            this.setState(nextProps);
+            this.GetTrackInfo();
+        }
     }
 
     GetTrackInfo() {
@@ -507,20 +564,39 @@ class Song extends React.Component {
 class WebPlayer extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props.songIDs);
+        console.log(props.songIDs.shared);
+        console.log(props.songIDs.rest);
+        let merged = props.songIDs.shared.concat(props.songIDs.rest);
+        //this.props.StartNewPlayer = false
         this.state = {
             prevSongs: [],
-            songIDs: songIDs,
-            // songIDs: props.songIDs,
+            songIDs: [],
             token: props.token
         };
+
+        console.log('MERGED: ' + merged);
+
         spotifyApi.setAccessToken(this.state.token);
+    }
+
+    componentDidUpdate(nextProps, prevState) {
+        let prevMerged = this.state.songIDs;
+        console.log(nextProps);
+        let nextMerged = nextProps.songIDs.shared.concat(nextProps.songIDs.rest);
+        if (nextMerged.length > 0) {
+            if (nextMerged[0] != prevMerged[0]) {
+                console.log('UPDATING WEBPLAYER COMPONENT');
+                this.setState({ songIDs: nextMerged, StartNewPlayer: nextProps.StartNewPlayer });
+            }
+        }
     }
 
     render() {
         return (
             <div>
                 <SongQueue songs={this.state.songIDs} />
-                <PlayerController songIDs={this.state.songIDs} token={this.state.token} />
+                <PlayerController songIDs={this.state.songIDs} token={this.state.token} startedPlayer={this.props.startedPlayer} StartNewPlayer={this.props.StartNewPlayer} />
             </div>
         );
     }
