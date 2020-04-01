@@ -29,6 +29,7 @@ class Room extends Component {
         this.generatePlaylist = this.generatePlaylist.bind(this);
         this.startedPlayer = this.startedPlayer.bind(this);
         this.startPlayer = this.startPlayer.bind(this);
+        this.savePlaylist = this.savePlaylist.bind(this);
     }
 
     startedPlayer() {
@@ -75,6 +76,10 @@ class Room extends Component {
         this.setState({ generating: true });
         await this.state.connection.invoke('Generate', parseInt(this.state.data.Id));
         this.setState({ generating: false });
+    }
+
+    async savePlaylist() {
+        await this.state.connection.invoke('SavePlaylist', parseInt(this.state.data.Id));
     }
 
     componentDidMount() {
@@ -264,9 +269,11 @@ class Room extends Component {
                                 <Button className='purple-btn m-2' onClick={this.leaveRoom}>
                                     Leave Room
                                 </Button>
-                                <Button className='purple-btn' onClick={() => {}}>
-                                    Save Playlist
-                                </Button>
+                                {this.state.data.Playlist.shared.length + this.state.data.Playlist.rest.length > 0 ? (
+                                    <Button className='purple-btn m-2' onClick={this.savePlaylist}>
+                                        Save Playlist
+                                    </Button>
+                                ) : null}
                                 <Link to='/Playlists'>
                                     <Button renderAs='button' className='purple-btn'>
                                         Load Playlist
