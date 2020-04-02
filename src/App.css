@@ -104,6 +104,8 @@
 
 .NavTab {
   color: #fff !important;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .dropdown-divider {
