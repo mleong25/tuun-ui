@@ -104,7 +104,7 @@ class IsAccessible extends Component {
                                             <NavDropdown.Divider />
                                             <Nav.Item>
                                                 <Link className='NavTab' to='/webPlayer'>
-                                                    WebPlayer
+                                                    Web Player
                                                 </Link>
                                             </Nav.Item>
                                         </Nav>

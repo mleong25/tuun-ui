@@ -3,6 +3,7 @@ import '../App.css';
 import '../styles/Room.css';
 import { Col, Row, Container, Button } from 'react-bootstrap';
 import WebPlayer from './WebPlayer';
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter, Switch } from 'react-router-dom';
 
 class Room extends Component {
     constructor(props) {
@@ -266,6 +267,11 @@ class Room extends Component {
                                 <Button className='purple-btn' onClick={() => {}}>
                                     Save Playlist
                                 </Button>
+                                <Link to='/Playlists'>
+                                    <Button renderAs='button' className='purple-btn'>
+                                        Load Playlist
+                                    </Button>
+                                </Link>
                                 {this.state.user === this.state.data.Host && !this.state.generating ? (
                                     <Button className='purple-btn m-2' onClick={this.generatePlaylist}>
                                         Generate Playlist
