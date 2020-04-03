@@ -541,7 +541,7 @@ class Song extends React.Component {
             this.setState({
                 name: data['name'],
                 artists: artists,
-                imageURL: data['album']['images'][0]['url'],
+                imageURL: data.album.images.length > 0 ? data['album']['images'][0]['url'] : "logo.clearbit.com/spotify.com",
                 length: data['duration_ms']
             });
         });
