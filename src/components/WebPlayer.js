@@ -106,7 +106,7 @@ class PlayerController extends React.Component {
     }
 
     componentDidUpdate(nextProps, prevProps) {
-        console.log(this.props.StartNewPlayer);
+        // console.log(this.props.StartNewPlayer);
         if (this.props.StartNewPlayer) {
             this.StartPlayer();
             this.props.startedPlayer();
@@ -122,7 +122,7 @@ class PlayerController extends React.Component {
 
     Update() {
         spotifyApi.getMyCurrentPlayingTrack().then(data => {
-            console.log(data);
+            // console.log(data);
             if (data) {
                 let songID = data['item']['id'];
                 let songTitle = data['item']['name'];

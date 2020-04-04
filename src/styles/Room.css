@@ -20,6 +20,10 @@ body {
   margin-bottom: 20px;
 }
 
+.save-modal {
+  background-color: rgb(40, 44, 52);
+}
+
 .users-item {
   position: relative;
   top: 11px;

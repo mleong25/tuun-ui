@@ -1,72 +1,81 @@
 import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Playlists.css';
-import '../styles/Room.css';
 import { domain } from '../Environment';
+import { Container, Row } from 'react-bootstrap'
 
 let spotify = require('spotify-web-api-js');
 let spotifyApi = new spotify();
 
 class Playlist extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { playlist: [] };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { playlist: [] };
+  }
 
-    componentDidMount() {
-        this.setState({ playlist: this.props.playlist });
-    }
+  componentDidMount() {
+    this.setState({ playlist: this.props.playlist });
+  }
 
-    render() {
-        return <div>{this.state.playlist.toString()}</div>;
-    }
+  renderList(idList) {
+    let count = 0;
+    return (
+      idList.map(id => <p className="font-smaller">{++count + '. ' + id.toString()}</p>)
+    );
+  }
+
+  render() {
+    return (
+      <div className="playlist-container col-sm rounded">
+        {this.renderList(this.state.playlist)}
+      </div>
+    );
+  }
 }
 
 class Playlists extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { playlists: [] };
-    }
+  constructor(props) {
+    super(props);
+    this.state = { playlists: [] };
+  }
 
-    componentDidMount() {
-        let token = window.localStorage.getItem('token');
-        spotifyApi.setAccessToken(token);
-        spotifyApi.getMe().then(data => {
-            fetch(domain + 'db/playlists/' + data.id)
-                .then(res => res.text())
-                .then(text => {
-                    console.log(typeof text);
-                    console.log(text);
-                    console.log(Object.keys(JSON.parse(text)[0].playlist));
-                    let jsonList = JSON.parse(text);
-                    let playlists = [];
-                    for (let obj of jsonList) {
-                        let songs = [];
-                        for (let key of Object.keys(obj.playlist)) {
-                            songs.push(obj.playlist[key]);
-                        }
-                        playlists.push(songs);
-                    }
-                    console.log(playlists);
-                    this.setState({ playlists: playlists });
-                });
+  componentDidMount() {
+    let token = window.localStorage.getItem('token');
+    let playlists = [];
+    spotifyApi.setAccessToken(token);
+    spotifyApi.getMe().then(data => {
+      fetch(domain + 'db/playlists/' + data.id)
+        .then(res => res.text())
+        .then(text => {
+          let response = JSON.parse(text);
+          console.log(response);
+          for (let playlistIndex in response) {
+            console.log("responseList", playlistIndex)
+            let playlist = response[playlistIndex].playlist;
+            playlists.push(playlist.shared.concat(playlist.rest));
+          }
+
+          this.setState({ playlists: playlists });
         });
-    }
+    });
+  }
 
-    componentDidUpdate() {}
+  componentDidUpdate() { }
 
-    render() {
-        let i = 0;
-        let listPlaylists = this.state.playlists.map(playlist => <Playlist key={i++} playlist={playlist} />);
-        return (
-            <>
-                <div className='room-container'>
-                    <h1 className='bold'>Your Playlists</h1>
-                    <ul>{listPlaylists}</ul>
-                </div>
-            </>
-        );
-    }
+  render() {
+    let i = 0;
+    let listPlaylists = this.state.playlists.map(playlist => <Playlist key={i++} playlist={playlist} />);
+    return (
+      <>
+        <Container className='playlists-container'>
+          <h1 className='bold mb-5'>Your Playlists</h1>
+          <Row>
+            <ul>{listPlaylists}</ul>
+          </Row>
+        </Container>
+      </>
+    );
+  }
 }
 
 export default Playlists;
