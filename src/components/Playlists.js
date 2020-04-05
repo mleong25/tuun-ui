@@ -10,11 +10,11 @@ let spotifyApi = new spotify();
 class Playlist extends Component {
   constructor(props) {
     super(props);
-    this.state = { playlist: [] };
+    this.state = { playlist: [], name: "" };
   }
 
   componentDidMount() {
-    this.setState({ playlist: this.props.playlist });
+    this.setState({ playlist: this.props.playlist, name: this.props.name });
   }
 
   renderList(idList) {
@@ -27,6 +27,7 @@ class Playlist extends Component {
   render() {
     return (
       <div className="playlist-container col-sm rounded">
+        <h3>{this.state.name}</h3>
         {this.renderList(this.state.playlist)}
       </div>
     );
@@ -52,7 +53,11 @@ class Playlists extends Component {
           for (let playlistIndex in response) {
             console.log("responseList", playlistIndex)
             let playlist = response[playlistIndex].playlist;
-            playlists.push(playlist.shared.concat(playlist.rest));
+            let name = response[playlistIndex].name;
+            playlists.push({
+              playlist: playlist.shared.concat(playlist.rest),
+              name: name
+            });
           }
 
           this.setState({ playlists: playlists });
@@ -64,7 +69,7 @@ class Playlists extends Component {
 
   render() {
     let i = 0;
-    let listPlaylists = this.state.playlists.map(playlist => <Playlist key={i++} playlist={playlist} />);
+    let listPlaylists = this.state.playlists.map(playlist => <Playlist key={i++} name={playlist.name} playlist={playlist.playlist} />);
     return (
       <>
         <Container className='playlists-container'>
