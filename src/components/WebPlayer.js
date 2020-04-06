@@ -99,7 +99,7 @@ class PlayerController extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.songIDs.length > 0) {
-            if (nextProps.songIDs[0] != this.state.songIDs[0]) {
+            if (nextProps.songIDs[0] !== this.state.songIDs[0]) {
                 this.setState({ songIDs: nextProps.songIDs, songIndexMax: nextProps.songIDs.length - 1 });
             }
         }
@@ -293,7 +293,7 @@ class Previous extends React.Component {
     }
 
     componentDidUpdate(next, prev) {
-        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
+        if (next.currentIndex !== prev.currentIndex && next.maxIndex !== prev.maxIndex) {
             this.setState(next);
         }
     }
@@ -304,7 +304,7 @@ class Previous extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.currentIndex !== prevState.currentIndex || nextProps.maxIndex != prevState.maxIndex) {
+        if (nextProps.currentIndex !== prevState.currentIndex || nextProps.maxIndex !== prevState.maxIndex) {
             return nextProps;
         } else return null;
     }
@@ -344,7 +344,7 @@ class Next extends React.Component {
     }
 
     componentDidUpdate(next, prev) {
-        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
+        if (next.currentIndex !== prev.currentIndex && next.maxIndex !== prev.maxIndex) {
             this.setState(next);
         }
     }
@@ -482,7 +482,7 @@ class SongQueue extends React.Component {
     componentDidUpdate(nextProps, prevProps) {
         console.log(nextProps, prevProps);
         if (nextProps.songs.length > 0) {
-            if (nextProps.songs[0] != prevProps.songs[0]) {
+            if (nextProps.songs[0] !== prevProps.songs[0]) {
                 this.setState({ songs: nextProps.songs });
             }
         }
@@ -525,7 +525,7 @@ class Song extends React.Component {
     }
 
     componentDidUpdate(nextProps, prevProps) {
-        if (nextProps.id != prevProps.id) {
+        if (nextProps.id !== prevProps.id) {
             this.setState(nextProps);
             this.GetTrackInfo();
         }
@@ -585,7 +585,7 @@ class WebPlayer extends React.Component {
         console.log(nextProps);
         let nextMerged = nextProps.songIDs.shared.concat(nextProps.songIDs.rest);
         if (nextMerged.length > 0) {
-            if (nextMerged[0] != prevMerged[0]) {
+            if (nextMerged[0] !== prevMerged[0]) {
                 console.log('UPDATING WEBPLAYER COMPONENT');
                 this.setState({ songIDs: nextMerged, StartNewPlayer: nextProps.StartNewPlayer });
             }

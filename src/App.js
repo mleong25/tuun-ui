@@ -29,21 +29,21 @@ const Protected = () => <h3>This is the protected contact that was locked behind
 //this is a special component that is only able to load if you are logged in...
 //as in "fakeAuthCentralState.isAuthenticated == true" .. once that happens it runs a turnary operator .. and if good will redirect to the /login
 const ProtectedRoute = ({ component: Component, ...rest }) => (
-    <Route
-        {...rest}
-        render={props =>
-            fakeAuthCentralState.isAuthenticated === true ? (
-                <Component {...props} />
-            ) : (
-                <Redirect
-                    to={{
-                        pathname: '/login',
-                        state: { from: props.location }
-                    }}
-                />
-            )
-        }
-    />
+  <Route
+      {...rest}
+      render={props =>
+          fakeAuthCentralState.isAuthenticated === true ? (
+              <Component {...props} />
+          ) : (
+              <Redirect
+                  to={{
+                      pathname: '/login',
+                      state: { from: props.location }
+                  }}
+              />
+          )
+      }
+  />
 );
 
 const AuthButton = withRouter(({ history }) =>
