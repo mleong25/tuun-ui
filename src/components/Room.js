@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Room.css';
-import { Col, Row, Container, Button, Modal, Form, Dropdown } from 'react-bootstrap';
+import { Col, Row, Container, Button, Modal, Form } from 'react-bootstrap';
 import { WebPlayer } from './WebPlayer';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter, Switch } from 'react-router-dom';
 import { domain } from '../Environment';
 import Playlists from './Playlists';
 const fetch = require('node-fetch');
