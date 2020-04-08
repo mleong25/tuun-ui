@@ -27,10 +27,6 @@ class Auth extends Component {
         //CODE CAN BE EXCHANGED FOR A TOKEN
         // TODO: !! handle user errors here, verify state value is consistent (??)
         // const params = new URLSearchParams(window.location.hash.replace('#', '')); //this is fucked up?
-<<<<<<< HEAD
-=======
-        const params = new URLSearchParams(window.location);
->>>>>>> parent of 1d0fe65... Update auth.js
 
         // TODO: testing out how to ensure we get a proper token everytime, i.e. not using an old expired one.
 
