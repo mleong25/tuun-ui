@@ -3,8 +3,6 @@ import Button from 'react-bootstrap/Button';
 import '../styles/Auth.css';
 import uuid from 'uuid';
 import { clientID, clientSecret } from '../Secrets';
-import axios from 'axios';
-import queryString from 'query-string';
 
 //TODO: Might have to show dialog to true/false to see what that does?
 //https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow
@@ -16,6 +14,8 @@ const params = new URLSearchParams({
     scope: 'streaming%20user-read-email%20user-modify-playback-state%20user-read-private%20user-read-playback-state%20user-read-currently-playing%20app-remote-control%20playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-library-modify%20user-library-read%20user-top-read%20user-read-recently-played',
 });
 
+let my_toke = "null";
+
 const OauthURL = `https://accounts.spotify.com/authorize?${params}`;
 
 class Auth extends Component {
@@ -25,6 +25,9 @@ class Auth extends Component {
         //CODE CAN BE EXCHANGED FOR A TOKEN
         // TODO: !! handle user errors here, verify state value is consistent (??)
         // const params = new URLSearchParams(window.location.hash.replace('#', '')); //this is fucked up?
+
+        // TODO: testing out how to ensure we get a proper token everytime, i.e. not using an old expired one.
+
         const params = new URLSearchParams(window.location);
 
         if(window.location.search !== "") {
@@ -53,10 +56,14 @@ class Auth extends Component {
 
             fetch("https://accounts.spotify.com/api/token", requestOptions)
               .then(response => response.text())
-              .then(result => console.log(result))
+              .then(result => {
+                let x = JSON.parse(result);
+                console.log("Writing values to local storage... ");
+                console.log(x.access_token, x.refresh_token);
+                window.localStorage.setItem('token', x.access_token);
+                window.localStorage.setItem('refresh_token', x.refresh_token);
+              })
               .catch(error => console.log('error', error));
-
-
           }
         }
     }
