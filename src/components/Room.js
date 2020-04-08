@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Room.css';
 import { Col, Row, Container, Button, Modal, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { WebPlayer } from './WebPlayer';
 import { domain } from '../Environment';
 import Playlists from './Playlists';
 const fetch = require('node-fetch');
+
+let spotify = require('spotify-web-api-js');
+let spotifyApi = new spotify();
 
 class Room extends Component {
     constructor(props) {
@@ -112,6 +114,19 @@ class Room extends Component {
             alert("'Playlist Name' cannot be empty.");
             return;
         }
+        spotifyApi.createPlaylist(this.state.user, { name: this.state.saveName }).then((res) => {
+            if (res.uri) {
+                let uri = res.uri.slice(17);
+                let uris = [];
+                let songIDs = this.state.data.Playlist.shared.concat(this.state.data.Playlist.rest);
+                for (let song of songIDs) {
+                    uris.push('spotify:track:' + song);
+                }
+                spotifyApi.addTracksToPlaylist(uri, uris).then((res) => {
+                    //console.log(res);
+                });
+            }
+        });
         await fetch(domain + 'db/playlists/' + this.state.user + '/save/' + this.state.saveName, {
             method: 'POST',
             body: JSON.stringify(this.state.data.Playlist),
@@ -121,6 +136,8 @@ class Room extends Component {
     }
 
     componentDidMount() {
+        let token = window.localStorage.getItem('token');
+        spotifyApi.setAccessToken(token);
         this.setState({ connection: this.props.connection }, async () => {
             // define websocket reactions on frontend
             this.state.connection.on('SetState', this.upsertData);

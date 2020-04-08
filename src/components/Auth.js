@@ -4,7 +4,7 @@ import '../styles/Auth.css';
 import uuid from 'uuid';
 
 const clientID = process.env.REACT_APP_clientID;
-const clientSecret = process.env.REACT_APP_clientSecret;
+//const clientSecret = process.env.REACT_APP_clientSecret;
 
 const params = new URLSearchParams({
     client_id: clientID, // Your client id
