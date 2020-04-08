@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import '../styles/Auth.css';
 import uuid from 'uuid';
-// import { clientID, clientSecret } from '../Secrets';
+import { clientID, clientSecret } from '../Secrets';
 import axios from 'axios';
 import queryString from 'query-string';
-
-const clientID = process.env.clientID;
-const clientSecret = process.env.clientSecret;
 
 //TODO: Might have to show dialog to true/false to see what that does?
 //https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow
