@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect, withRouter, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Playlists from './components/Playlists';
 import Landing from './components/Landing';
-import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
 import { Navbar } from 'react-bootstrap';
 import { domain } from './Environment';
 import * as signalR from '@microsoft/signalr';
-
-const fakeAuthCentralState = {
-    isAuthenticated: false,
-    authenticate(callback) {
-        this.isAuthenticated = true;
-        setTimeout(callback, 300);
-    },
-    signout(callback) {
-        this.isAuthenticated = false;
-        setTimeout(callback, 300);
-    },
-};
 
 
 class IsAccessible extends Component {
