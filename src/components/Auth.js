@@ -16,8 +16,6 @@ const params = new URLSearchParams({
   scope: 'streaming%20user-read-email%20user-modify-playback-state%20user-read-private%20user-read-playback-state%20user-read-currently-playing%20app-remote-control%20playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-library-modify%20user-library-read%20user-top-read%20user-read-recently-played',
 });
 
-let my_toke = "null";
-
 const OauthURL = `https://accounts.spotify.com/authorize?${params}`;
 
 class Auth extends Component {
@@ -30,7 +28,6 @@ class Auth extends Component {
 
         // TODO: testing out how to ensure we get a proper token everytime, i.e. not using an old expired one.
 
-        const params = new URLSearchParams(window.location);
 
         if(window.location.search !== "") {
           //we have a response
