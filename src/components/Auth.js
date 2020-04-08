@@ -26,7 +26,7 @@ class Auth extends Component {
         //CODE CAN BE EXCHANGED FOR A TOKEN
         // TODO: !! handle user errors here, verify state value is consistent (??)
         // const params = new URLSearchParams(window.location.hash.replace('#', '')); //this is fucked up?
-        const params = new URLSearchParams(window.location);
+        //const params = new URLSearchParams(window.location);
 
         if (window.location.search !== '') {
             //we have a response
