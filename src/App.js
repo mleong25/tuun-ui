@@ -1,67 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { WebPlayer } from './components/WebPlayer';
-import Playlists from './components/Playlists';
 import Landing from './components/Landing';
-import Button from 'react-bootstrap/Button';
 import Auth from './components/Auth';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import { domain } from './Environment';
 import * as signalR from '@microsoft/signalr';
-
-const fakeAuthCentralState = {
-    isAuthenticated: false,
-    authenticate(callback) {
-        this.isAuthenticated = true;
-        setTimeout(callback, 300);
-    },
-    signout(callback) {
-        this.isAuthenticated = false;
-        setTimeout(callback, 300);
-    },
-};
-
-const Public = () => <h3>You have clicked on a public content button that has displayed this content.</h3>;
-const Protected = () => <h3>This is the protected contact that was locked behind a component.</h3>;
-
-//this is a special component that is only able to load if you are logged in...
-//as in "fakeAuthCentralState.isAuthenticated == true" .. once that happens it runs a turnary operator .. and if good will redirect to the /login
-const ProtectedRoute = ({ component: Component, ...rest }) => (
-    <Route
-        {...rest}
-        render={(props) =>
-            fakeAuthCentralState.isAuthenticated === true ? (
-                <Component {...props} />
-            ) : (
-                <Redirect
-                    to={{
-                        pathname: '/login',
-                        state: { from: props.location },
-                    }}
-                />
-            )
-        }
-    />
-);
-
-const AuthButton = withRouter(({ history }) =>
-    fakeAuthCentralState.isAuthenticated ? (
-        <p>
-            Welcome to this amazing content!
-            <button
-                className='App-link btn btn-primary'
-                onClick={() => {
-                    fakeAuthCentralState.signout(() => history.push('/'));
-                }}>
-                Sign out
-            </button>
-        </p>
-    ) : (
-        <p>You are not logged in.</p>
-    )
-);
 
 class IsAccessible extends Component {
     constructor(props) {
@@ -71,29 +15,33 @@ class IsAccessible extends Component {
 
         this.state = {
             connection: newConnection,
+            token: '',
         };
+        this.gotToken = this.gotToken.bind(this);
+    }
+
+    gotToken(token) {
+        this.setState({ token: token });
     }
 
     render() {
-        const token = window.localStorage.getItem('token');
-        if (token) {
+        if (this.state.token) {
             return (
                 <div className='App'>
                     <div className='App-foreground'>
                         <link href='https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap' rel='stylesheet'></link>
-                        <Router>
-                            <div className='Menu'>
-                                <Navbar fixed='top' bg='dark' expand='lg'>
-                                    <Navbar.Brand className='brand' href='/'>
-                                        <img
-                                            src='ToffWhite.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
-                                            width='60'
-                                            height='60'
-                                            alt='tuun logo'
-                                        />
-                                    </Navbar.Brand>
-                                    <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                                    <Navbar.Collapse id='basic-navbar-nav'>{/* <Nav className='mr-auto'>
+                        <div className='Menu'>
+                            <Navbar fixed='top' bg='dark' expand='lg'>
+                                <Navbar.Brand className='brand' href='/'>
+                                    <img
+                                        src='ToffWhite.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
+                                        width='60'
+                                        height='60'
+                                        alt='tuun logo'
+                                    />
+                                </Navbar.Brand>
+                                <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                                <Navbar.Collapse id='basic-navbar-nav'>{/* <Nav className='mr-auto'>
                                             <Link to='/' className='NavTab'>
                                                 Home
                                             </Link>
@@ -107,86 +55,20 @@ class IsAccessible extends Component {
                                                 </Link>
                                             </Nav.Item>
                                         </Nav> */}</Navbar.Collapse>
-                                </Navbar>
-                            </div>
-                            <Switch>
-                                <Route exact path='/' render={() => <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={token} />} />
-                                <Route path='/playlists' component={Playlists} />
-                                <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
-                            </Switch>
-                        </Router>
+                            </Navbar>
+                        </div>
+                        <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={this.state.token} />
                     </div>
                 </div>
             );
         } else {
             return (
                 <>
-                    <Auth />
+                    <Auth callBack={this.gotToken} />
                     {/* <WebPlayer /> */}
                 </>
             );
         }
-    }
-}
-
-class Login extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            redirectToReferrer: false,
-        };
-    }
-
-    login = () => {
-        fakeAuthCentralState.authenticate(() => {
-            this.setState(() => ({
-                redirectToReferrer: true,
-            }));
-        });
-    };
-
-    render() {
-        const { from } = this.props.location.state || { from: { pathname: '/' } };
-        const { redirectToReferrer } = this.state;
-
-        if (redirectToReferrer === true) {
-            this.props.history.push(from.pathname);
-        }
-
-        function Login() {
-            const [show, setShow] = React.useState(false);
-
-            const handleClose = () => setShow(false);
-            const handleShow = () => setShow(true);
-
-            return (
-                <>
-                    <div className='container'>
-                        <Button variant='primary' className='App-link btn-lg' onClick={window.location.replace('http://www.w3schools.com')}>
-                            Connect
-                        </Button>
-                    </div>
-
-                    {/* <Modal show={show} onHide={handleClose} animation={false}>
-            <Modal.Header closeButton>
-              <Modal.Title>Login</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Please login to Spotify to view content</Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Login
-              </Button>
-            </Modal.Footer>
-          </Modal> */}
-                </>
-            );
-        }
-
-        return <Login />;
     }
 }
 
