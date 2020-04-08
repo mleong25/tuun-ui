@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Playlists.css';
 import { domain } from '../Environment';
-import { Container, Row } from 'react-bootstrap';
-import { SongQueue } from './WebPlayer';
+import { Container } from 'react-bootstrap';
 
 let spotify = require('spotify-web-api-js');
 let spotifyApi = new spotify();
@@ -20,7 +19,7 @@ class Playlist extends Component {
     }
 
     componentDidUpdate(nextProps, prevState) {
-        if (nextProps.playlist.length > 0 && nextProps.playlist.length != prevState.playlist.length) {
+        if (nextProps.playlist.length > 0 && nextProps.playlist.length !== prevState.playlist.length) {
             let numArtists = this.state.playlist.length < 5 ? this.state.playlist.length : 5;
             let artists = '';
             spotifyApi.getTracks(this.state.playlist.slice(0, numArtists)).then((data) => {

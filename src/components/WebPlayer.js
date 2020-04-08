@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
 import '../styles/WebPlayer.css';
-import SpotifyPlayer from 'react-spotify-web-playback';
 
 let spotify = require('spotify-web-api-js');
 let spotifyApi = new spotify();
@@ -93,7 +92,7 @@ class PlayerController extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.songIDs.length > 0) {
-            if (nextProps.songIDs[0] != this.state.songIDs[0] && nextProps.songIDs[1] != this.state.songIDs[1]) {
+            if (nextProps.songIDs[0] !== this.state.songIDs[0] && nextProps.songIDs[1] !== this.state.songIDs[1]) {
                 this.setState({ songIDs: nextProps.songIDs, songIndexMax: nextProps.songIDs.length - 1 });
             }
         }
@@ -128,7 +127,7 @@ class PlayerController extends React.Component {
                 let songCurrentMS = data['progress_ms'];
                 let currentSongIndex = 0;
                 for (let i = 0; i < this.state.songIDs.length - 1; i++) {
-                    if (songID == this.state.songIDs[i]) {
+                    if (songID === this.state.songIDs[i]) {
                         currentSongIndex = i;
                         break;
                     }
@@ -186,25 +185,25 @@ class PlayerController extends React.Component {
     render() {
         if (this.state.songIDs.length > 0) {
             return (
-              <div>
-                <Footer>
-                  <Progress songLengthMS={this.state.songLengthMS} songCurrentMS={this.state.songCurrentMS} seek={this.Seek} stopInterval={this.StopInterval} visualSeek={this.VisualSeek} />
-                  <div className='btn-group' role='group'>
-                    <div type='button' className='btn btn-secondary'>
-                        <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
-                    </div>
-                    <div type='button' className='btn btn-secondary'>
-                        <PlayPause ref={this.PlayPause} isPlaying={this.state.playing} />
-                    </div>
-                    <div type='button' className='btn btn-secondary'>
-                        <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
-                    </div>
-                  </div>
-                  <Volume />
-                  <CurrentSong songTitle={this.state.songTitle} songArtist={this.state.songArtist} songImageURL={this.state.songImageURL} />
-                  <br></br>
-                </Footer>
-              </div>
+                <div>
+                    <Footer>
+                        <Progress songLengthMS={this.state.songLengthMS} songCurrentMS={this.state.songCurrentMS} seek={this.Seek} stopInterval={this.StopInterval} visualSeek={this.VisualSeek} />
+                        <div className='btn-group' role='group'>
+                            <div type='button' className='btn btn-secondary'>
+                                <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
+                            </div>
+                            <div type='button' className='btn btn-secondary'>
+                                <PlayPause ref={this.PlayPause} isPlaying={this.state.playing} />
+                            </div>
+                            <div type='button' className='btn btn-secondary'>
+                                <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
+                            </div>
+                        </div>
+                        <Volume />
+                        <CurrentSong songTitle={this.state.songTitle} songArtist={this.state.songArtist} songImageURL={this.state.songImageURL} />
+                        <br></br>
+                    </Footer>
+                </div>
             );
         } else {
             return <div>Load or generate a playlist.</div>;
@@ -217,13 +216,9 @@ class PlayerController extends React.Component {
 // </div>
 
 class Footer extends React.Component {
-  render() {
-    return (
-      <div className="webplayback-bar">
-        {this.props.children}
-      </div>
-    );
-  }
+    render() {
+        return <div className='webplayback-bar'>{this.props.children}</div>;
+    }
 }
 
 class CurrentSong extends React.Component {
@@ -473,12 +468,7 @@ class Volume extends React.Component {
     render() {
         return (
             <div>
-                <img
-                    src='volume.png'
-                    width='30'
-                    height='30'
-                    alt='tuun logo'
-                />
+                <img src='volume.png' width='30' height='30' alt='tuun logo' />
                 <input type='range' min='0' max='100' value={this.state.volume} onChange={this.setVolume} step='1' />
             </div>
         );
@@ -514,9 +504,7 @@ class SongQueue extends React.Component {
             return (
                 <div className='webplayer-container'>
                     <table className='table table-dark webplayer-table'>
-                        <tbody>
-                            {Songs}
-                        </tbody>
+                        <tbody>{Songs}</tbody>
                     </table>
                 </div>
             );
@@ -569,8 +557,8 @@ class Song extends React.Component {
                     <img src={this.state.imageURL} height={30} alt='Album Cover'></img>
                 </td>
                 <td>
-                  <p className="bold">{this.state.name}</p>
-                  <p>{this.state.artists}</p>
+                    <p className='bold'>{this.state.name}</p>
+                    <p>{this.state.artists}</p>
                 </td>
             </tr>
         );
@@ -580,7 +568,6 @@ class Song extends React.Component {
 class WebPlayer extends React.Component {
     constructor(props) {
         super(props);
-        let merged = props.songIDs.shared.concat(props.songIDs.rest);
         this.state = {
             prevSongs: [],
             songIDs: [],
@@ -593,7 +580,7 @@ class WebPlayer extends React.Component {
         let prevMerged = this.state.songIDs;
         let nextMerged = nextProps.songIDs.shared.concat(nextProps.songIDs.rest);
         if (nextMerged.length > 0) {
-            if (nextMerged[0] != prevMerged[0]) {
+            if (nextMerged[0] !== prevMerged[0]) {
                 this.setState({ songIDs: nextMerged, StartNewPlayer: nextProps.StartNewPlayer });
             }
         }
