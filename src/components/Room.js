@@ -43,6 +43,12 @@ class Room extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleLoadClose = this.handleLoadClose.bind(this);
     this.handleSaveNameChange = this.handleSaveNameChange.bind(this);
+    this.generateFailed = this.generateFailed.bind(this);
+  }
+
+  generateFailed() {
+    alert("Not enough user data for selected genre.\n" +
+          "Please create new room with different genres.");
   }
 
   handleSaveNameChange(e) {
@@ -144,6 +150,7 @@ class Room extends Component {
       this.state.connection.on('SetState', this.upsertData);
       this.state.connection.on('GetKicked', this.getKicked);
       this.state.connection.on('StartPlayer', this.startPlayer);
+      this.state.connection.on('GenerateFailed', this.generateFailed);
 
       // start websocket connection
       await this.state.connection.start();
