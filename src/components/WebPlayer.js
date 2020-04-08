@@ -1,13 +1,11 @@
 import React from 'react';
 import '../App.css';
 import '../styles/WebPlayer.css';
+import SpotifyPlayer from 'react-spotify-web-playback';
 
 let spotify = require('spotify-web-api-js');
 let spotifyApi = new spotify();
 let player = null;
-// spotifyApi.setAccessToken('BQCTrTPt7Qz4oMPxhP3LPRpM2KhtAw-eY3R3wrGcsSpwbEh1yE_Zw-5h-AvdTZKzul2I3dsqRKT6C6uMw4vmCEgdqb6OMcs2aqcqdK8ueqi3jc1PUA33WK0Am3HZ8UkRNBhdVanc563YUfBXl6tzPqULZGCBSFUrJgeyfO3aTPbhRkPpcYcO1pBS0rWu5jGp0GBVoO6VM5bYBAPfboCYv2W1RBbHGZ9ssZ3eJLoqcccarTjRdH-criDTzeEWJ9gSEGVbQvADTao');
-
-//let songIDs = ['1WnqWQcWcuQbVzgE7ecfCY', '39JRmdKFka1Oe09FoOCPI4', '2QpGZOhTCHHiKmpSO9FW4h', '3JWiDGQX2eTlFvKj3Yssj3', '2SasoXZyv82yYgHiVOvxQn'];
 
 function convertMsToMMSS(ms) {
     let minutes = Math.floor(ms / 60000);
@@ -188,29 +186,44 @@ class PlayerController extends React.Component {
     render() {
         if (this.state.songIDs.length > 0) {
             return (
-                <div>
-                    <div className='btn-group' role='group' aria-label='Basic example'>
-                        <div type='button' className='btn btn-secondary'>
-                            <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
-                        </div>
-                        <div type='button' className='btn btn-secondary'>
-                            <PlayPause ref={this.PlayPause} isPlaying={this.state.playing} />
-                        </div>
-                        <div type='button' className='btn btn-secondary'>
-                            <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
-                        </div>
+              <div>
+                <Footer>
+                  <Progress songLengthMS={this.state.songLengthMS} songCurrentMS={this.state.songCurrentMS} seek={this.Seek} stopInterval={this.StopInterval} visualSeek={this.VisualSeek} />
+                  <div className='btn-group' role='group'>
+                    <div type='button' className='btn btn-secondary'>
+                        <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
                     </div>
-                    <div>
-                        <Progress songLengthMS={this.state.songLengthMS} songCurrentMS={this.state.songCurrentMS} seek={this.Seek} stopInterval={this.StopInterval} visualSeek={this.VisualSeek} />
-                        <Volume />
-                        <CurrentSong songTitle={this.state.songTitle} songArtist={this.state.songArtist} songImageURL={this.state.songImageURL} />
+                    <div type='button' className='btn btn-secondary'>
+                        <PlayPause ref={this.PlayPause} isPlaying={this.state.playing} />
                     </div>
-                </div>
+                    <div type='button' className='btn btn-secondary'>
+                        <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
+                    </div>
+                  </div>
+                  <Volume />
+                  <CurrentSong songTitle={this.state.songTitle} songArtist={this.state.songArtist} songImageURL={this.state.songImageURL} />
+                  <br></br>
+                </Footer>
+              </div>
             );
         } else {
             return <div>Load or generate a playlist.</div>;
         }
     }
+}
+
+// <div>
+//     <CurrentSong songTitle={this.state.songTitle} songArtist={this.state.songArtist} songImageURL={this.state.songImageURL} />
+// </div>
+
+class Footer extends React.Component {
+  render() {
+    return (
+      <div className="webplayback-bar">
+        {this.props.children}
+      </div>
+    );
+  }
 }
 
 class CurrentSong extends React.Component {
@@ -461,7 +474,7 @@ class Volume extends React.Component {
         return (
             <div>
                 <img
-                    src='logo192.png' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
+                    src='volume.png'
                     width='30'
                     height='30'
                     alt='tuun logo'
@@ -502,12 +515,6 @@ class SongQueue extends React.Component {
                 <div className='webplayer-container'>
                     <table className='table table-dark webplayer-table'>
                         <tbody>
-                            <tr>
-                                <th></th>
-                                <th>TITLE</th>
-                                <th>ARTIST</th>
-                                <th>SONG LENGTH</th>
-                            </tr>
                             {Songs}
                         </tbody>
                     </table>
@@ -561,9 +568,10 @@ class Song extends React.Component {
                 <td>
                     <img src={this.state.imageURL} height={30} alt='Album Cover'></img>
                 </td>
-                <td>{this.state.name}</td>
-                <td>{this.state.artists}</td>
-                <td>{convertMsToMMSS(this.state.length)}</td>
+                <td>
+                  <p className="bold">{this.state.name}</p>
+                  <p>{this.state.artists}</p>
+                </td>
             </tr>
         );
     }
