@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import '../styles/Auth.css';
 import uuid from 'uuid';
-import { clientID, clientSecret } from '../Secrets';
 
 const clientID = process.env.clientID;
 const clientSecret = process.env.clientSecret;

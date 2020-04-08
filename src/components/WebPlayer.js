@@ -92,11 +92,7 @@ class PlayerController extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.songIDs.length > 0) {
-<<<<<<< HEAD
-            if (nextProps.songIDs[0] != this.state.songIDs[0]) {
-=======
             if (nextProps.songIDs[0] !== this.state.songIDs[0] && nextProps.songIDs[1] !== this.state.songIDs[1]) {
->>>>>>> 1d0fe6591ebb5a60d013041e6d80688a9ec19ed3
                 this.setState({ songIDs: nextProps.songIDs, songIndexMax: nextProps.songIDs.length - 1 });
             }
         }
@@ -584,12 +580,7 @@ class WebPlayer extends React.Component {
         let prevMerged = this.state.songIDs;
         let nextMerged = nextProps.songIDs.shared.concat(nextProps.songIDs.rest);
         if (nextMerged.length > 0) {
-<<<<<<< HEAD
-            if (nextMerged[0] != prevMerged[0]) {
-                console.log('UPDATING WEBPLAYER COMPONENT');
-=======
             if (nextMerged[0] !== prevMerged[0]) {
->>>>>>> 1d0fe6591ebb5a60d013041e6d80688a9ec19ed3
                 this.setState({ songIDs: nextMerged, StartNewPlayer: nextProps.StartNewPlayer });
             }
         }
