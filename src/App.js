@@ -9,6 +9,57 @@ import { Navbar } from 'react-bootstrap';
 import { domain } from './Environment';
 import * as signalR from '@microsoft/signalr';
 
+const fakeAuthCentralState = {
+    isAuthenticated: false,
+    authenticate(callback) {
+        this.isAuthenticated = true;
+        setTimeout(callback, 300);
+    },
+    signout(callback) {
+        this.isAuthenticated = false;
+        setTimeout(callback, 300);
+    },
+};
+
+const Public = () => <h3>You have clicked on a public content button that has displayed this content.</h3>;
+const Protected = () => <h3>This is the protected contact that was locked behind a component.</h3>;
+
+//this is a special component that is only able to load if you are logged in...
+//as in "fakeAuthCentralState.isAuthenticated == true" .. once that happens it runs a turnary operator .. and if good will redirect to the /login
+const ProtectedRoute = ({ component: Component, ...rest }) => (
+    <Route
+        {...rest}
+        render={(props) =>
+            fakeAuthCentralState.isAuthenticated === true ? (
+                <Component {...props} />
+            ) : (
+                <Redirect
+                    to={{
+                        pathname: '/login',
+                        state: { from: props.location },
+                    }}
+                />
+            )
+        }
+    />
+);
+
+const AuthButton = withRouter(({ history }) =>
+    fakeAuthCentralState.isAuthenticated ? (
+        <p>
+            Welcome to this amazing content!
+            <button
+                className='App-link btn btn-primary'
+                onClick={() => {
+                    fakeAuthCentralState.signout(() => history.push('/'));
+                }}>
+                Sign out
+            </button>
+        </p>
+    ) : (
+        <p>You are not logged in.</p>
+    )
+);
 
 class IsAccessible extends Component {
     constructor(props) {
