@@ -2,15 +2,21 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import '../styles/Auth.css';
 import uuid from 'uuid';
-import { clientID } from '../Secrets';
 
+const clientID = process.env.clientID;
+const clientSecret = process.env.clientSecret;
+
+//TODO: Might have to show dialog to true/false to see what that does?
+//https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow
 const params = new URLSearchParams({
     client_id: clientID, // Your client id
+    response_type: 'code',
     redirect_uri: 'http://localhost:3000/create', // Your redirect uri
-    scope: 'streaming%20user-read-email%20user-modify-playback-state%20user-read-private%20user-read-playback-state%20user-read-currently-playing%20app-remote-control%20playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-library-modify%20user-library-read%20user-top-read%20user-read-recently-played',
-    response_type: 'token',
     state: uuid(),
+    scope: 'streaming%20user-read-email%20user-modify-playback-state%20user-read-private%20user-read-playback-state%20user-read-currently-playing%20app-remote-control%20playlist-read-collaborative%20playlist-modify-public%20playlist-read-private%20playlist-modify-private%20user-library-modify%20user-library-read%20user-top-read%20user-read-recently-played',
 });
+
+let my_toke = 'null';
 
 const OauthURL = `https://accounts.spotify.com/authorize?${params}`;
 
