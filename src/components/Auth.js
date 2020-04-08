@@ -4,8 +4,8 @@ import '../styles/Auth.css';
 import uuid from 'uuid';
 // import { clientID, clientSecret } from '../Secrets';
 
-const clientID = process.env.clientID;
-const clientSecret = process.env.clientSecret;
+const clientID = process.env.REACT_APP_clientID;
+const clientSecret = process.env.REACT_APP_clientSecret;
 
 //TODO: Might have to show dialog to true/false to see what that does?
 //https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow
