@@ -1,1 +1,10 @@
+.playlists-container {
+  text-align: left;
+}
 
+.playlist-container {
+  background-color: #454d55;
+  font-size: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+}

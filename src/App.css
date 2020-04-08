@@ -7,6 +7,23 @@
   font-family: 'Raleway', sans-serif; */
 }
 
+.landing-page {
+  height: 100%;
+  margin-top: 10rem;
+  /* background-image: url('/music-festival.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+.login-spotify-btn {
+  padding: 1rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  border-color: #fff;
+  box-shadow: 5px 5px 5px black;
+}
+
 .move-items-up {
   margin-top: -50rem;
 }
