@@ -169,6 +169,10 @@ class PlayerController extends React.Component {
         this.StartInterval();
     }
 
+    componentWillUnmount() {
+        this.StopInterval();
+    }
+
     StopInterval() {
         clearInterval(this.state.interval);
     }
@@ -236,7 +240,7 @@ class CurrentSong extends React.Component {
     }
 
     componentDidUpdate(nextProps, prevState) {
-        if (nextProps.songImageURL != prevState.songImageURL || nextProps.songTitle != prevState.songTitle || nextProps.songArtist != prevState.songArtist) {
+        if (nextProps.songImageURL !== prevState.songImageURL || nextProps.songTitle !== prevState.songTitle || nextProps.songArtist !== prevState.songArtist) {
             this.setState(nextProps);
         }
     }
@@ -307,7 +311,7 @@ class Previous extends React.Component {
     }
 
     componentDidUpdate(next, prev) {
-        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
+        if (next.currentIndex !== prev.currentIndex && next.maxIndex !== prev.maxIndex) {
             this.setState(next);
         }
     }
@@ -318,7 +322,7 @@ class Previous extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.currentIndex != prevState.currentIndex || nextProps.maxIndex != prevState.maxIndex) {
+        if (nextProps.currentIndex !== prevState.currentIndex || nextProps.maxIndex !== prevState.maxIndex) {
             return nextProps;
         } else return null;
     }
@@ -358,7 +362,7 @@ class Next extends React.Component {
     }
 
     componentDidUpdate(next, prev) {
-        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
+        if (next.currentIndex !== prev.currentIndex && next.maxIndex !== prev.maxIndex) {
             this.setState(next);
         }
     }
@@ -369,7 +373,7 @@ class Next extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.currentIndex != prevState.currentIndex) {
+        if (nextProps.currentIndex !== prevState.currentIndex) {
             return nextProps;
         } else return null;
     }
@@ -413,13 +417,13 @@ class Progress extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.songCurrentMS != prevState.songCurrentMS || nextProps.songLengthMS != prevState.songLengthMS) {
+        if (nextProps.songCurrentMS !== prevState.songCurrentMS || nextProps.songLengthMS !== prevState.songLengthMS) {
             return nextProps;
         } else return null;
     }
 
     componentDidUpdate(nextProps, prevState) {
-        if (nextProps.songLengthMS != prevState.songLengthMS || nextProps.songCurrentMS != prevState.songCurrentMS) {
+        if (nextProps.songLengthMS !== prevState.songLengthMS || nextProps.songCurrentMS !== prevState.songCurrentMS) {
             this.setState(nextProps);
         }
     }
@@ -489,7 +493,7 @@ class SongQueue extends React.Component {
 
     componentDidUpdate(nextProps, prevProps) {
         if (nextProps.songs.length > 0) {
-            if (nextProps.songs[0] != prevProps.songs[0]) {
+            if (nextProps.songs[0] !== prevProps.songs[0]) {
                 this.setState({ songs: nextProps.songs });
             }
         }
@@ -528,7 +532,7 @@ class Song extends React.Component {
     }
 
     componentDidUpdate(nextProps, prevProps) {
-        if (nextProps.id != prevProps.id) {
+        if (nextProps.id !== prevProps.id) {
             this.setState(nextProps);
             this.GetTrackInfo();
         }
