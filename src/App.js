@@ -15,7 +15,7 @@ class IsAccessible extends Component {
 
         this.state = {
             connection: newConnection,
-            token: '',
+            token: window.localStorage.getItem('token'),
         };
         this.gotToken = this.gotToken.bind(this);
     }
