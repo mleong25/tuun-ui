@@ -18,29 +18,33 @@ class IsAccessible extends Component {
 
         this.state = {
             connection: newConnection,
+            token: '',
         };
+        this.gotToken = this.gotToken.bind(this);
+    }
+
+    gotToken(token) {
+        this.setState({ token: token });
     }
 
     render() {
-        const token = window.localStorage.getItem('token');
-        if (token) {
+        if (this.state.token) {
             return (
                 <div className='App'>
                     <div className='App-foreground'>
                         <link href='https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap' rel='stylesheet'></link>
-                        <Router>
-                            <div className='Menu'>
-                                <Navbar fixed='top' bg='dark' expand='lg'>
-                                    <Navbar.Brand className='brand' href='/'>
-                                        <img
-                                            src='ToffWhite.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
-                                            width='60'
-                                            height='60'
-                                            alt='tuun logo'
-                                        />
-                                    </Navbar.Brand>
-                                    <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                                    <Navbar.Collapse id='basic-navbar-nav'>{/* <Nav className='mr-auto'>
+                        <div className='Menu'>
+                            <Navbar fixed='top' bg='dark' expand='lg'>
+                                <Navbar.Brand className='brand' href='/'>
+                                    <img
+                                        src='ToffWhite.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
+                                        width='60'
+                                        height='60'
+                                        alt='tuun logo'
+                                    />
+                                </Navbar.Brand>
+                                <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                                <Navbar.Collapse id='basic-navbar-nav'>{/* <Nav className='mr-auto'>
                                             <Link to='/' className='NavTab'>
                                                 Home
                                             </Link>
@@ -54,21 +58,16 @@ class IsAccessible extends Component {
                                                 </Link>
                                             </Nav.Item>
                                         </Nav> */}</Navbar.Collapse>
-                                </Navbar>
-                            </div>
-                            <Switch>
-                                <Route exact path='/' render={() => <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={token} />} />
-                                <Route path='/playlists' component={Playlists} />
-                                <Route path='/webPlayer' component={() => <WebPlayer token={token} />} />
-                            </Switch>
-                        </Router>
+                            </Navbar>
+                        </div>
+                        <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={this.state.token} />
                     </div>
                 </div>
             );
         } else {
             return (
                 <>
-                    <Auth />
+                    <Auth callBack={this.gotToken} />
                     {/* <WebPlayer /> */}
                 </>
             );

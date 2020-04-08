@@ -62,6 +62,7 @@ class Auth extends Component {
                         console.log(x.access_token, x.refresh_token);
                         window.localStorage.setItem('token', x.access_token);
                         window.localStorage.setItem('refresh_token', x.refresh_token);
+                        this.props.callBack(x.access_token);
                     })
                     .catch((error) => console.log('error', error));
             }
