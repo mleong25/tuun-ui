@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../styles/Room.css';
 import { Col, Row, Container, Button, Modal, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { WebPlayer } from './WebPlayer';
 import { domain } from '../Environment';
 import Playlists from './Playlists';
