@@ -7,8 +7,6 @@ import uuid from 'uuid';
 const clientID = process.env.REACT_APP_clientID;
 const clientSecret = process.env.REACT_APP_clientSecret;
 
-//TODO: Might have to show dialog to true/false to see what that does?
-//https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow
 const params = new URLSearchParams({
     client_id: clientID, // Your client id
     redirect_uri: 'http://localhost:3000/create', // Your redirect uri
@@ -21,42 +19,17 @@ const OauthURL = `https://accounts.spotify.com/authorize?${params}`;
 
 class Auth extends Component {
     componentDidMount() {
-        // ~~that new new auth code type shit~~
-        //QUERY RESPONSE GIVES BACK A CODE AND A STATE if user accepts login
-        //CODE CAN BE EXCHANGED FOR A TOKEN
-        // TODO: !! handle user errors here, verify state value is consistent (??)
-        // const params = new URLSearchParams(window.location.hash.replace('#', '')); //this is fucked up?
-        //const params = new URLSearchParams(window.location);
+        // TODO: handle user errors here
+        const params = new URLSearchParams(window.location.hash.replace('#', ''));
 
-        if (window.location.search !== '') {
-            //we have a response
-            if (window.location.search[1] === 'c') {
-                //proper response, now parse
-                const auth_code = window.location.search.split('=')[1].split('&')[0];
-                console.log('auth code:', auth_code);
-                //exchanging the auth_code for an access_token
-                var myHeaders = new Headers();
-                myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+        const token = params.get('access_token');
+        console.log(params.toString())
 
-                var urlencoded = new URLSearchParams();
-                urlencoded.append('grant_type', 'authorization_code');
-                urlencoded.append('code', auth_code);
-                urlencoded.append('redirect_uri', 'http://localhost:3000/create');
-                urlencoded.append('client_id', clientID);
-                urlencoded.append('client_secret', clientSecret);
+        if (token) {
+            console.log("hi", params.toString())
+            window.localStorage.setItem('token', token);
 
-                var requestOptions = {
-                    method: 'POST',
-                    headers: myHeaders,
-                    body: urlencoded,
-                    redirect: 'follow',
-                };
-
-                fetch('https://accounts.spotify.com/api/token', requestOptions)
-                    .then((response) => response.text())
-                    .then((result) => console.log(result))
-                    .catch((error) => console.log('error', error));
-            }
+            window.location.pathname = '/';
         }
     }
 

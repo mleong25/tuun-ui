@@ -307,7 +307,7 @@ class Previous extends React.Component {
     }
 
     componentDidUpdate(next, prev) {
-        if (next.currentIndex !== prev.currentIndex && next.maxIndex !== prev.maxIndex) {
+        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
             this.setState(next);
         }
     }
@@ -318,7 +318,7 @@ class Previous extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.currentIndex !== prevState.currentIndex || nextProps.maxIndex !== prevState.maxIndex) {
+        if (nextProps.currentIndex !== prevState.currentIndex || nextProps.maxIndex != prevState.maxIndex) {
             return nextProps;
         } else return null;
     }
@@ -358,7 +358,7 @@ class Next extends React.Component {
     }
 
     componentDidUpdate(next, prev) {
-        if (next.currentIndex !== prev.currentIndex && next.maxIndex !== prev.maxIndex) {
+        if (next.currentIndex != prev.currentIndex && next.maxIndex != prev.maxIndex) {
             this.setState(next);
         }
     }
@@ -489,7 +489,7 @@ class SongQueue extends React.Component {
 
     componentDidUpdate(nextProps, prevProps) {
         if (nextProps.songs.length > 0) {
-            if (nextProps.songs[0] !== prevProps.songs[0]) {
+            if (nextProps.songs[0] != prevProps.songs[0]) {
                 this.setState({ songs: nextProps.songs });
             }
         }
@@ -528,7 +528,7 @@ class Song extends React.Component {
     }
 
     componentDidUpdate(nextProps, prevProps) {
-        if (nextProps.id !== prevProps.id) {
+        if (nextProps.id != prevProps.id) {
             this.setState(nextProps);
             this.GetTrackInfo();
         }
