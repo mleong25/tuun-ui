@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 import '../styles/Auth.css';
 import uuid from 'uuid';
 
-// const clientID = process.env.clientID;
-// const clientSecret = process.env.clientSecret;
+const clientID = process.env.clientID;
+const clientSecret = process.env.clientSecret;
 
 
 //TODO: Might have to show dialog to true/false to see what that does?
