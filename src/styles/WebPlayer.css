@@ -4,8 +4,8 @@
 
 .webplayer-container {
   overflow:scroll;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  /* margin-left: 1rem; */
+  /* margin-right: 1rem; */
 }
 
 .webplayer-table {
@@ -19,4 +19,34 @@
 
 .webplayer-progressbar {
   font-size: 1.5rem;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.table-dark p {
+  margin-bottom: 0;
+}
+
+.webplayback-bar {
+  z-index: 100;
+  padding: 1rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: fit-content;
+  width: 100%;
+}
+
+.webplayer-progressbar {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 3px 3px #6C2EB9;
+}
+
+.btn.disabled .btn:disabled {
+  opacity: 1 !important;
 }

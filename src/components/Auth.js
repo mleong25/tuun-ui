@@ -63,20 +63,22 @@ class Auth extends Component {
 
     render() {
         return (
-          <Button
-              variant='primary'
-              className='App-link white btn-lg'
-              onClick={() => {
-                  window.location.href = OauthURL; console.log("Applying new URL...");
-              }}>
-              <img
-                  src='spotifylogo.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
-                  width='50'
-                  height='50'
-                  alt='tuun logo'
-              />
-              Login with Spotify
-          </Button>
+          <div className="align-center landing-page">
+            <Button
+                variant='primary'
+                className='white btn-lg login-spotify-btn'
+                onClick={() => {
+                    window.location.href = OauthURL;
+                }}>
+                <img
+                    src='spotifylogo.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
+                    width='50'
+                    height='50'
+                    alt='tuun logo'
+                />
+                Login with Spotify
+            </Button>
+          </div>
         );
     }
 }

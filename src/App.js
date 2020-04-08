@@ -20,7 +20,7 @@ const fakeAuthCentralState = {
     signout(callback) {
         this.isAuthenticated = false;
         setTimeout(callback, 300);
-    }
+    },
 };
 
 const Public = () => <h3>You have clicked on a public content button that has displayed this content.</h3>;
@@ -70,7 +70,7 @@ class IsAccessible extends Component {
         const newConnection = new signalR.HubConnectionBuilder().withUrl(domain + 'roomsHub').build();
 
         this.state = {
-            connection: newConnection
+            connection: newConnection,
         };
     }
 
@@ -93,8 +93,7 @@ class IsAccessible extends Component {
                                         />
                                     </Navbar.Brand>
                                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                                    <Navbar.Collapse id='basic-navbar-nav'>
-                                        <Nav className='mr-auto'>
+                                    <Navbar.Collapse id='basic-navbar-nav'>{/* <Nav className='mr-auto'>
                                             <Link to='/' className='NavTab'>
                                                 Home
                                             </Link>
@@ -107,14 +106,12 @@ class IsAccessible extends Component {
                                                     Web Player
                                                 </Link>
                                             </Nav.Item>
-                                        </Nav>
-                                    </Navbar.Collapse>
+                                        </Nav> */}</Navbar.Collapse>
                                 </Navbar>
                             </div>
                             <Switch>
                                 <Route exact path='/' render={() => <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={token} />} />
-                                <Route path='/playlists' component={Playlists} />
-                                {/*<Route path='/webPlayer' component={() => <WebPlayer token={token} />} />*/}
+                                <Route path='/playlists' component={() => <Playlists />} />
                             </Switch>
                         </Router>
                     </div>
@@ -135,14 +132,14 @@ class Login extends React.Component {
         super(props);
 
         this.state = {
-            redirectToReferrer: false
+            redirectToReferrer: false,
         };
     }
 
     login = () => {
         fakeAuthCentralState.authenticate(() => {
             this.setState(() => ({
-                redirectToReferrer: true
+                redirectToReferrer: true,
             }));
         });
     };
@@ -198,7 +195,7 @@ class App extends Component {
             joined: false,
             roomData: null,
             showTitle: true,
-            username: null
+            username: null,
         };
 
         this.toggleJoined = this.toggleJoined.bind(this);
