@@ -29,7 +29,7 @@ class PlayerController extends React.Component {
             songIDs: props.songIDs,
             token: props.token,
             songIndex: 0,
-            songIndexMax: props.songIDs.length - 1
+            songIndexMax: props.songIDs.length - 1,
         };
 
         window.onSpotifyWebPlaybackSDKReady = () => {
@@ -37,9 +37,9 @@ class PlayerController extends React.Component {
             if (player == null) {
                 player = new window.Spotify.Player({
                     name: 'Tuun Web Player',
-                    getOAuthToken: cb => {
+                    getOAuthToken: (cb) => {
                         cb(token);
-                    }
+                    },
                 });
 
                 player.addListener('initialization_error', ({ message }) => {
@@ -55,7 +55,7 @@ class PlayerController extends React.Component {
                     console.error(message);
                 });
 
-                player.addListener('player_state_changed', state => {
+                player.addListener('player_state_changed', (state) => {
                     //console.log(state);
                 });
                 player.addListener('ready', ({ device_id }) => {
@@ -121,7 +121,7 @@ class PlayerController extends React.Component {
     }
 
     Update() {
-        spotifyApi.getMyCurrentPlayingTrack().then(data => {
+        spotifyApi.getMyCurrentPlayingTrack().then((data) => {
             // console.log(data);
             if (data) {
                 let songID = data['item']['id'];
@@ -142,7 +142,7 @@ class PlayerController extends React.Component {
                     songLengthMS: songLengthMS,
                     songCurrentMS: songCurrentMS,
                     songIndexMax: this.state.songIDs.length - 1,
-                    playing: data['is_playing']
+                    playing: data['is_playing'],
                 });
             }
         });
@@ -213,7 +213,7 @@ class CurrentSong extends React.Component {
         this.state = {
             songTitle: '',
             songArtist: '',
-            songImageURL: ''
+            songImageURL: '',
         };
     }
 
@@ -242,7 +242,7 @@ class PlayPause extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isPlaying: false
+            isPlaying: false,
         };
         this.playPause = this.playPause.bind(this);
     }
@@ -254,7 +254,7 @@ class PlayPause extends React.Component {
             spotifyApi.play();
         }
         this.setState({
-            isPlaying: !this.state.isPlaying
+            isPlaying: !this.state.isPlaying,
         });
     }
 
@@ -287,7 +287,7 @@ class Previous extends React.Component {
         this.state = {
             togglePlay: props.togglePlay,
             currentIndex: props.currentIndex,
-            maxIndex: props.maxIndex
+            maxIndex: props.maxIndex,
         };
         this.previous = this.previous.bind(this);
     }
@@ -338,7 +338,7 @@ class Next extends React.Component {
         this.state = {
             togglePlay: props.togglePlay,
             currentIndex: props.currentIndex,
-            maxIndex: props.maxIndex
+            maxIndex: props.maxIndex,
         };
         this.next = this.next.bind(this);
     }
@@ -391,7 +391,7 @@ class Progress extends React.Component {
             songLengthMS: 99999,
             seek: () => {},
             stopInterval: () => {},
-            visualSeek: () => {}
+            visualSeek: () => {},
         };
         this.seek = this.seek.bind(this);
         this.stopInterval = this.stopInterval.bind(this);
@@ -437,16 +437,16 @@ class Volume extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            volume: 100
+            volume: 100,
         };
         this.setVolume = this.setVolume.bind(this);
     }
 
     setVolume(event) {
         this.setState({
-            volume: event.target.value
+            volume: event.target.value,
         });
-        spotifyApi.setVolume(this.state.volume, function(err, data) {
+        spotifyApi.setVolume(this.state.volume, function (err, data) {
             if (err) console.error(err);
         });
     }
@@ -470,7 +470,7 @@ class SongQueue extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            songs: props.songs
+            songs: props.songs,
         };
     }
 
@@ -519,7 +519,7 @@ class Song extends React.Component {
             name: '',
             artists: '',
             imageURL: '',
-            length: 0
+            length: 0,
         };
         this.GetTrackInfo();
     }
@@ -532,7 +532,7 @@ class Song extends React.Component {
     }
 
     GetTrackInfo() {
-        spotifyApi.getTrack(this.props.id).then(data => {
+        spotifyApi.getTrack(this.props.id).then((data) => {
             let artists = '';
             for (let i = 0; i < data['artists'].length; i++) {
                 artists += data['artists'][i]['name'] + ', ';
@@ -541,8 +541,8 @@ class Song extends React.Component {
             this.setState({
                 name: data['name'],
                 artists: artists,
-                imageURL: data.album.images.length > 0 ? data['album']['images'][0]['url'] : "logo.clearbit.com/spotify.com",
-                length: data['duration_ms']
+                imageURL: data.album.images.length > 0 ? data['album']['images'][0]['url'] : 'logo.clearbit.com/spotify.com',
+                length: data['duration_ms'],
             });
         });
     }
@@ -572,7 +572,7 @@ class WebPlayer extends React.Component {
         this.state = {
             prevSongs: [],
             songIDs: [],
-            token: props.token
+            token: props.token,
         };
 
         console.log('MERGED: ' + merged);
@@ -602,4 +602,4 @@ class WebPlayer extends React.Component {
     }
 }
 
-export default WebPlayer;
+export { WebPlayer, SongQueue };
