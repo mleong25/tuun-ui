@@ -184,123 +184,112 @@ class Room extends Component {
                 {!this.state.connected ? (
                     <p>Loading...</p>
                 ) : (
-                    <Row>
-                        <Col lg={10}>
-                            <div className='text-left'>
-                                <Button className='purple-btn m-2' onClick={this.leaveRoom}>
-                                    Leave Room
-                                </Button>
-                                {this.state.data.Playlist.shared.length + this.state.data.Playlist.rest.length > 0 ? (
-                                    <Button
-                                        className='purple-btn m-2'
-                                        onClick={() => {
-                                            this.setState({ saving: true });
-                                        }}>
-                                        Save Playlist
-                                    </Button>
-                                ) : null}
-                                {this.state.user === this.state.data.Host ? (
-                                    // <Link to='/Playlists'>
-                                    //     <Button renderAs='button' className='purple-btn'>
-                                    //         Load Playlist
-                                    //     </Button>
-                                    // </Link>
-                                    <Button
-                                        className='purple-btn m-2'
-                                        onClick={() => {
-                                            this.setState({ loading: true });
-                                        }}>
-                                        Load Playlist
-                                    </Button>
-                                ) : null}
-                                {this.state.user === this.state.data.Host && !this.state.generating ? (
-                                    <Button className='purple-btn m-2' onClick={this.generatePlaylist}>
-                                        Generate Playlist
-                                    </Button>
-                                ) : null}
-                                {this.state.user === this.state.data.Host && this.state.generating ? (
-                                    <Button className='purple-btn m-2' disabled>
-                                        Generating...
-                                    </Button>
-                                ) : null}
-                                <h1>
-                                    Room
-                                    <span style={{ color: '#6C2EB9' }}> #</span>
-                                    <span className='bold'>{this.state.data.Id}</span>
-                                </h1>
-                            </div>
-                            <WebPlayer StartNewPlayer={this.state.startPlayer} startedPlayer={this.startedPlayer} songIDs={this.state.data.Playlist} token={this.props.token}></WebPlayer>
-                        </Col>
-                        <Col>
-                            <h3 className='bold'>Users</h3>
-                            <p className='hint'>List of users currently in the room</p>
-                            <table className='table table-clear'>
-                                <tbody>
-                                    {Object.values(this.state.data.Users).map((user) => (
-                                        <tr key={user.Username}>
-                                            <td key={user.Username} className='table-column d-flex'>
-                                                {this.state.data.Host === this.state.user && user.Username !== this.state.data.Host ? (
-                                                    <>
-                                                        {user.Username === this.state.user ? (
-                                                            <a key={user.Username} className='w-100 d-block font-weight-bold users-item' style={{ color: 'white' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
-                                                                {user.Username === this.state.data.Host ? (
-                                                                    <>
-                                                                        {user.Username} <span className='font-italic'> - Host</span>
-                                                                    </>
-                                                                ) : (
-                                                                    user.Username
-                                                                )}
-                                                            </a>
-                                                        ) : (
-                                                            <a key={user.Username} className='w-100 d-block font-weight-bold users-item' style={{ color: '#6C2EB9' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
-                                                                {user.Username === this.state.data.Host ? (
-                                                                    <>
-                                                                        {user.Username} <span className='font-italic'> - Host</span>
-                                                                    </>
-                                                                ) : (
-                                                                    user.Username
-                                                                )}
-                                                            </a>
-                                                        )}
-                                                        <Button className='purple-btn btn-sm float-right m-1' onClick={() => this.promote(this.state.data.Id, user.Username)}>
-                                                            Promote
-                                                        </Button>
-                                                        <Button className='purple-btn btn-sm float-right m-1' onClick={() => this.kick(this.state.data.Id, user.Username)}>
-                                                            Kick
-                                                        </Button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        {user.Username === this.state.user ? (
-                                                            <a key={user.Username} className='w-100 d-block font-weight-bold' style={{ color: 'white' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
-                                                                {user.Username === this.state.data.Host ? (
-                                                                    <>
-                                                                        {user.Username} <span className='font-italic'> - Host</span>
-                                                                    </>
-                                                                ) : (
-                                                                    user.Username
-                                                                )}
-                                                            </a>
-                                                        ) : (
-                                                            <a key={user.Username} className='w-100 d-block font-weight-bold' style={{ color: '#6C2EB9' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
-                                                                {user.Username === this.state.data.Host ? (
-                                                                    <>
-                                                                        {user.Username} <span className='font-italic'> - Host</span>
-                                                                    </>
-                                                                ) : (
-                                                                    user.Username
-                                                                )}
-                                                            </a>
-                                                        )}
-                                                    </>
+                  <Row>
+                    <Col lg={10}>
+                      <Button className='purple-btn m-2' onClick={this.leaveRoom}>
+                        Leave Room
+                      </Button>
+                      {this.state.data.Playlist.shared.length + this.state.data.Playlist.rest.length > 0 ? (
+                        <Button className='purple-btn m-2' onClick={() => {this.setState({ saving: true })}}>
+                          Save Playlist
+                        </Button>
+                      ) : null}
+                      <Link to='/Playlists'>
+                        <Button renderAs='button' className='purple-btn'>
+                          Load Playlist
+                        </Button>
+                      </Link>
+                      {this.state.user === this.state.data.Host && !this.state.generating ? (
+                        <Button className='purple-btn m-2' onClick={this.generatePlaylist}>
+                          Generate Playlist
+                        </Button>
+                      ) : null}
+                      {this.state.user === this.state.data.Host && this.state.generating ? (
+                        <Button className='purple-btn m-2' disabled>
+                          Generating...
+                        </Button>
+                      ) : null}
+                      <br></br>
+                      <div className='text-left'>
+                        <h1>
+                          Room
+                          <span style={{ color: '#6C2EB9' }}> #</span>
+                          <span className='bold'>{this.state.data.Id}</span>
+                        </h1>
+                        <hr></hr>
+                        <h3 className='bold'>Users</h3>
+                        <p className='hint'>List of users currently in the room</p>
+                        <table className='table table-clear'>
+                          <tbody>
+                            {Object.values(this.state.data.Users).map(user => (
+                              <tr key={user.Username}>
+                                <td key={user.Username} className='table-column d-flex'>
+                                  {this.state.data.Host === this.state.user && user.Username !== this.state.data.Host ? (
+                                    <>
+                                      {user.Username === this.state.user ? (
+                                        <a key={user.Username} className='w-100 d-block font-weight-bold users-item' style={{ color: 'white' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
+                                          {user.Username === this.state.data.Host ? (
+                                            <>
+                                              {user.Username} <span className='font-italic'> - Host</span>
+                                            </>
+                                          ) : (
+                                              user.Username
+                                            )}
+                                        </a>
+                                      ) : (
+                                          <a key={user.Username} className='w-100 d-block font-weight-bold users-item' style={{ color: '#6C2EB9' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
+                                            {user.Username === this.state.data.Host ? (
+                                              <>
+                                                {user.Username} <span className='font-italic'> - Host</span>
+                                              </>
+                                            ) : (
+                                                user.Username
+                                              )}
+                                          </a>
+                                        )}
+                                      <Button className='purple-btn btn-sm float-right m-1' onClick={() => this.promote(this.state.data.Id, user.Username)}>
+                                        Promote
+                                      </Button>
+                                      <Button className='purple-btn btn-sm float-right m-1' onClick={() => this.kick(this.state.data.Id, user.Username)}>
+                                        Kick
+                                      </Button>
+                                    </>
+                                  ) : (
+                                      <>
+                                        {user.Username === this.state.user ? (
+                                          <a key={user.Username} className='w-100 d-block font-weight-bold' style={{ color: 'white' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
+                                            {user.Username === this.state.data.Host ? (
+                                              <>
+                                                {user.Username} <span className='font-italic'> - Host</span>
+                                              </>
+                                            ) : (
+                                                user.Username
+                                              )}
+                                          </a>
+                                        ) : (
+                                            <a key={user.Username} className='w-100 d-block font-weight-bold' style={{ color: '#6C2EB9' }} href={`https://open.spotify.com/user/${user.Username}`} rel='noopener noreferrer' target='_blank'>
+                                              {user.Username === this.state.data.Host ? (
+                                                <>
+                                                  {user.Username} <span className='font-italic'> - Host</span>
+                                                </>
+                                              ) : (
+                                                  user.Username
                                                 )}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Col>
-                    </Row>
+                                            </a>
+                                          )}
+                                      </>
+                                    )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <h3 className='bold'>Songs</h3>
+                        <br></br>
+                      </div>
+                      <WebPlayer StartNewPlayer={this.state.startPlayer} startedPlayer={this.startedPlayer} songIDs={this.state.data.Playlist} token={this.props.token}></WebPlayer>
+                    </Col>
+                  </Row>
                 )}
             </Container>
         );
