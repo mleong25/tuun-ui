@@ -28,8 +28,6 @@ class Auth extends Component {
 
         // TODO: testing out how to ensure we get a proper token everytime, i.e. not using an old expired one.
 
-        const params = new URLSearchParams(window.location);
-
         if (window.location.search !== '') {
             //we have a response
             if (window.location.search[1] === 'c') {

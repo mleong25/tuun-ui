@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { WebPlayer } from './components/WebPlayer';
-import Playlists from './components/Playlists';
 import Landing from './components/Landing';
 import Auth from './components/Auth';
 import { Navbar } from 'react-bootstrap';

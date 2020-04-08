@@ -160,10 +160,6 @@ class PlayerController extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        this.StopInterval();
-    }
-
     Seek(seekPos) {
         spotifyApi.seek(seekPos);
         this.StartInterval();
