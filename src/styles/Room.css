@@ -20,6 +20,11 @@ body {
   margin-bottom: 20px;
 }
 
+.centered {
+  float: none;
+  margin: 0 auto;
+}
+
 .save-modal {
   background-color: rgb(40, 44, 52);
 }
