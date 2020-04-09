@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Playlists from './components/Playlists';
 import Landing from './components/Landing';
 import Auth from './components/Auth';
 import { Navbar } from 'react-bootstrap';
 import { domain } from './Environment';
 import * as signalR from '@microsoft/signalr';
-
 
 class IsAccessible extends Component {
     constructor(props) {
@@ -18,29 +15,33 @@ class IsAccessible extends Component {
 
         this.state = {
             connection: newConnection,
+            token: window.localStorage.getItem('token'),
         };
+        this.gotToken = this.gotToken.bind(this);
+    }
+
+    gotToken(token) {
+        this.setState({ token: token });
     }
 
     render() {
-        const token = window.localStorage.getItem('token');
-        if (token) {
+        if (this.state.token) {
             return (
                 <div className='App'>
                     <div className='App-foreground'>
                         <link href='https://fonts.googleapis.com/css?family=Poppins|Raleway|Montserrat&display=swap' rel='stylesheet'></link>
-                        <Router>
-                            <div className='Menu'>
-                                <Navbar fixed='top' bg='dark' expand='lg'>
-                                    <Navbar.Brand className='brand' href='/'>
-                                        <img
-                                            src='ToffWhite.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
-                                            width='60'
-                                            height='60'
-                                            alt='tuun logo'
-                                        />
-                                    </Navbar.Brand>
-                                    <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                                    <Navbar.Collapse id='basic-navbar-nav'>{/* <Nav className='mr-auto'>
+                        <div className='Menu'>
+                            <Navbar fixed='top' bg='dark' expand='lg'>
+                                <Navbar.Brand className='brand' href='/'>
+                                    <img
+                                        src='ToffWhite.jpg' //can't figure out how to access the image from public/favicon.ico... in same dir for right now.
+                                        width='60'
+                                        height='60'
+                                        alt='tuun logo'
+                                    />
+                                </Navbar.Brand>
+                                <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                                <Navbar.Collapse id='basic-navbar-nav'>{/* <Nav className='mr-auto'>
                                             <Link to='/' className='NavTab'>
                                                 Home
                                             </Link>
@@ -50,24 +51,21 @@ class IsAccessible extends Component {
                                             <NavDropdown.Divider />
                                             <Nav.Item>
                                                 <Link className='NavTab' to='/webPlayer'>
-                                                    Web Player
+                                                    WebPlayer
                                                 </Link>
                                             </Nav.Item>
                                         </Nav> */}</Navbar.Collapse>
-                                </Navbar>
-                            </div>
-                            <Switch>
-                                <Route exact path='/' render={() => <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={token} />} />
-                                <Route path='/playlists' component={() => <Playlists />} />
-                            </Switch>
-                        </Router>
+                            </Navbar>
+                        </div>
+                        <Landing connection={this.state.connection} showTitle={this.props.showTitle} toggleTitle={this.props.toggleTitle} toggleJoined={this.props.toggleJoined} joined={this.props.joined} roomData={this.props.roomData} setRoomData={this.props.setRoomData} setUsername={this.props.setUsername} username={this.props.username} leaveRoom={this.props.leaveRoom} token={this.state.token} />
                     </div>
                 </div>
             );
         } else {
             return (
                 <>
-                    <Auth />
+                    <Auth callBack={this.gotToken} />
+                    {/* <WebPlayer /> */}
                 </>
             );
         }
