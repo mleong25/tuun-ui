@@ -10,7 +10,7 @@ class RoomJoin extends Component {
             username: props.username,
             clicked: false,
             roomId: '',
-            error: false
+            error: false,
         };
 
         this.onJoinClick = this.onJoinClick.bind(this);
@@ -59,7 +59,7 @@ class RoomJoin extends Component {
                         <Form.Row>
                             <Col>
                                 <Form.Label className='col-form-label-sm'>Spotify User</Form.Label>
-                                <Form.Control as='input' disabled={true} placeholder='Username' value={this.state.username} onChange={this.handleUserChange} />
+                                <Form.Control as='input' disabled={false} placeholder='Username' onChange={this.handleUserChange} />
                                 <Form.Label className='col-form-label-sm'>Room Code</Form.Label>
                                 <Form.Control as='input' placeholder='Code' value={this.state.roomId} onChange={this.handleCodeChange} />
                             </Col>
