@@ -185,25 +185,24 @@ class PlayerController extends React.Component {
     render() {
         if (this.state.songIDs.length > 0) {
             return (
-                <div>
-                    <Footer>
-                        <Progress songLengthMS={this.state.songLengthMS} songCurrentMS={this.state.songCurrentMS} seek={this.Seek} stopInterval={this.StopInterval} visualSeek={this.VisualSeek} />
-                        <div className='btn-group' role='group'>
-                            <div type='button' className='btn btn-secondary'>
-                                <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
-                            </div>
-                            <div type='button' className='btn btn-secondary'>
-                                <PlayPause ref={this.PlayPause} isPlaying={this.state.playing} />
-                            </div>
-                            <div type='button' className='btn btn-secondary'>
-                                <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
-                            </div>
-                        </div>
-                        <Volume />
-                        <CurrentSong songTitle={this.state.songTitle} songArtist={this.state.songArtist} songImageURL={this.state.songImageURL} />
-                        <br></br>
-                    </Footer>
-                </div>
+              <div>
+                <Footer>
+                  <Progress songLengthMS={this.state.songLengthMS} songCurrentMS={this.state.songCurrentMS} seek={this.Seek} stopInterval={this.StopInterval} visualSeek={this.VisualSeek} />
+                  <div className='btn-group' role='group'>
+                    <div type='button' className='btn btn-secondary'>
+                        <Previous togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
+                    </div>
+                    <div type='button' className='btn btn-secondary'>
+                        <PlayPause ref={this.PlayPause} isPlaying={this.state.playing} />
+                    </div>
+                    <div type='button' className='btn btn-secondary'>
+                        <Next togglePlay={this.Play} currentIndex={this.state.songIndex} maxIndex={this.state.songIndexMax} />
+                    </div>
+                  </div>
+                  <Volume />
+                  <br></br>
+                </Footer>
+              </div>
             );
         } else {
             return <div>Load or generate a playlist.</div>;

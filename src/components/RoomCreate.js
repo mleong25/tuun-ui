@@ -243,6 +243,7 @@ class RoomCreate extends Component {
                             <Form.Check label={genre} key={genre} onClick={this.handleGenreClick}></Form.Check>
                         ))}
                     </Form>
+                    <br></br>
                     <Button className='m-1 purple-btn' onClick={this.onCreateClick}>
                         Create
                     </Button>
